@@ -9,7 +9,7 @@ const vazir = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "سایت عطاری",
+  title: "عطاری بوته",
   description:
     "فروش انواع گیاهان دارویی، ادویه ها>، روغن ها، عصاره ها، دمنوش ها و چای ها",
 };
