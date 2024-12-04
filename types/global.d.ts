@@ -9,3 +9,10 @@ interface IError {
   };
   status: number;
 }
+
+interface IParams {
+  page: number;
+  limit: number;
+  total?: number;
+  total_pages?: number;
+}

@@ -5,4 +5,7 @@ export const urls = {
     token: "/auth/token",
     logout: "/auth/logout",
   },
+  category: {
+    list: "/categories",
+  },
 };

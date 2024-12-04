@@ -1,7 +1,5 @@
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
-import { getRefreshToken } from "./session";
-import { refreshAccessToken } from "@/apis/client/instance";
 
 const errorHandler = (error: AxiosError<IError>) => {
   const e = error.response?.statusText;
