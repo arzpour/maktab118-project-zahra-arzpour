@@ -17,13 +17,13 @@ const HamburgerMenu = () => {
         <ul
           className={`${
             isOpen ? "flex" : "hidden"
-          } flex-col gap-8 justify-center z-50 bg-slate-200 absolute top-11 left-0 rounded text-gray-800 w-full p-5`}
+          } flex-col gap-8 justify-center z-50 bg-slate-100 absolute top-11 left-0 rounded text-gray-800 w-full p-5`}
         >
           <li className="hover:text-orange">
             <Link href={"/"}>صفحه اصلی</Link>
           </li>
           <li className="hover:text-orange">
-            <button>محصولات</button>
+            <Link href={"/products"}>محصولات</Link>
           </li>
           <li className="hover:text-orange">
             <button>درباره ما</button>
@@ -35,13 +35,13 @@ const HamburgerMenu = () => {
             <button>وبلاگ</button>
           </li>
           <li className="hover:text-orange">
-            <Link href={"/login-admin"}>ادمین</Link>
+            <Link href={"/admin-login"}>ادمین</Link>
           </li>
           <li className="hover:text-orange cursor-pointer">تخفیف های ویژه</li>
         </ul>
         <div className="flex gap-7 items-center">
           <FaShoppingCart className="text-gray-200 w-5 h-5 cursor-pointer" />
-          <Link href={"/login-user"}>
+          <Link href={"/login"}>
             <FaUserLarge
               title="ثبت نام / ورود"
               className="text-gray-200 w-5 h-5 cursor-pointer"

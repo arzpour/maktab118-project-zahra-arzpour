@@ -8,7 +8,7 @@ import HamburgerMenu from "./hamburger-menu";
 const Header = () => {
   return (
     <div className="bg-BackgroundColor text-white py-5 px-5">
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-1400 mx-auto">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <img
@@ -21,7 +21,7 @@ const Header = () => {
           <div>
             <div className="relative w-44 sm:w-72">
               <div className="absolute inset-y-0 start-1 flex items-center ps-3 pointer-events-none">
-                <IoSearchOutline className="w-5 h-5 relative bottom-[2px]" />
+                <IoSearchOutline className="w-5 h-5 relative bottom-0.5" />
               </div>
               <input
                 type="search"
@@ -48,7 +48,7 @@ const Header = () => {
               <Link href={"/"}>صفحه اصلی</Link>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
-              <button>محصولات</button>
+              <Link href={"/products"}>محصولات</Link>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
               <button>درباره ما</button>
@@ -60,7 +60,7 @@ const Header = () => {
               <button>وبلاگ</button>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
-              <Link href={"/login-admin"}>ادمین</Link>
+              <Link href={"/admin-login"}>ادمین</Link>
             </li>
           </ul>
           <p className="hover:bg-orange px-6 py-2.5 rounded-full cursor-pointer">

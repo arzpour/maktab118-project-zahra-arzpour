@@ -1,7 +1,12 @@
+import HomeLayout from "@/providers/homeLayout";
 import React from "react";
 
 const ProductsPage = () => {
-  return <div>ProductsPage</div>;
+  return (
+    <HomeLayout>
+      <div>ProductsPage</div>
+    </HomeLayout>
+  );
 };
 
 export default ProductsPage;
