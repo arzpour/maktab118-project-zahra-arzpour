@@ -4,9 +4,12 @@ import { perPageLimit } from "@/utils/config";
 import React from "react";
 import useCategoryList from "@/hooks/useCategory";
 import Pagination from "../admin/pagination";
+import useSubCategoryList from "@/hooks/useSubcategory";
 
 const CategoryListTable = () => {
   const { page, setPage, data: categories } = useCategoryList();
+
+  const { data: subCategories } = useSubCategoryList(Infinity);
 
   const totalPages = Math.ceil(categories?.total! / perPageLimit);
 
@@ -14,6 +17,28 @@ const CategoryListTable = () => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
     }
+  };
+
+  const getSubCategories = (categoryName: string) => {
+    const categoryId = categories?.data?.categories.find(
+      (category) => category.name === categoryName
+    )?._id;
+
+    const filteredSubCategories = subCategories?.data?.subcategories.filter(
+      (subCategory) => subCategory.category === categoryId
+    );
+
+    if (filteredSubCategories?.length) {
+      return filteredSubCategories.map((sub, index) => (
+        <p key={sub._id} className="text-sm text-slate-400">
+          {index < filteredSubCategories.length - 1
+            ? `${sub.name}, `
+            : `${sub.name}`}
+        </p>
+      ));
+    }
+
+    return <p className="text-sm text-slate-400">بدون زیر مجموعه</p>;
   };
 
   return (
@@ -59,6 +84,11 @@ const CategoryListTable = () => {
                 </td>
                 <td className="px-4">
                   <p className="text-sm text-slate-400">{el.name}</p>
+                </td>
+                <td className="px-4 justify-items-center">
+                  <div className="flex gap-1 justify-center truncate w-48 lg:w-72 !overflow-x-auto scrollbar">
+                    {getSubCategories(el.name!)}
+                  </div>
                 </td>
 
                 <td className="px-4">

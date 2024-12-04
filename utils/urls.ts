@@ -8,4 +8,7 @@ export const urls = {
   category: {
     list: "/categories",
   },
+  subcategories: {
+    list: "/subcategories",
+  },
 };
