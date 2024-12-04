@@ -13,6 +13,8 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
         BackgroundColor: "#091622",
+        CyanBlueDark: "#0E1B2A",
+        BlueDark: "#15273b",
         orange: "#E89402",
       },
       maxWidth: {
@@ -20,6 +22,13 @@ export default {
         1770: "1770px",
         1800: "1800px",
         1500: "1500px",
+      },
+      width: {
+        30: "30%",
+        18: "18px",
+      },
+      height: {
+        18: "18px",
       },
       fontSize: {
         22: "22px",

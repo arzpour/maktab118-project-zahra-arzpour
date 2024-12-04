@@ -5,6 +5,8 @@ import { CiLogout } from "react-icons/ci";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
 import ConfirmLogoutModal from "../modals/confirm-logout-modal";
+import { logout } from "@/apis/client/auth";
+import { deleteAccsessToken, deleteRefreshToken } from "@/utils/session";
 
 const AdminLogoutBtn = () => {
   const [showConfirmModal, setShowConfirmModal] =
@@ -15,6 +17,9 @@ const AdminLogoutBtn = () => {
       style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
     });
     setShowConfirmModal(false);
+    logout();
+    deleteAccsessToken();
+    deleteRefreshToken();
     redirect("/");
   };
 

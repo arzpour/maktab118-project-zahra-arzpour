@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import ToastifyProvider from "@/providers/toastify.provider";
+import TanstackProvider from "@/providers/tanstack.provider";
 
 const vazir = localFont({
   src: "./fonts/Vazir-Medium.woff",
@@ -21,7 +23,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" dir="rtl">
-      <body className={`${vazir.variable} antialiased`}>{children}</body>
+      <body className={`${vazir.variable} antialiased`}>
+        <ToastifyProvider>
+          <TanstackProvider>{children}</TanstackProvider>
+        </ToastifyProvider>
+      </body>
     </html>
   );
 }

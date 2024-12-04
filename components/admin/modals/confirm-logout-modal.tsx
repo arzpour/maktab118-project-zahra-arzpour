@@ -25,10 +25,10 @@ const ConfirmLogoutModal: React.FC<IConfirmModal> = ({
         className="fixed inset-0 z-10 w-screen overflow-y-auto"
         onClick={() => setShowConfirmModal!(false)}
       >
-        <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+        <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:max-w-lg"
           >
             <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
               <div className="flex gap-4 items-center">
@@ -50,24 +50,24 @@ const ConfirmLogoutModal: React.FC<IConfirmModal> = ({
                   </svg>
                 </div>
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-700">
                     مطمئنید که میخواهید خارج شود؟
                   </p>
                 </div>
               </div>
             </div>
-            <div className="bg-gray-50 px-4 pb-3 flex gap-1 sm:px-6 items-center justify-end">
+            <div className="bg-gray-50 px-4 pb-5 flex gap-2 sm:px-6 items-center justify-center">
               <button
                 onClick={logoutHandler}
                 type="button"
-                className="inline-flex w-full justify-center rounded-md bg-red-600 px-6 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
+                className="inline-flex w-full justify-center rounded-md bg-red-600 px-6 sm:px-10 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
               >
                 بله
               </button>
               <button
                 type="button"
                 onClick={() => setShowConfirmModal!(false)}
-                className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-6 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
+                className="inline-flex w-full justify-center rounded-md bg-white px-6 sm:px-10 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto"
               >
                 خیر
               </button>
