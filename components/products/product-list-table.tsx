@@ -6,6 +6,7 @@ import useSubCategoryList from "@/hooks/useSubcategory";
 import { perPageLimit } from "@/utils/config";
 import React from "react";
 import Pagination from "../admin/pagination";
+import TotalPageTable from "../admin/total-page-table";
 
 const ProductListTable = () => {
   const { data: products, setPage, page } = useProductList();
@@ -106,13 +107,7 @@ const ProductListTable = () => {
           handlePageChange={handlePageChange}
         />
 
-        <div className="text-sm text-slate-400">
-          <b className="mx-1">
-            {(page - 1) * perPageLimit + 1}-
-            {Math.min(page * perPageLimit, products?.total!)}
-          </b>
-          از {products?.total}
-        </div>
+        <TotalPageTable page={page} total={products?.total!} />
       </div>
     </>
   );

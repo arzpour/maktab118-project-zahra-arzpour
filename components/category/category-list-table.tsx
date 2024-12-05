@@ -5,6 +5,7 @@ import React from "react";
 import useCategoryList from "@/hooks/useCategory";
 import Pagination from "../admin/pagination";
 import useSubCategoryList from "@/hooks/useSubcategory";
+import TotalPageTable from "../admin/total-page-table";
 
 const CategoryListTable = () => {
   const { page, setPage, data: categories } = useCategoryList();
@@ -110,13 +111,7 @@ const CategoryListTable = () => {
           totalPages={totalPages}
           handlePageChange={handlePageChange}
         />
-        <div className="text-sm text-slate-400">
-          <b className="mx-1">
-            {(page - 1) * perPageLimit + 1}-
-            {Math.min(page * perPageLimit, categories?.total!)}
-          </b>
-          از {categories?.total}
-        </div>
+        <TotalPageTable page={page} total={categories?.total!} />
       </div>
     </>
   );
