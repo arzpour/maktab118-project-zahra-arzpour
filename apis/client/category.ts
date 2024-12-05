@@ -6,8 +6,7 @@ export const getAllCategories: getAllCategoriesType = async ({
   page,
   limit,
 }) => {
-  const client = generateAxiosInstance;
-  const response = await client.get(urls.category.list, {
+  const response = await generateAxiosInstance.get(urls.category.list, {
     params: { page, limit },
   });
   return response.data;
@@ -15,7 +14,6 @@ export const getAllCategories: getAllCategoriesType = async ({
 
 type addCategoryType = (_: ICategoryReqDto) => Promise<ICategory>;
 export const addCategory: addCategoryType = async (body) => {
-  const client = generateAxiosInstance;
-  const response = await client.post(urls.category.list, body);
+  const response = await generateAxiosInstance.post(urls.category.list, body);
   return response.data.data.category;
 };

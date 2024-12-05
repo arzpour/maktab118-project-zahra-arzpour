@@ -6,8 +6,7 @@ export const getAllSubCategories: getAllSubCategoriesType = async ({
   limit,
   page,
 }) => {
-  const client = generateAxiosInstance;
-  const response = await client.get(urls.subcategories.list, {
+  const response = await generateAxiosInstance.get(urls.subcategories.list, {
     params: { limit, page },
   });
   return response.data;
@@ -15,7 +14,9 @@ export const getAllSubCategories: getAllSubCategoriesType = async ({
 
 type addSubCategoryType = (_: ISubCategoryReqDto) => Promise<ISubCategory>;
 export const addSubCategory: addSubCategoryType = async (body) => {
-  const client = generateAxiosInstance;
-  const response = await client.post(urls.subcategories.list, body);
+  const response = await generateAxiosInstance.post(
+    urls.subcategories.list,
+    body
+  );
   return response.data.data.subcategories;
 };

@@ -11,4 +11,7 @@ export const urls = {
   subcategories: {
     list: "/subcategories",
   },
+  products: {
+    list: "/products",
+  },
 };

@@ -57,7 +57,7 @@ const AddCategoryForm: React.FC<IAddCategoryForm> = ({
             {...register("name")}
             type="text"
             required
-            className="w-full bg-slate-200 rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
+            className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
             placeholder="نام دسته بندی"
           />
         </div>
@@ -71,7 +71,7 @@ const AddCategoryForm: React.FC<IAddCategoryForm> = ({
       <div className="mt-9">
         <button
           type="submit"
-          className="w-full shadow-sm text-sm py-2.5 px-5 bg-[#15273b] font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
+          className="w-full shadow-sm text-sm py-2.5 px-5 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
         >
           اضافه کن
         </button>

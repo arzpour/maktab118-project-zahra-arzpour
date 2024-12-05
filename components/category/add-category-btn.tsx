@@ -12,10 +12,10 @@ const AddCategoryBtn = () => {
     React.useState<boolean>(false);
 
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-1 sm:gap-2 flex-wrap flex-col justify-end sm:justify-normal">
       <button
         onClick={() => setShowAddCategoryModal(true)}
-        className="bg-green-600 text-white py-2 px-5 rounded text-sm ml-2 shadow"
+        className="bg-green-600 text-white py-2 px-2 sm:px-5 text-xs rounded sm:text-sm ml-2 shadow"
       >
         اضافه کردن دسته بندی
       </button>
@@ -24,7 +24,7 @@ const AddCategoryBtn = () => {
       )}
       <button
         onClick={() => setShowAddSubCategoryModal(true)}
-        className="bg-green-600 text-white py-2 px-5 rounded text-sm ml-2 shadow"
+        className="bg-green-600 text-white py-2 px-2 sm:px-5 text-xs rounded sm:text-sm ml-2 shadow"
       >
         اضافه کردن زیر مجموعه
       </button>
