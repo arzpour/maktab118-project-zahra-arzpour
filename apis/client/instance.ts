@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import {
   deleteAccsessToken,
   getRefreshToken,
@@ -23,62 +23,71 @@ generateAxiosInstance.interceptors.request.use(
     }
     return config;
   },
-  (error) => Promise.reject(error)
+  (error) => console.log(error)
 );
 
-export const getAccessTokenByRefreshToken = async (
-  refreshToken: string
-): Promise<string> => {
-  try {
-    const response = await getToken(refreshToken);
-    setAccsessToken(response);
+interface IReqList {
+  resolve: (value: string) => void;
+  reject: (reason: AxiosError) => void;
+}
 
-    toast.success("توکن با موفقیت تجدید شد", {
-      style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-    });
-    return response;
-  } catch (error) {
-    console.error(error);
+let isRefreshing = false;
+let reqList: IReqList[] = [];
 
-    toast.error("توکن موجود نیست", {
-      style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-    });
-
-    logout();
-    deleteAccsessToken();
-    deleteRefreshToken();
-    redirect("/login");
-  }
+const reqListWaiting = (error: AxiosError | null, token: string | null) => {
+  reqList.forEach((req) => {
+    if (token) {
+      req.resolve(token);
+    } else {
+      req.reject(error as AxiosError);
+    }
+  });
+  reqList = [];
 };
 
 generateAxiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    if (error.response?.status === 401 || !token) {
+    const req = error.config;
+
+    if (error.response?.status === 401 || error.response?.status === 500) {
       const refreshToken = getRefreshToken();
 
-      console.log(refreshToken, "ref");
+      if (refreshToken && !req._retry) {
+        if (isRefreshing) {
+          return new Promise((resolve, reject) => {
+            reqList.push({ resolve, reject });
+          })
+            .then((token) => {
+              req.headers["Authorization"] = `Bearer ${token}`;
+              return generateAxiosInstance(req);
+            })
+            .catch(Promise.reject);
+        }
 
-      if (refreshToken) {
+        req._retry = true;
+        isRefreshing = true;
+
         try {
-          const newAccessToken = await getAccessTokenByRefreshToken(
-            refreshToken
-          );
-
+          const newAccessToken = await getToken(refreshToken);
           setAccsessToken(newAccessToken);
+          reqListWaiting(null, newAccessToken);
 
-          error.config.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return generateAxiosInstance(error.config);
+          req.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return generateAxiosInstance(req);
         } catch (err) {
-          console.error(err);
-          redirect("/admin-login");
+          reqListWaiting(err as AxiosError, null);
+          logout();
+          deleteAccsessToken();
+          deleteRefreshToken();
+          redirect("/login");
+        } finally {
+          isRefreshing = false;
         }
       } else {
-        toast.error("رفرش توکن موجود نیست.");
+        toast.error("توکن موجود نیست دوباره وارد شوید.");
         redirect("/login");
       }
     }
-
-    return Promise.reject(error);
   }
 );

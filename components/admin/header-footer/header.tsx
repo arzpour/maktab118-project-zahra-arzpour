@@ -45,10 +45,8 @@ const AdminPageHeader = () => {
               </div>
               <input
                 type="search"
-                id="default-search"
-                className="block w-full py-2 placeholder:text-sm bg-BackgroundColor rounded-lg px-8 md:py-3 pr-12 ps-10 text-sm text-gray-900 border border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                className="block w-full outline-none py-2 placeholder:text-sm bg-BackgroundColor rounded-lg px-8 md:py-3 pr-12 ps-10 text-sm text-gray-900 border border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 placeholder="اینجا سرچ کنید..."
-                required
               />
             </div>
             <AdminLogoutBtn />

@@ -25,10 +25,8 @@ const Header = () => {
               </div>
               <input
                 type="search"
-                id="default-search"
                 className="block w-full placeholder:text-xs py-2 md:placeholder:text-base bg-BackgroundColor outline-none rounded-full px-8 md:py-3 pr-12 ps-10 text-sm text-gray-900 border border-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 placeholder="اینجا سرچ کنید..."
-                required
               />
             </div>
           </div>

@@ -15,7 +15,6 @@ const useUsersList = () => {
       return res;
     },
     refetchOnWindowFocus: false,
-    retry: 1,
   });
 
   React.useEffect(() => {

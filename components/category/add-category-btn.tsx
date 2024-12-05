@@ -12,7 +12,7 @@ const AddCategoryBtn = () => {
     React.useState<boolean>(false);
 
   return (
-    <div className="flex gap-1 sm:gap-2 flex-wrap flex-col justify-end sm:justify-normal">
+    <div className="flex gap-1 sm:gap-2 flex-wrap justify-end sm:justify-normal">
       <button
         onClick={() => setShowAddCategoryModal(true)}
         className="bg-green-600 text-white py-2 px-2 sm:px-5 text-xs rounded sm:text-sm ml-2 shadow"

@@ -21,6 +21,8 @@ const OrderListTable = () => {
   const { data: allOrders } = useOrderList(Infinity);
   const { data: users } = useUsersList();
 
+  console.log(users, "all");
+
   const totalPages = Math.ceil(orders?.total! / perPageLimit);
 
   const handlePageChange = (newPage: number) => {
@@ -41,34 +43,43 @@ const OrderListTable = () => {
   const totalLoadingPages = Math.ceil(loading?.length! / perPageLimit);
 
   const tableBody = (tableOrders: IOrder[]) => {
-    return tableOrders.map((el) => (
-      <tr
-        key={el._id}
-        className="bg-[#0c1724] border-b border-[#0E1B2A] odd:bg-[#0c1724] even:bg-[#0E1B2A]"
-      >
-        <td className="px-4 py-5">
-          {users?.data.users.find((user) => user._id === el.user) ? (
-            <p className="text-sm text-slate-400">
-              {
-                users?.data.users.find((user) => user._id === el.user)
-                  ?.firstname
-              }
+    return tableOrders.map((el) => {
+      return (
+        <tr
+          key={el._id}
+          className="bg-[#0c1724] border-b border-[#0E1B2A] odd:bg-[#0c1724] even:bg-[#0E1B2A]"
+        >
+          <td className="px-4 py-5">
+            {users?.data.users.find((user) => user._id === el.user) ? (
+              <p className="text-sm text-slate-400">
+                {`${
+                  users?.data.users.find((user) => user._id === el.user)
+                    ?.firstname
+                } ${
+                  users?.data.users.find((user) => user._id === el.user)
+                    ?.lastname
+                }`}
+                {/* {
+                  users?.data.users.find((user) => user._id === el.user)
+                    ?.firstname
+                } */}
+              </p>
+            ) : null}
+          </td>
+          <td className="px-4 py-5">
+            <p className="text-sm text-slate-400">{el.totalPrice}</p>
+          </td>
+          <td className="px-4 py-5 justify-items-center">
+            <p className="text-sm text-slate-400 text-right">
+              {moment(el.createdAt).format("YYYY/MM/DD")}
             </p>
-          ) : null}
-        </td>
-        <td className="px-4 py-5">
-          <p className="text-sm text-slate-400">{el.totalPrice}</p>
-        </td>
-        <td className="px-4 py-5 justify-items-center">
-          <p className="text-sm text-slate-400 text-right">
-            {moment(el.createdAt).format("YYYY/MM/DD")}
-          </p>
-        </td>
-        <td className="px-4 py-5">
-          <button className="text-orange text-sm">بررسی سفارش</button>
-        </td>
-      </tr>
-    ));
+          </td>
+          <td className="px-4 py-5">
+            <button className="text-orange text-sm">بررسی سفارش</button>
+          </td>
+        </tr>
+      );
+    });
   };
 
   const paginationRender = (total: number) => {
