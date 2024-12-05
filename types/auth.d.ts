@@ -32,7 +32,3 @@ interface ILoginResDto {
 interface ITokenReqDto {
   refreshToken: string;
 }
-
-interface ITokenResDto {
-  accessToken: string;
-}

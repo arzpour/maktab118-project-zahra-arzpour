@@ -31,13 +31,12 @@ export const getAccessTokenByRefreshToken = async (
 ): Promise<string> => {
   try {
     const response = await getToken(refreshToken);
-    setAccsessToken(response.accessToken);
-    console.log(response.accessToken, "acc");
+    setAccsessToken(response);
 
     toast.success("توکن با موفقیت تجدید شد", {
       style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
     });
-    return response.accessToken;
+    return response;
   } catch (error) {
     console.error(error);
 

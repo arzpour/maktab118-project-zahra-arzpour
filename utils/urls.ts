@@ -14,4 +14,10 @@ export const urls = {
   products: {
     list: "/products",
   },
+  orders: {
+    list: "/orders",
+  },
+  users: {
+    list: "/users",
+  },
 };

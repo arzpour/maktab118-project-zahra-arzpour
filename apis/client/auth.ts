@@ -7,7 +7,7 @@ export const login: loginType = async (body) => {
   return response.data;
 };
 
-type getTokenType = (refreshToken: string) => Promise<ITokenResDto>;
+type getTokenType = (refreshToken: string) => Promise<string>;
 export const getToken: getTokenType = async (refreshToken) => {
   const response = await generateAxiosInstance.post(urls.auth.token, {
     refreshToken,
