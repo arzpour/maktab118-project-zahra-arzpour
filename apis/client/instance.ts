@@ -9,6 +9,7 @@ import {
 import { getToken, logout } from "./auth";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
+import errorHandler from "@/utils/errorHandler";
 
 export const generateAxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -80,13 +81,12 @@ generateAxiosInstance.interceptors.response.use(
           logout();
           deleteAccsessToken();
           deleteRefreshToken();
-          redirect("/login");
+          redirect("/admin-login");
         } finally {
           isRefreshing = false;
         }
       } else {
-        toast.error("توکن موجود نیست دوباره وارد شوید.");
-        redirect("/login");
+        errorHandler(error);
       }
     }
   }
