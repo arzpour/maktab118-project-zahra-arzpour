@@ -8,7 +8,7 @@ import HamburgerMenu from "./hamburger-menu";
 const Header = () => {
   return (
     <div className="bg-BackgroundColor text-white py-5 px-5">
-      <div className="max-w-1400 mx-auto">
+      <div className="hidden sm:block max-w-1400 mx-auto">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
             <img
@@ -19,7 +19,7 @@ const Header = () => {
             <h3 className="sm:text-lg relative top-2">عطاری بوته</h3>
           </div>
           <div>
-            <div className="relative w-44 sm:w-72">
+            <div className="hidden sm:block relative w-44 sm:w-72">
               <div className="absolute inset-y-0 start-1 flex items-center ps-3 pointer-events-none">
                 <IoSearchOutline className="w-5 h-5 relative bottom-0.5" />
               </div>
@@ -65,9 +65,8 @@ const Header = () => {
             تخفیف های ویژه
           </p>
         </div>
-
-        <HamburgerMenu />
       </div>
+      <HamburgerMenu />
     </div>
   );
 };
