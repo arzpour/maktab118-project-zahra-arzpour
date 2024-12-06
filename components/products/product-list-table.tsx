@@ -51,7 +51,7 @@ const ProductListTable = () => {
                   تصویر
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/3">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/4">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   نام کالا
                 </p>
@@ -61,7 +61,7 @@ const ProductListTable = () => {
                   دسته بندی
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/4">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/5">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   تغییرات
                 </p>

@@ -27,7 +27,7 @@ const HamburgerMenuAdmin = () => {
           <Link href={"/admin/products"}>محصولات</Link>
         </li>
         <li className="hover:text-orange">
-          <button>سفارش ها</button>
+          <Link href={"/admin/orders"}>سفارش ها</Link>
         </li>
         <li className="hover:text-orange">
           <Link href={"/admin/InventoryAndPrice"}>موجودی و قیمت</Link>

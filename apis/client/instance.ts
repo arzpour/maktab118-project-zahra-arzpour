@@ -14,10 +14,9 @@ export const generateAxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 });
 
-const token = getAccsessToken();
-
 generateAxiosInstance.interceptors.request.use(
   (config) => {
+    const token = getAccsessToken();
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -31,62 +30,53 @@ interface IReqList {
   reject: (reason: AxiosError) => void;
 }
 
-let isRefreshing = false;
+let isRefreshingToken = false;
 let reqList: IReqList[] = [];
-
-const reqListWaiting = (error: AxiosError | null, token: string | null) => {
-  reqList.forEach((req) => {
-    if (token) {
-      req.resolve(token);
-    } else {
-      req.reject(error as AxiosError);
-    }
-  });
-  reqList = [];
-};
 
 generateAxiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const req = error.config;
+    const config = error.config;
 
     if (error.response?.status === 401 || error.response?.status === 500) {
       const refreshToken = getRefreshToken();
 
-      if (refreshToken && !req._retry) {
-        if (isRefreshing) {
+      if (refreshToken && !config._retry) {
+        if (isRefreshingToken) {
           return new Promise((resolve, reject) => {
             reqList.push({ resolve, reject });
           })
-            .then((token) => {
-              req.headers["Authorization"] = `Bearer ${token}`;
-              return generateAxiosInstance(req);
+            .then((newToken) => {
+              config.headers["Authorization"] = `Bearer ${newToken}`;
+              return generateAxiosInstance(config);
             })
             .catch(Promise.reject);
         }
 
-        req._retry = true;
-        isRefreshing = true;
+        config._retry = true;
+        isRefreshingToken = true;
 
         try {
           const newAccessToken = await getToken(refreshToken);
           setAccsessToken(newAccessToken);
-          reqListWaiting(null, newAccessToken);
 
-          req.headers["Authorization"] = `Bearer ${newAccessToken}`;
-          return generateAxiosInstance(req);
+          reqList.forEach((req) => req.resolve(newAccessToken));
+          reqList = [];
+
+          config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          return generateAxiosInstance(config);
         } catch (err) {
-          reqListWaiting(err as AxiosError, null);
+          reqList.forEach((req) => req.reject(err as AxiosError));
+          reqList = [];
+
           logout();
           deleteAccsessToken();
           deleteRefreshToken();
-          redirect("/login");
+          toast("دوباره وارد شوید");
+          redirect("/admin-login");
         } finally {
-          isRefreshing = false;
+          isRefreshingToken = false;
         }
-      } else {
-        toast.error("توکن موجود نیست دوباره وارد شوید.");
-        redirect("/login");
       }
     }
   }

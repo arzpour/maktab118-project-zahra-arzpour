@@ -1,19 +1,10 @@
 import { urls } from "@/utils/urls";
 import { generateAxiosInstance } from "./instance";
 
-type getAllProductsType = (_: IProductReqDto) => Promise<IProductsResDto>;
+type getAllProductsType = (_: IParams) => Promise<IProductsResDto>;
 export const getAllProducts: getAllProductsType = async (params) => {
-  const paramsReq: IProductReqDto = {
-    page: params.page,
-    limit: params.limit,
-    "quantity[gte]": 8,
-  };
-  if (params.sort) {
-    paramsReq.sort = params.sort;
-  }
-
   const response = await generateAxiosInstance.get(urls.products.list, {
-    params: paramsReq,
+    params: { page: params.page, limit: params.limit },
   });
   return response.data;
 };

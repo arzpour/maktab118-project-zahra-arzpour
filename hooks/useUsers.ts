@@ -1,6 +1,4 @@
-import { getAllSubCategories } from "@/apis/client/subcategory";
 import { getUsers } from "@/apis/client/user";
-import { perPageLimit } from "@/utils/config";
 import errorHandler from "@/utils/errorHandler";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
@@ -10,11 +8,15 @@ const useUsersList = () => {
   const { data, isSuccess, isLoading, isError, error } = useQuery({
     queryKey: ["get-users"],
     queryFn: async () => {
-      const res = await getUsers();
+      const res = await getUsers({
+        limit: Infinity,
+        page: 1,
+      });
       console.log(res);
       return res;
     },
     refetchOnWindowFocus: false,
+    retry: 1,
   });
 
   React.useEffect(() => {

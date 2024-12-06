@@ -50,8 +50,3 @@ interface IAddProductsRes {
     product?: IProduct[];
   };
 }
-
-interface IProductReqDto extends IParams {
-  sort?: number;
-  "quantity[gte]": 8;
-}

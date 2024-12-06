@@ -5,17 +5,15 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 
-const useOrderList = (limitCus?: number) => {
-  const [page, setPage] = React.useState<number>(1);
-
+const useOrderList = (limitCus?: number, page?: number) => {
   const limit = limitCus ?? perPageLimit;
 
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-orders", page, limit],
+    queryKey: ["get-orders", limit],
     queryFn: async () => {
       const res = await getAllOrders({
         limit: limit,
-        page,
+        page: page || 1,
       });
       return res;
     },
@@ -27,7 +25,7 @@ const useOrderList = (limitCus?: number) => {
     if (!error || !isError) return;
     errorHandler(error as AxiosError<IError>);
   }, [error, isError]);
-  return { data, isLoading, isSuccess, setPage, page };
+  return { data, isLoading, isSuccess };
 };
 
 export default useOrderList;
