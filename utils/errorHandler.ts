@@ -1,5 +1,7 @@
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
+import { getRefreshToken } from "./session";
+import { redirect } from "next/navigation";
 
 const errorHandler = (error: AxiosError<IError>) => {
   const e = error.response?.statusText;
@@ -16,6 +18,12 @@ const errorHandler = (error: AxiosError<IError>) => {
     toast.error(e, {
       style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
     });
+  }
+
+  const token = getRefreshToken();
+  if (!token) {
+    toast.error("توکن موجود نیست دوباره وارد شوید.");
+    redirect("/admin-login");
   }
 
   console.log(error);

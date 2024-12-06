@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import ToastifyProvider from "@/providers/toastify.provider";
 import TanstackProvider from "@/providers/tanstack.provider";
+import { ToastContainer } from "react-toastify";
 
 const vazir = localFont({
   src: "./fonts/Vazir-Medium.woff",
@@ -25,6 +26,7 @@ export default function RootLayout({
     <html lang="en" dir="rtl">
       <body className={`${vazir.variable} antialiased`}>
         <ToastifyProvider>
+          <ToastContainer />
           <TanstackProvider>{children}</TanstackProvider>
         </ToastifyProvider>
       </body>
