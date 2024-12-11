@@ -5,8 +5,8 @@ import React from "react";
 import moment from "moment";
 import useOrderList from "@/hooks/useOrder";
 import useUsersList from "@/hooks/useUsers";
-import Pagination from "../admin/pagination";
-import TotalPageTable from "../admin/total-page-table";
+import Pagination from "../pagination";
+import TotalPageTable from "../total-page-table";
 import OrdersBtn from "./order-filter-btn";
 
 export enum Tab {

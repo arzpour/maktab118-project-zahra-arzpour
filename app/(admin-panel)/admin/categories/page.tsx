@@ -1,4 +1,4 @@
-import CategoryMain from "@/components/category/category";
+import CategoryMain from "@/components/admin/category/category";
 import React from "react";
 
 const AdminCategoriesPage = () => {

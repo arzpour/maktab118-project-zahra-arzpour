@@ -4,22 +4,25 @@ import { FaUserLarge } from "react-icons/fa6";
 import { FaShoppingCart } from "react-icons/fa";
 import Link from "next/link";
 import HamburgerMenu from "./hamburger-menu";
+import Image from "next/image";
 
 const Header = () => {
   return (
-    <div className="bg-BackgroundColor text-white py-5 px-5">
-      <div className="max-w-1400 mx-auto">
+    <div className="bg-BackgroundColor text-white pb-2 pt-3 px-5">
+      <div className="hidden sm:block max-w-1400 mx-auto">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
-            <img
-              src="90223181741.png"
+            <Image
+              src="/90223181741.png"
               alt="logo-image"
+              width={500}
+              height={500}
               className="h-14 w-14 md:w-20 md:h-20"
             />
             <h3 className="sm:text-lg relative top-2">عطاری بوته</h3>
           </div>
           <div>
-            <div className="relative w-44 sm:w-72">
+            <div className="hidden sm:block relative w-44 sm:w-72">
               <div className="absolute inset-y-0 start-1 flex items-center ps-3 pointer-events-none">
                 <IoSearchOutline className="w-5 h-5 relative bottom-0.5" />
               </div>
@@ -30,8 +33,11 @@ const Header = () => {
               />
             </div>
           </div>
-          <div className="hidden md:flex gap-7 items-center">
-            <FaShoppingCart className="text-gray-200 w-5 h-5 cursor-pointer" />
+          <div className="flex gap-5 items-center">
+            <FaShoppingCart
+              title="سبد خرید"
+              className="text-gray-200 w-5 h-5 cursor-pointer"
+            />
             <Link href={"/login-user"}>
               <FaUserLarge
                 title="ثبت نام / ورود"
@@ -40,8 +46,8 @@ const Header = () => {
             </Link>
           </div>
         </div>
-        <div className="hidden md:flex justify-between my-5 pt-5 items-center border-t border-gray-800">
-          <ul className="flex gap-8 items-center">
+        <div className="hidden sm:flex justify-between pt-4 pb-0.5 items-center border-t border-gray-800">
+          <ul className="flex gap-4 lg:gap-8 items-center">
             <li className="text-lg hover:text-orange">
               <Link href={"/"}>صفحه اصلی</Link>
             </li>
@@ -65,9 +71,8 @@ const Header = () => {
             تخفیف های ویژه
           </p>
         </div>
-
-        <HamburgerMenu />
       </div>
+      <HamburgerMenu />
     </div>
   );
 };

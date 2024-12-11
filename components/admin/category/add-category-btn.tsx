@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import AddCategoryModal from "../admin/modals/add-category-modal";
-import AddSubCategoryModal from "../admin/modals/add-subcategory-modal";
+import AddCategoryModal from "../modals/add-category-modal";
+import AddSubCategoryModal from "../modals/add-subcategory-modal";
 
 const AddCategoryBtn = () => {
   const [showAddCategoryModal, setShowAddCategoryModal] =

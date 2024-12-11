@@ -1,4 +1,4 @@
-import OrderListTable from "@/components/orders/order-list-table";
+import OrderListTable from "@/components/admin/orders/order-list-table";
 import React from "react";
 
 const AdminOrdersPage = () => {
