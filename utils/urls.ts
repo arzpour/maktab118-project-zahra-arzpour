@@ -13,6 +13,9 @@ export const urls = {
   },
   products: {
     list: "/products",
+    delete: (id: string) => `/products/${id}`,
+    edit: (id: string) => `/products/${id}`,
+    productById: (id: string) => `/products/${id}`,
   },
   orders: {
     list: "/orders",

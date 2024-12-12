@@ -9,8 +9,23 @@ export const getAllProducts: getAllProductsType = async (params) => {
   return response.data;
 };
 
-type addProductType = (_: IProduct) => Promise<IAddProductsRes>;
+type addProductType = (_: FormData) => Promise<IAddProductsResDto>;
 export const addProduct: addProductType = async (body) => {
-  const response = await generateAxiosInstance.post(urls.products.list, body);
+  const response = await generateAxiosInstance.post(urls.products.list, body, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
   return response.data.data.products;
+};
+
+type patchProductByIdType = (_: {
+  data: FormData;
+  id: string;
+}) => Promise<IEditProductsResDto>;
+export const patchProductById: patchProductByIdType = async ({ data, id }) => {
+  const response = await generateAxiosInstance.patch(
+    urls.products.edit(id),
+    data,
+    { headers: { "Content-Type": "multipart/form-data" } }
+  );
+  return response.data;
 };
