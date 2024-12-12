@@ -1,19 +1,16 @@
-import { getUsers } from "@/apis/client/user";
+import { getProductById } from "@/apis/client/product";
 import errorHandler from "@/utils/errorHandler";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 
-const useUsersList = () => {
+const useGetProductById = (id: string) => {
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-users"],
+    queryKey: ["get-product-by-id", id],
     queryFn: async () => {
-      const res = await getUsers({
-        limit: Infinity,
-        page: 1,
-      });
-      console.log(res);
-      return res;
+      const response = await getProductById(id);
+      console.log(response);
+      return response.data?.product;
     },
     refetchOnWindowFocus: false,
     retry: 1,
@@ -26,4 +23,4 @@ const useUsersList = () => {
   return { data, isLoading, isSuccess };
 };
 
-export default useUsersList;
+export default useGetProductById;

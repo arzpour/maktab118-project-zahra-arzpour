@@ -24,7 +24,7 @@ export const Pagination: React.FC<IPagination> = ({
   };
 
   return (
-    <div className="flex space-x-1">
+    <div className="flex space-x-1 justify-center mt-5">
       <button
         onClick={() => handlePageChange(page > 1 ? page - 1 : page)}
         disabled={page === 1}

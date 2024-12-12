@@ -7,6 +7,7 @@ import { perPageLimit } from "@/utils/config";
 import React from "react";
 import Pagination from "../admin/pagination";
 import TotalPageTable from "../admin/total-page-table";
+import ActionBtns from "./action-products/action-product-btns";
 
 const ProductListTable = () => {
   const { data: products, setPage, page } = useProductList();
@@ -51,7 +52,7 @@ const ProductListTable = () => {
                   تصویر
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/3">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/4">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   نام کالا
                 </p>
@@ -61,7 +62,7 @@ const ProductListTable = () => {
                   دسته بندی
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/4">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/5">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   تغییرات
                 </p>
@@ -75,6 +76,13 @@ const ProductListTable = () => {
                 className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
               >
                 <td className="p-4 py-5 flex justify-center">
+                  {/* <Image
+                    width={500}
+                    height={500}
+                    src={`http://localhost:8000/images/products/images/${el.images?.[0]}`}
+                    alt="عکس محصول"
+                    className="w-12 h-12 rounded"
+                  /> */}
                   <img
                     src={`http://localhost:8000/images/products/images/${el.images?.[0]}`}
                     alt="عکس محصول"
@@ -88,12 +96,7 @@ const ProductListTable = () => {
                   {getCategoryAndSubCategory(el.category!, el.subcategory!)}
                 </td>
                 <td className="px-4">
-                  <button className="bg-red-600 text-white py-1.5 px-5 rounded text-sm ml-2">
-                    حذف
-                  </button>
-                  <button className="bg-orange text-white py-1.5 px-5 rounded text-sm mr-2">
-                    ویرایش
-                  </button>
+                  <ActionBtns id={el._id!} />
                 </td>
               </tr>
             ))}

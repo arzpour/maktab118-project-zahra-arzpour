@@ -3,9 +3,10 @@
 import { perPageLimit } from "@/utils/config";
 import React from "react";
 import useCategoryList from "@/hooks/useCategory";
-import Pagination from "../admin/pagination";
+import Pagination from "../pagination";
 import useSubCategoryList from "@/hooks/useSubcategory";
-import TotalPageTable from "../admin/total-page-table";
+import TotalPageTable from "../total-page-table";
+import Image from "next/image";
 
 const CategoryListTable = () => {
   const { page, setPage, data: categories } = useCategoryList();
@@ -77,9 +78,11 @@ const CategoryListTable = () => {
                 className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
               >
                 <td className="p-4 py-5 flex justify-center">
-                  <img
+                  <Image
                     src={`http://localhost:8000/images/categories/icons/${el.icon}`}
                     alt="عکس محصول"
+                    width={500}
+                    height={500}
                     className="w-12 h-12 rounded"
                   />
                 </td>

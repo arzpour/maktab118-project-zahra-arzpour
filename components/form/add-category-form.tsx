@@ -10,8 +10,9 @@ import errorHandler from "@/utils/errorHandler";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { Input } from "./input";
 
 interface IAddCategoryForm {
   setShowAddCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,17 +21,14 @@ interface IAddCategoryForm {
 const AddCategoryForm: React.FC<IAddCategoryForm> = ({
   setShowAddCategoryModal,
 }) => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<categorySchemaType>({
+  const { handleSubmit, control } = useForm<categorySchemaType>({
     mode: "all",
     resolver: zodResolver(categorySchema),
   });
 
   const createCategory = useAddCategory();
+
+  console.log(createCategory.data?.data?.category);
 
   const onSubmit: SubmitHandler<categorySchemaType> = async (data) => {
     try {
@@ -42,6 +40,14 @@ const AddCategoryForm: React.FC<IAddCategoryForm> = ({
       });
       queryClient.invalidateQueries({ queryKey: ["get-categories"] });
     } catch (error) {
+      toast.error("اطلاعات اشتباه میباشد", {
+        style: {
+          backgroundColor: "#6e6e6e",
+          color: "#fff",
+          fontSize: "15px",
+        },
+      });
+
       errorHandler(error as AxiosError<IError>);
     }
   };
@@ -51,24 +57,20 @@ const AddCategoryForm: React.FC<IAddCategoryForm> = ({
       onSubmit={handleSubmit(onSubmit)}
       className="md:max-w-md w-full mx-auto"
     >
-      <div>
-        <div className="relative flex items-center text-gray-900">
-          <input
-            {...register("name")}
+      <Controller
+        control={control}
+        name="name"
+        render={({ field, fieldState }) => (
+          <Input
             type="text"
-            required
-            className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
             placeholder="نام دسته بندی"
+            error={fieldState.error?.message}
+            {...field}
           />
-        </div>
-        {errors.name && (
-          <p className="text-red-700 mt-4 text-xs font-medium text-start">
-            {errors.name.message}
-          </p>
         )}
-      </div>
+      />
 
-      <div className="mt-9">
+      <div className="mt-6 mb-4">
         <button
           type="submit"
           className="w-full shadow-sm text-sm py-2.5 px-5 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"

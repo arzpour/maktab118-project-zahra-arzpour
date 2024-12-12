@@ -1,1 +1,1 @@
-export const perPageLimit = 3;
+export const perPageLimit = 6;
