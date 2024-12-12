@@ -32,7 +32,7 @@ interface DemoSliderProps {
 
 const Slider: React.FC<DemoSliderProps> = ({ data }) => {
   return (
-    <section className="w-full mb-16">
+    <section className="w-full mb-6">
       <div>
         <ul className="h-full w-full">
           <Swiper
