@@ -67,7 +67,7 @@ const Header = () => {
               <Link href={"/admin-login"}>ادمین</Link>
             </li>
           </ul>
-          <p className="hover:bg-orange text-sm px-6 py-2.5 rounded-full cursor-pointer">
+          <p className="text-orange hover:border-b hover:border-b-orange text-sm px-6 py-2.5 rounded-full cursor-pointer">
             تخفیف های ویژه
           </p>
         </div>

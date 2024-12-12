@@ -9,7 +9,7 @@ interface IProductsCards {
   categoryId: string;
   categoryName: string;
   sort?: boolean;
-  productListLink: string;
+  productListLink?: string;
 }
 
 const OtherProductsCards: React.FC<IProductsCards> = ({

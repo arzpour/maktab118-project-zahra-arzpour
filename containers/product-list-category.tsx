@@ -52,8 +52,8 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
   );
 
   return (
-    <div className="pt-20">
-      <div className="flex gap-6 justify-center">
+    <div className="pt-20 px-5">
+      <div className="flex gap-6 justify-center flex-wrap">
         <p
           onClick={() => setSelectedSubcategory("all")}
           className={`font-medium text-slate-100 px-4 py-2 rounded cursor-pointer ${
@@ -77,7 +77,7 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
         ))}
       </div>
 
-      <div className="mt-10 flex justify-center items-center flex-wrap gap-6">
+      <div className="mt-5 lg:mt-10 xl:mt-14 flex justify-center items-center flex-wrap gap-6">
         {filteredItems && filteredItems?.length > 0 ? (
           <div className="mt-3 md:mt-10 lg:mt-0 flex flex-col gap-2 flex-wrap justify-center items-center">
             <div className="flex gap-7 flex-wrap mb-10 justify-center">
