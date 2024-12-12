@@ -17,6 +17,12 @@ export const addProduct: addProductType = async (body) => {
   return response.data.data.products;
 };
 
+type deleteProductByIdType = (id: string) => Promise<IProducts>;
+export const deleteProductById: deleteProductByIdType = async (id) => {
+  const response = await generateAxiosInstance.delete(urls.products.delete(id));
+  return response.data;
+};
+
 type patchProductByIdType = (_: {
   data: FormData;
   id: string;
