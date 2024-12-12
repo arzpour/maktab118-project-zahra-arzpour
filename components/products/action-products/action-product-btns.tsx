@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
 import DeleteProductModal from "@/components/modals/delete-product-modal";
+import EditProductModal from "@/components/modals/edit-product-modal";
 
 interface IActionBtns {
   id: string;
@@ -14,6 +15,8 @@ interface IActionBtns {
 
 const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
   const [showDeleteProductModal, setShowDeleteProductModal] =
+    React.useState<boolean>(false);
+  const [showEditProductModal, setShowEditProductModal] =
     React.useState<boolean>(false);
 
   const deleteProduct = useDeleteProducts();
@@ -48,9 +51,18 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
           deleteProduct={deleteOnclickHandler}
         />
       )}
-      <button className="bg-orange text-white py-1.5 px-5 rounded text-sm mr-2">
+      <button
+        onClick={() => setShowEditProductModal(true)}
+        className="bg-orange text-white py-1.5 px-5 rounded text-sm mr-2"
+      >
         ویرایش
       </button>
+      {showEditProductModal && (
+        <EditProductModal
+          setShowEditProductModal={setShowEditProductModal}
+          id={id}
+        />
+      )}
     </div>
   );
 };
