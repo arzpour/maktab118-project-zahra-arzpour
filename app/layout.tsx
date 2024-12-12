@@ -4,6 +4,7 @@ import "./globals.css";
 import ToastifyProvider from "@/providers/toastify.provider";
 import TanstackProvider from "@/providers/tanstack.provider";
 import { ToastContainer } from "react-toastify";
+import ReduxProvider from "@/providers/redux.provider";
 
 const vazir = localFont({
   src: "./fonts/Vazir-Medium.woff",
@@ -27,7 +28,9 @@ export default function RootLayout({
       <body className={`${vazir.variable} antialiased`}>
         <ToastifyProvider>
           <ToastContainer />
-          <TanstackProvider>{children}</TanstackProvider>
+          <ReduxProvider>
+            <TanstackProvider>{children}</TanstackProvider>
+          </ReduxProvider>
         </ToastifyProvider>
       </body>
     </html>

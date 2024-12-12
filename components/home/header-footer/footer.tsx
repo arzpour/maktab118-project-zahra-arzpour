@@ -7,7 +7,7 @@ import { SiWhatsapp } from "react-icons/si";
 const Footer = () => {
   return (
     <div className="bg-BackgroundColor text-white py-10 pt-36 px-5">
-      <div className="max-w-[1400px] mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 lg:gap-16 items-start">
+      <div className="max-w-1400 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 lg:gap-16 items-start">
         <div className="w-full">
           <h4 className="text-lg">درباره ما</h4>
           <p className="mt-7 text-sm lg:text-base text-gray-100 line-clamp-5 md:line-clamp-6 xl:line-clamp-none">
@@ -67,7 +67,7 @@ const Footer = () => {
           <div className="flex">
             <input
               type="text"
-              className="rounded-r bg-BackgroundColor w-full pl-10 pr-4 truncate py-3 text-sm placeholder:text-xs outline-none placeholder:text-gray-400 border border-gray-700 border-l-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+              className="rounded-r w-1/2 bg-BackgroundColor pl-10 pr-4 truncate py-3 text-sm placeholder:text-xs outline-none placeholder:text-gray-400 border border-gray-700 border-l-0 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
               placeholder="برای ارتباط با ما ایمیل خود را وارد کنید"
             />
             <button
@@ -77,7 +77,7 @@ const Footer = () => {
               ارسال
             </button>
           </div>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4">
             <BsTelegram className="w-6 h-6 text-gray-200 cursor-pointer" />
             <IoLogoInstagram className="w-6 h-6 text-gray-200 cursor-pointer" />
             <SiWhatsapp className="w-6 h-6 text-gray-200 cursor-pointer" />
