@@ -9,7 +9,6 @@ import {
 import { getToken } from "./auth";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
-import errorHandler from "@/utils/errorHandler";
 
 export const generateAxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -29,14 +28,14 @@ generateAxiosInstance.interceptors.request.use(
 generateAxiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    const config = error.config;
+    const req = error.config;
 
-    if (error.response?.status === 401 || !config.sent) {
-      config.sent = true;
+    if (error.response?.status === 401 || !req.sent) {
+      req.sent = true;
       if (
-        config.url !== "/auth/token" &&
-        config.url !== "/auth/login" &&
-        config.url !== "/auth/logout"
+        req.url !== "/auth/token" &&
+        req.url !== "/auth/login" &&
+        req.url !== "/auth/logout"
       ) {
         try {
           const refreshToken = getRefreshToken();
@@ -46,20 +45,15 @@ generateAxiosInstance.interceptors.response.use(
           setAccsessToken(newAccessToken);
           toast.success("توکن جدید ست شد");
 
-          config.headers["Authorization"] = `Bearer ${newAccessToken}`;
+          req.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
-          return generateAxiosInstance(config);
+          return generateAxiosInstance(req);
         } catch (err) {
           toast.error("دوباره وارد شوید");
           deleteAccsessToken();
           deleteRefreshToken();
-          redirect("/login");
-        } finally {
-          isRefreshing = false;
+          redirect("/admin-login");
         }
-      } else {
-        toast.error("توکن موجود نیست دوباره وارد شوید.");
-        redirect("/login");
       }
     }
     return error.response;

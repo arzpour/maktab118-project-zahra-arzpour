@@ -1,4 +1,4 @@
-import ProductMain from "@/components/products/products";
+import ProductMain from "@/components/admin/products/products";
 import React from "react";
 
 const AdminProductsPage = () => {

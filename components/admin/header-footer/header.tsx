@@ -39,7 +39,6 @@ const AdminPageHeader = () => {
             </ul>
           </div>
 
-
           <HamburgerMenuAdmin />
 
           <div className="flex gap-5 md:gap-3 lg:gap-5 items-center">

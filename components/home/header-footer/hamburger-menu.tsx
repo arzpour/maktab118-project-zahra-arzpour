@@ -11,7 +11,7 @@ import { MdOutlineChatBubble } from "react-icons/md";
 import { AiFillPhone } from "react-icons/ai";
 import { MdOutlineContactSupport } from "react-icons/md";
 import { RiAdminFill } from "react-icons/ri";
-import Image from "next/image";
+import SearchInput from "@/components/form/search";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -51,10 +51,6 @@ const HamburgerMenu = () => {
             <RiAdminFill className="w-5 h-5 cursor-pointer" />
             <Link href={"/admin-login"}>ادمین</Link>
           </li>
-          <li className="hover:text-orange flex gap-2 items-center">
-            <FaShoppingCart className="w-5 h-5 cursor-pointer" />
-            <Link href={""}>سبد خرید</Link>
-          </li>
           <Link href={"/login"} className="flex gap-2">
             <FaUserLarge
               title="ثبت نام / ورود"
@@ -62,24 +58,17 @@ const HamburgerMenu = () => {
             />
             ورود / ثبت نام
           </Link>
-          <div className="relative w-full">
-            <div className="absolute inset-y-0 start-1 flex items-center ps-3 pointer-events-none">
-              <IoSearchOutline className="w-4 h-4 text-gray-300 relative bottom-0.5" />
-            </div>
-            <input
-              type="search"
-              className="block w-full placeholder:text-xs py-3 md:placeholder:text-base bg-BackgroundColor outline-none rounded-full px-8 md:py-3 pr-12 ps-10 text-sm text-gray-900 border border-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-              placeholder="اینجا سرچ کنید..."
-            />
-          </div>
+          <SearchInput />
         </ul>
-        <Image
-          src="/90223181741.png"
-          alt="logo-image"
-          width={500}
-          height={500}
-          className="h-14 w-14 relative bottom-2"
-        />
+
+        <div className="flex gap-4 items-center">
+          <FaShoppingCart className="text-gray-300 w-5 h-5 cursor-pointer" />
+          <img
+            src="/90223181741.png"
+            alt="logo-image"
+            className="h-14 w-14 relative bottom-2"
+          />
+        </div>
       </div>
     </>
   );
