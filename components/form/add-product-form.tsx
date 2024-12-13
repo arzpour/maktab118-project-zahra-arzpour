@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -15,6 +15,10 @@ import {
 } from "@/server/validations/product.validation";
 import { useAddProducts } from "@/apis/mutations/product";
 import SelectBox from "./selectbox-categories";
+import { Input } from "./input";
+import { Textarea } from "./textarea";
+import { Thumbnail } from "./thumbnail";
+import { Images } from "./images";
 
 interface IAddProductForm {
   setShowAddProductModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -29,12 +33,7 @@ const AddProductForm: React.FC<IAddProductForm> = ({
   const { data: useCategoryData } = useCategoryList(Infinity);
   const { data: useSubCategoryData } = useSubCategoryList(Infinity);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<productSchemaType>({
+  const { control, handleSubmit } = useForm<productSchemaType>({
     mode: "all",
     resolver: zodResolver(productSchema),
   });
@@ -54,128 +53,157 @@ const AddProductForm: React.FC<IAddProductForm> = ({
       (subCategory) => subCategory.name === selectedSubCategory
     )?._id || "";
 
-  console.log(subcategoryId);
-
   const createProduct = useAddProducts();
 
   const onSubmit: SubmitHandler<productSchemaType> = async (data) => {
     try {
-      const dataWithId = {
-        ...data,
-        category: categoryId,
-        subcategory: subcategoryId,
-        price: Number(data.price),
-        quantity: Number(data.price),
-      };
-      console.log(dataWithId);
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("brand", data.brand);
+      formData.append("price", data.price.toString());
+      formData.append("quantity", data.quantity.toString());
+      formData.append("category", categoryId);
+      formData.append("subcategory", subcategoryId);
 
-      await createProduct.mutateAsync(dataWithId);
+      if (data.thumbnail instanceof File) {
+        formData.append("thumbnail", data.thumbnail);
+      }
+
+      if (Array.isArray(data.images)) {
+        data.images.forEach((image) => {
+          if (image instanceof File) {
+            formData.append("images", image);
+          }
+        });
+      }
+
+      await createProduct.mutateAsync(formData);
       setShowAddProductModal(false);
 
-      toast.success("ایجاد شد", {
+      toast.success("محصول ایجاد شد", {
         style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
       });
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
+      toast.error("اطلاعات اشتباه میباشد", {
+        style: {
+          backgroundColor: "#6e6e6e",
+          color: "#fff",
+          fontSize: "15px",
+        },
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="md:max-w-md w-full mx-auto"
-    >
-      <SelectBox
-        selectItem={useCategoryData?.data?.categories || []}
-        selected={selectedCategory}
-        setSelected={setSelectedCategory}
+    <form onSubmit={handleSubmit(onSubmit)} className="w-full mx-auto">
+      <div className="flex gap-2">
+        <Controller
+          control={control}
+          name="category"
+          render={({ field, fieldState }) => (
+            <SelectBox
+              selectItem={useCategoryData?.data?.categories || []}
+              selected={selectedCategory}
+              setSelected={setSelectedCategory}
+              error={fieldState.error?.message}
+              label="دسته بندی"
+              {...field}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="subcategory"
+          render={({ field, fieldState }) => (
+            <SelectBox
+              selectItem={filteredSubCategoriesByCategory || []}
+              selected={selectedSubCategory}
+              setSelected={setSelectedSubCategory}
+              error={fieldState.error?.message}
+              label="زیر مجموعه"
+              {...field}
+            />
+          )}
+        />
+      </div>
+
+      <div className="flex gap-2 mt-4">
+        <Controller
+          control={control}
+          name="name"
+          render={({ field, fieldState }) => (
+            <Input
+              type="text"
+              placeholder="نام محصول"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="brand"
+          render={({ field, fieldState }) => (
+            <Input
+              type="text"
+              placeholder="برند محصول"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+      </div>
+
+      <div className="flex gap-2 mt-4">
+        <Controller
+          control={control}
+          name="price"
+          render={({ field, fieldState }) => (
+            <Input
+              type="text"
+              placeholder="قیمت محصول"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+
+        <Controller
+          control={control}
+          name="quantity"
+          render={({ field, fieldState }) => (
+            <Input
+              type="text"
+              placeholder="مقدار محصول"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+      </div>
+
+      <Controller
+        control={control}
+        name="description"
+        render={({ field, fieldState }) => (
+          <Textarea
+            type="text"
+            placeholder="توضیحات محصول"
+            error={fieldState.error?.message}
+            {...field}
+          />
+        )}
       />
-      {errors.category && (
-        <p className="text-red-700 mt-4 text-xs font-medium text-start">
-          {errors.category.message}
-        </p>
-      )}
 
-      <SelectBox
-        selectItem={filteredSubCategoriesByCategory!}
-        selected={selectedSubCategory}
-        setSelected={setSelectedSubCategory}
-      />
-      {errors.subcategory && (
-        <p className="text-red-700 mt-4 text-xs font-medium text-start">
-          {errors.subcategory.message}
-        </p>
-      )}
-
-      <div className="mt-2">
-        <input
-          {...register("name")}
-          type="text"
-          className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
-          placeholder="نام محصول"
-        />
-        {errors.name && (
-          <p className="text-red-700 mt-4 text-xs font-medium text-start">
-            {errors.name.message}
-          </p>
-        )}
-      </div>
-      <div className="mt-2">
-        <input
-          {...register("description")}
-          type="text"
-          className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
-          placeholder="توضیحات محصول"
-        />
-        {errors.description && (
-          <p className="text-red-700 mt-4 text-xs font-medium text-start">
-            {errors.description.message}
-          </p>
-        )}
-      </div>
-      <div className="mt-2">
-        <input
-          {...register("brand")}
-          type="text"
-          className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
-          placeholder="برند محصول"
-        />
-        {errors.brand && (
-          <p className="text-red-700 mt-4 text-xs font-medium text-start">
-            {errors.brand.message}
-          </p>
-        )}
-      </div>
-      <div className="mt-2">
-        <input
-          {...register("price")}
-          type="text"
-          className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
-          placeholder="قیمت محصول"
-        />
-        {errors.price && (
-          <p className="text-red-700 mt-4 text-xs font-medium text-start">
-            {errors.price.message}
-          </p>
-        )}
+      <div className="flex gap-4 w-full">
+        <Thumbnail name="thumbnail" control={control} />
+        <Images name="images" control={control} />
       </div>
 
-      <div className="mt-2">
-        <input
-          {...register("quantity")}
-          type="text"
-          className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
-          placeholder=" محصول مقدار "
-        />
-        {errors.quantity && (
-          <p className="text-red-700 mt-4 text-xs font-medium text-start">
-            {errors.quantity.message}
-          </p>
-        )}
-      </div>
-
-      <div className="mt-4">
+      <div className="mt-4 mb-1">
         <button
           type="submit"
           className="mb-4 mt-3 w-full shadow-sm text-sm py-2.5 px-5 bg-[#15273b] font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"

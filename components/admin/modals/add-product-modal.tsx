@@ -27,13 +27,13 @@ const AddProductModal: React.FC<IAddProductModal> = ({
         <div className="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg"
+            className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-xl"
           >
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="flex gap-4 items-center mb-5">
-                <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                  <p className="font-medium text-gray-800">دسته بندی جدید</p>
-                </div>
+            <div className="bg-white w-full pb-4 pt-5 sm:py-6 px-8 sm:pb-4">
+              <div className="mt-3 text-start">
+                <p className="font-medium text-gray-800 text-lg">
+                  دسته بندی جدید
+                </p>
               </div>
               <AddProductForm setShowAddProductModal={setShowAddProductModal} />
             </div>

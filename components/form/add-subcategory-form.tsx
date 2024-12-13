@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -14,6 +14,7 @@ import {
 } from "@/server/validations/subcategory.validation";
 import { useAddSubCategory } from "@/apis/mutations/subcategory";
 import SelectBox from "./selectbox-categories";
+import { Input } from "./input";
 
 interface IAddSubCategoryForm {
   setShowAddSubCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -26,16 +27,17 @@ const AddSubCategoryForm: React.FC<IAddSubCategoryForm> = ({
 
   const { data: categoryData } = useCategoryList();
 
+  console.log(categoryData);
+
   const categoryId =
     categoryData?.data?.categories.find(
       (category) => category.name === selectedCategory
     )?._id || "";
 
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
-    reset,
   } = useForm<subcategorySchemaType>({
     mode: "all",
     resolver: zodResolver(subcategorySchema),
@@ -57,6 +59,13 @@ const AddSubCategoryForm: React.FC<IAddSubCategoryForm> = ({
       });
       queryClient.invalidateQueries({ queryKey: ["get-subcategories"] });
     } catch (error) {
+      toast.error("اطلاعات اشتباه میباشد", {
+        style: {
+          backgroundColor: "#6e6e6e",
+          color: "#fff",
+          fontSize: "15px",
+        },
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };
@@ -66,32 +75,26 @@ const AddSubCategoryForm: React.FC<IAddSubCategoryForm> = ({
       onSubmit={handleSubmit(onSubmit)}
       className="md:max-w-md w-full mx-auto"
     >
-      <div className="relative flex items-center text-gray-900">
-        <input
-          {...register("name")}
-          type="text"
-          required
-          className="w-full rounded-md text-sm border-b border-slate-600 placeholder:text-xs placeholder:text-slate-600 p-4 outline-none"
-          placeholder="نام زیر مجموعه"
-        />
-      </div>
-      {errors.name && (
-        <p className="text-red-700 mt-4 text-xs font-medium text-start">
-          {errors.name.message}
-        </p>
-      )}
+      <Controller
+        control={control}
+        name="name"
+        render={({ field, fieldState }) => (
+          <Input
+            type="text"
+            placeholder="نام دسته بندی"
+            error={fieldState.error?.message}
+            {...field}
+          />
+        )}
+      />
       <SelectBox
         selectItem={categoryData?.data?.categories || []}
         selected={selectedCategory}
         setSelected={setSelectedCategory}
+        error={errors.category?.message}
+        label="زیر مجموعه"
       />
-      {errors.category && (
-        <p className="text-red-700 mt-4 text-xs font-medium text-start">
-          {errors.category.message}
-        </p>
-      )}
-
-      <div className="mt-9">
+      <div className="mt-6 mb-4">
         <button
           type="submit"
           className="w-full mb-3 shadow-sm text-sm py-2.5 px-5 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"

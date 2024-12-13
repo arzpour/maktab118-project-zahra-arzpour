@@ -1,4 +1,4 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import {
   deleteAccsessToken,
   getRefreshToken,
@@ -6,19 +6,17 @@ import {
   setAccsessToken,
   deleteRefreshToken,
 } from "@/utils/session";
-import { getToken, logout } from "./auth";
+import { getToken } from "./auth";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
-import errorHandler from "@/utils/errorHandler";
 
 export const generateAxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 });
 
-const token = getAccsessToken();
-
 generateAxiosInstance.interceptors.request.use(
   (config) => {
+    const token = getAccsessToken();
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -27,67 +25,37 @@ generateAxiosInstance.interceptors.request.use(
   (error) => console.log(error)
 );
 
-interface IReqList {
-  resolve: (value: string) => void;
-  reject: (reason: AxiosError) => void;
-}
-
-let isRefreshing = false;
-let reqList: IReqList[] = [];
-
-const reqListWaiting = (error: AxiosError | null, token: string | null) => {
-  reqList.forEach((req) => {
-    if (token) {
-      req.resolve(token);
-    } else {
-      req.reject(error as AxiosError);
-    }
-  });
-  reqList = [];
-};
-
 generateAxiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
     const req = error.config;
 
-    if (error.response?.status === 401 || error.response?.status === 500) {
-      const refreshToken = getRefreshToken();
-
-      if (refreshToken && !req._retry) {
-        if (isRefreshing) {
-          return new Promise((resolve, reject) => {
-            reqList.push({ resolve, reject });
-          })
-            .then((token) => {
-              req.headers["Authorization"] = `Bearer ${token}`;
-              return generateAxiosInstance(req);
-            })
-            .catch(Promise.reject);
-        }
-
-        req._retry = true;
-        isRefreshing = true;
-
+    if (error.response?.status === 401 || !req.sent) {
+      req.sent = true;
+      if (
+        req.url !== "/auth/token" &&
+        req.url !== "/auth/login" &&
+        req.url !== "/auth/logout"
+      ) {
         try {
-          const newAccessToken = await getToken(refreshToken);
+          const refreshToken = getRefreshToken();
+
+          const newAccessToken = await getToken(refreshToken!);
+
           setAccsessToken(newAccessToken);
-          reqListWaiting(null, newAccessToken);
+          toast.success("توکن جدید ست شد");
 
           req.headers["Authorization"] = `Bearer ${newAccessToken}`;
+
           return generateAxiosInstance(req);
         } catch (err) {
-          reqListWaiting(err as AxiosError, null);
-          logout();
+          toast.error("دوباره وارد شوید");
           deleteAccsessToken();
           deleteRefreshToken();
           redirect("/admin-login");
-        } finally {
-          isRefreshing = false;
         }
-      } else {
-        errorHandler(error);
       }
     }
+    return error.response;
   }
 );

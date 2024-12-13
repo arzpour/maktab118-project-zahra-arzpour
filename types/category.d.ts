@@ -23,3 +23,14 @@ interface ICategoryResDto {
     categories: ICategory[];
   };
 }
+
+interface IPostCategoryResDto {
+  status?: string;
+  page?: number;
+  per_page?: number;
+  total?: number;
+  total_pages?: number;
+  data?: {
+    category: ICategory;
+  };
+}

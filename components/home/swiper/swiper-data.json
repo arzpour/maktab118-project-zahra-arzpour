@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "title": "ARE AWESOME",
+    "tagline": "NEXTJS 13 & SWIPER SLIDER",
+    "image": "/various-spices-WW-46445496.jpeg",
+    "buttons": [
+      {
+        "id": 1,
+        "text": "Roberto Nickson",
+        "link": "https://www.pexels.com/@rpnickson/",
+        "type": "btn-dark btn-circle"
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "title": "ARE AWESOME",
+    "tagline": "NEXTJS 13 & SWIPER SLIDER",
+    "image": "/herb-header.jpg",
+    "buttons": [
+      {
+        "id": 1,
+        "text": "Roberto Nickson",
+        "link": "https://www.pexels.com/@rpnickson/",
+        "type": "btn-dark btn-circle"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "title": "GIVE IT A SHOOT",
+    "tagline": "IF YOU LIKE IT",
+    "image": "/1643272425_TARIM__4_-scaled.jpg",
+    "buttons": [
+      {
+        "id": 1,
+        "text": "Julia M Cameron",
+        "link": "https://www.pexels.com/@julia-m-cameron/",
+        "type": "btn-dark btn-circle"
+      }
+    ]
+  }
+]

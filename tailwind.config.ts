@@ -17,6 +17,7 @@ export default {
         orange: "#E89402",
       },
       maxWidth: {
+        1300: "1300px",
         1400: "1400px",
         1770: "1770px",
         1800: "1800px",
@@ -25,9 +26,11 @@ export default {
       width: {
         30: "30%",
         18: "18px",
+        36: "36rem",
       },
       height: {
         18: "18px",
+        12.5: "12.5rem",
       },
       fontSize: {
         22: "22px",

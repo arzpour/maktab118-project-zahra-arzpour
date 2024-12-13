@@ -3,6 +3,7 @@ import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import HamburgerMenuAdmin from "./hamburger-menu";
 import AdminLogoutBtn from "./logout-btn";
+import Image from "next/image";
 
 const AdminPageHeader = () => {
   return (
@@ -11,9 +12,11 @@ const AdminPageHeader = () => {
         <div className="flex justify-between items-center">
           <div className="hidden sm:flex gap-3 md:gap-4 xl:gap-8 items-center">
             <div className="hidden md:flex gap-2 items-center">
-              <img
+              <Image
                 src="/90223181741.png"
                 alt="logo-image"
+                width={500}
+                height={500}
                 className="h-14 w-14 lg:w-16 lg:h-16 xl:h-20 xl:w-20"
               />
               <h3 className="hidden lg:block lg:text-22 relative top-2 text-orange">
@@ -35,7 +38,6 @@ const AdminPageHeader = () => {
               </li>
             </ul>
           </div>
-
 
           <HamburgerMenuAdmin />
 

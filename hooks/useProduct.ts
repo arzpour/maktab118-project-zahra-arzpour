@@ -5,18 +5,17 @@ import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 
-const useProductList = (limitCus?: number, sort?: number) => {
+const useProductList = (limitCus?: number) => {
   const [page, setPage] = React.useState<number>(1);
 
   const limit = limitCus ?? perPageLimit;
 
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-products", page, limit, sort],
+    queryKey: ["get-products", page, limit],
     queryFn: async () => {
       const res = await getAllProducts({
         limit: limit,
         page,
-        "quantity[gte]": 8,
       });
       return res;
     },

@@ -7,6 +7,7 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { FaClipboardList } from "react-icons/fa6";
 import { AiFillProduct } from "react-icons/ai";
 import { IoPricetag, IoSearchOutline } from "react-icons/io5";
+import SearchInput from "@/components/form/search";
 
 const HamburgerMenuAdmin = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -37,16 +38,7 @@ const HamburgerMenuAdmin = () => {
           <IoPricetag className="w-5 h-5 cursor-pointer" />
           <Link href={"/admin/InventoryAndPrice"}>موجودی و قیمت</Link>
         </li>
-        <div className="relative w-full sm:hidden">
-          <div className="absolute inset-y-0 start-1 flex items-center ps-3 pointer-events-none">
-            <IoSearchOutline className="w-5 h-5 relative bottom-0.5 text-gray-300" />
-          </div>
-          <input
-            type="search"
-            className="block w-full outline-none py-2.5 placeholder:text-sm bg-BackgroundColor rounded-full px-8 md:py-3 pr-12 ps-10 text-sm text-gray-900 border border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-            placeholder="اینجا سرچ کنید..."
-          />
-        </div>
+        <SearchInput />
       </ul>
     </div>
   );

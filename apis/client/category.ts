@@ -12,8 +12,10 @@ export const getAllCategories: getAllCategoriesType = async ({
   return response.data;
 };
 
-type addCategoryType = (_: ICategoryReqDto) => Promise<ICategory>;
+type addCategoryType = (_: ICategoryReqDto) => Promise<IPostCategoryResDto>;
 export const addCategory: addCategoryType = async (body) => {
   const response = await generateAxiosInstance.post(urls.category.list, body);
-  return response.data.data.category;
+  console.log(response.data);
+
+  return response.data;
 };
