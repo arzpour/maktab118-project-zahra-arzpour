@@ -201,12 +201,8 @@ const EditProductForm: React.FC<IEditProductForm> = ({
           defaultValue={data?.thumbnail}
           status="edit"
         />
-        <Images
-          name="images"
-          control={control}
-          defaultValue={data?.images}
-          status="edit"
-        />
+
+        <Images name="images" control={control} defaultValue={data?.images} />
       </div>
 
       <div className="mt-2 mb-1 flex gap-4 justify-end">

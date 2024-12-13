@@ -26,6 +26,7 @@ export default {
       width: {
         30: "30%",
         18: "18px",
+        36: "36rem",
       },
       height: {
         18: "18px",

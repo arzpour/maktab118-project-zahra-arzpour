@@ -23,7 +23,7 @@ const ProductInfoCard: React.FC<IProducts> = ({
                 alt="Thumbnail-image"
                 width={500}
                 height={500}
-                className="w-11/12 h-auto rounded-lg shadow-md mb-4"
+                className="w-11/12 h-72 rounded-lg shadow-md mb-4"
               />
               {images?.length! >= 1 && (
                 <div className="flex gap-6 py-4 justify-center overflow-x-auto">
@@ -60,10 +60,7 @@ const ProductInfoCard: React.FC<IProducts> = ({
                   </span>
                 </p>
                 <div className="flex gap-6 items-center">
-                  <button
-                    type="button"
-                    className="flex gap-2 h-9 items-center px-3 border border-gray-400 bg-BlueDark text-gray-800 text-xs outline-none bg-transparent rounded-md"
-                  >
+                  <div className="flex gap-2 h-9 items-center px-3 border border-gray-400 bg-BlueDark text-gray-800 text-xs outline-none bg-transparent rounded-md">
                     <button>
                       <IoRemove className="text-slate-100 w-5 h-4" />
                     </button>
@@ -71,14 +68,11 @@ const ProductInfoCard: React.FC<IProducts> = ({
                     <button>
                       <IoMdAdd className="text-slate-100 w-5 h-4" />
                     </button>
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex gap-3 bg-BlueDark shadow items-start rounded-lg bg-primary-700 px-6 py-3 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
+                  </div>
+                  <div className="inline-flex gap-3 bg-BlueDark shadow items-start rounded-lg bg-primary-700 px-6 py-3 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     <FaShoppingCart className="text-slate-100 w-5 h-4" />
-                    Add to cart
-                  </button>
+                    اضافه کردن به سبد خرید
+                  </div>
                 </div>
               </div>
             </div>

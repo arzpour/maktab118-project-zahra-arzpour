@@ -39,9 +39,17 @@ export const productSchema = z.object({
     .array(z.any())
     .optional()
     .refine(
-      (files) =>
-        !files ||
-        files.every((file) => validThumbnailTypes.includes(file.type)),
+      (files) => {
+        if (!files) return true;
+        const invalidFile = files.some(
+          (file) => !validThumbnailTypes.includes(file.type)
+        );
+        if (invalidFile) {
+          console.error("فرمت فایل نامعتبر است.");
+          return false;
+        }
+        return true;
+      },
       { message: `فرمت تصاویر باید ${validThumbnailTypes.join(", ")} باشد` }
     )
     .refine(

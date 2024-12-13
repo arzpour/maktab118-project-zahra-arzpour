@@ -20,6 +20,16 @@ const OtherProductsCards: React.FC<IProductsCards> = ({
 }) => {
   const { data: products } = useProductList(Infinity);
 
+  const filteredProducts = React.useMemo(() => {
+    const filtered = products?.data?.products.filter(
+      (el) => el.category === categoryId
+    );
+    if (sort) {
+      return filtered?.sort(() => Math.random() - 0.5).slice(0, 4);
+    }
+    return filtered?.slice(0, 4);
+  }, [products, categoryId, sort]);
+
   return (
     <div className="pt-10 lg:mx-10">
       <div className="flex justify-between mx-10 lg:mx-0 mb-7">
@@ -29,15 +39,9 @@ const OtherProductsCards: React.FC<IProductsCards> = ({
         </Link>
       </div>
       <div className="flex gap-5 xl:gap-10 items-center justify-center flex-wrap xl:flex-nowrap">
-        {products?.data?.products
-          .filter((el) => el.category === categoryId)
-          .sort(sort ? () => Math.random() - 0.5 : undefined)
-          .slice(0, 4)
-          .map((el) => (
-            <Link href={`/products/${el._id}`}>
-              <ProductCard key={el._id} {...el} />
-            </Link>
-          ))}
+        {filteredProducts?.map((el) => (
+          <ProductCard key={el._id} {...el} />
+        ))}
       </div>
     </div>
   );

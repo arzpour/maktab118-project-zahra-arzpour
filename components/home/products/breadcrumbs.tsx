@@ -45,10 +45,11 @@ const Breadcrumbs: React.FC<IBreadCrumb> = ({ categoryName, productName }) => {
           <li>
             <div className="flex items-center">
               <MdChevronLeft className="w-5 h-5 text-slate-500" />
-              <Link href={categoryLink() || ""}>
-                <span className="ms-1 text-sm font-medium text-slate-500 md:ms-2 dark:text-gray-400">
-                  {categoryName}
-                </span>
+              <Link
+                href={categoryLink() || ""}
+                className="ms-1 text-sm font-medium text-slate-500 md:ms-2 dark:text-gray-400"
+              >
+                {categoryName}
               </Link>
             </div>
           </li>

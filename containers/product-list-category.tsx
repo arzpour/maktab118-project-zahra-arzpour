@@ -82,7 +82,7 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
           <div className="mt-3 md:mt-10 lg:mt-0 flex flex-col gap-2 flex-wrap justify-center items-center">
             <div className="flex gap-7 flex-wrap mb-10 justify-center">
               {filteredItems?.map((el) => (
-                <ProductCard {...el} />
+                <ProductCard key={el._id} {...el} />
               ))}
             </div>
             <Pagination

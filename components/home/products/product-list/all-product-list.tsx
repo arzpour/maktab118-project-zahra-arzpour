@@ -38,17 +38,24 @@ const ProductList = () => {
     page * perPageLimit
   );
 
+  console.log(filteredItems, "bu");
+
   return (
     <>
       <ProductFilterMobile />
 
       <div className="mt-3 lg:mt-0 flex flex-col gap-2 flex-wrap items-center">
-        <div className="flex gap-7 flex-wrap mb-10 justify-center">
-          {filteredItems?.map((el) => (
-            <ProductCard {...el} />
-          ))}
-        </div>
-        {isSuccess && (
+        {filteredItems && filteredItems?.length > 0 ? (
+          <div className="flex gap-7 flex-wrap mb-10 justify-center">
+            {filteredItems?.map((el) => (
+              <ProductCard key={el._id} {...el} />
+            ))}
+          </div>
+        ) : (
+          <p>محصولی وجود ندارد.</p>
+        )}
+
+        {filteredItems && filteredItems?.length > 0 && isSuccess && (
           <Pagination
             handlePageChange={handlePageChange}
             page={page}
