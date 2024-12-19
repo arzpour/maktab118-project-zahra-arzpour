@@ -12,7 +12,7 @@ interface IImages {
 }
 
 export const Images: React.FC<IImages> = ({ name, control, defaultValue }) => {
-  const [urls, setUrls] = React.useState<string[]>(defaultValue || []);
+  const [urls, setUrls] = React.useState<string[]>([]);
   const [files, setFiles] = React.useState<File[]>([]);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
 
@@ -29,8 +29,10 @@ export const Images: React.FC<IImages> = ({ name, control, defaultValue }) => {
       : [];
     const updatedFiles = [...files, ...selectedFiles];
 
+    const updatedUrls = updatedFiles.map((file) => URL.createObjectURL(file));
+
     setFiles(updatedFiles);
-    setUrls(updatedFiles.map((file) => URL.createObjectURL(file)));
+    setUrls(updatedUrls);
 
     field.onChange(updatedFiles);
   };
@@ -59,10 +61,10 @@ export const Images: React.FC<IImages> = ({ name, control, defaultValue }) => {
                 key={index}
                 className="relative w-20 rounded-md overflow-hidden"
               >
-                <Image
+                <img
                   src={url}
-                  width={500}
-                  height={500}
+                  // width={500}
+                  // height={500}
                   alt={`Image ${index + 1}`}
                   className="object-center"
                 />

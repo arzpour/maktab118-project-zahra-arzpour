@@ -86,7 +86,7 @@ const OrderListTable = () => {
               return (
                 <tr
                   key={el._id}
-                  className="bg-[#0c1724] border-b border-CyanBlueDark odd:bg-[#0c1724] even:bg-CyanBlueDark"
+                  className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
                 >
                   <td className="px-4 py-5">
                     {users?.data.users.find((user) => user._id === el.user) ? (

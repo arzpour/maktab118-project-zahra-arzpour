@@ -206,7 +206,7 @@ const AddProductForm: React.FC<IAddProductForm> = ({
       <div className="mt-4 mb-1">
         <button
           type="submit"
-          className="mb-4 mt-3 w-full shadow-sm text-sm py-2.5 px-5 bg-[#15273b] font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
+          className="mb-4 mt-3 w-full shadow-sm text-sm py-2.5 px-5 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
         >
           اضافه کن
         </button>

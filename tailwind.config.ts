@@ -14,10 +14,12 @@ export default {
         CyanBlueDark: "#0E1B2A",
         BlueD: "#0c1724",
         BlueDark: "#15273b",
+        BlueL: "#1a2634",
         orange: "#E89402",
       },
       maxWidth: {
         1300: "1300px",
+        1200: "1200px",
         1400: "1400px",
         1770: "1770px",
         1800: "1800px",

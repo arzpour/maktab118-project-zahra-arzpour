@@ -6,7 +6,7 @@ import {
   authSchemaType,
 } from "@/server/validations/auth.validation";
 import errorHandler from "@/utils/errorHandler";
-import { setAccsessToken, setRefreshToken } from "@/utils/session";
+import { setAccsessToken, setRefreshToken, setRole } from "@/utils/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import Link from "next/link";
@@ -45,6 +45,8 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
     try {
       console.log(data);
       const response = await login.mutateAsync(data);
+
+      setRole(response.data.user.role);
 
       const token = response.token;
 

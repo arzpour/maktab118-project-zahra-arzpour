@@ -16,3 +16,8 @@ interface IParams {
   total?: number;
   total_pages?: number;
 }
+
+interface IShoppingCartProductList extends IProducts {
+  selectedQuantity?: number;
+  addToCart?: (quantity: number) => void;
+}
