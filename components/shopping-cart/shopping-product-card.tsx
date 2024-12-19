@@ -10,7 +10,7 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
 }) => {
   return (
     <Link href={`/products/${_id}`}>
-      <li className="flex pt-6 pb-3 gap-5">
+      <li className="flex pt-6 pb-3 gap-5 flex-wrap">
         <div className="size-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
           <img
             src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}

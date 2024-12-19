@@ -6,7 +6,7 @@ import { SiWhatsapp } from "react-icons/si";
 
 const Footer = () => {
   return (
-    <div className="bg-BackgroundColor text-white py-10 pt-36 px-5">
+    <div className="bg-BackgroundColor text-white py-10 pt-5 md:pt-36 px-5">
       <div className="max-w-1400 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 lg:gap-16 items-start">
         <div className="w-full">
           <h4 className="text-lg">درباره ما</h4>

@@ -11,6 +11,7 @@ import { AiFillPhone } from "react-icons/ai";
 import { MdOutlineContactSupport } from "react-icons/md";
 import { RiAdminFill } from "react-icons/ri";
 import SearchInput from "@/components/form/search";
+import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -57,11 +58,11 @@ const HamburgerMenu = () => {
             />
             ورود / ثبت نام
           </Link>
+          <ShoppingCartIcon hamburgerMenu={true} />
           <SearchInput />
         </ul>
 
         <div className="flex gap-4 items-center">
-          <FaShoppingCart className="text-gray-300 w-5 h-5 cursor-pointer" />
           <img
             src="/90223181741.png"
             alt="logo-image"

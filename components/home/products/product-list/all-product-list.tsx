@@ -38,8 +38,6 @@ const ProductList = () => {
     page * perPageLimit
   );
 
-  console.log(filteredItems, "bu");
-
   return (
     <>
       <ProductFilterMobile />

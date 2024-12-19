@@ -3,7 +3,13 @@ import React from "react";
 import ShoppingProductCard from "./shopping-product-card";
 import Link from "next/link";
 
-const ShoppingCartDropDown = () => {
+interface IShoppingCartDropDown {
+  hamburgerMenu?: boolean;
+}
+
+const ShoppingCartDropDown: React.FC<IShoppingCartDropDown> = ({
+  hamburgerMenu,
+}) => {
   const list = useAppSelector((state) => state.product.list);
 
   return (
@@ -11,7 +17,11 @@ const ShoppingCartDropDown = () => {
       <div className="flex h-64 justify-center">
         <div className="relative ">
           <div className="w-full rounded-b border-t-0 z-10">
-            <div className="shadow-xl w-96 absolute left-0 rounded bg-slate-200 p-4">
+            <div
+              className={`shadow-xl absolute ${
+                hamburgerMenu ? "right-0 w-[300px] top-7" : " left-0 w-96"
+              } rounded bg-slate-200 p-4`}
+            >
               {list.length > 0 ? (
                 <ul role="list" className="-my-6 p-2">
                   {list.map((el) => (

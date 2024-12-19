@@ -48,7 +48,7 @@ const ShoppingCart = () => {
                   <ProductShoppingCart key={el._id} {...el} />
                 ))}
               </div>
-              <div className="flex justify-between items-center pr-10 col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
+              <div className="flex flex-wrap gap-y-4 justify-between items-center pr-10 col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
                 <p className="text-slate-300">قیمت کل: {totalPrice} تومان</p>
                 <Link
                   href={`${role ? "/payment-gateway" : "/payment"}`}
