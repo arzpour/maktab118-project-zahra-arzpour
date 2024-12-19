@@ -1,4 +1,4 @@
-import LoginForm from "@/components/auth/login-admin";
+import LoginForm from "@/components/auth/login";
 import React from "react";
 
 const LoginAdminPage = () => {

@@ -132,21 +132,21 @@ const InventoryAndPriceListTable: React.FC = () => {
           )}
         </div>
       </div>
-      <div className="relative flex flex-col w-full h-full text-slate-300 bg-[#0E1B2A] shadow-md rounded-xl bg-clip-border overflow-auto scrollbar">
+      <div className="relative flex flex-col w-full h-full text-slate-300 bg-CyanBlueDark shadow-md rounded-xl bg-clip-border overflow-auto scrollbar">
         <table className="w-full text-center table-auto min-w-max">
           <thead>
             <tr>
-              <th className="p-4 py-6 border-b border-[#0E1B2A] bg-[#0E1B2A] w-1/3">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/3">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   نام کالا
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-[#0E1B2A] bg-[#0E1B2A] w-1/4">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/4">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   قیمت کالا
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-[#0E1B2A] bg-[#0E1B2A] w-1/4">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/4">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   موجودی کالا
                 </p>
@@ -157,7 +157,7 @@ const InventoryAndPriceListTable: React.FC = () => {
             {products?.data?.products.map((el) => (
               <tr
                 key={el._id}
-                className="bg-[#0c1724] border-b border-[#0E1B2A] odd:bg-[#0c1724] even:bg-[#0E1B2A]"
+                className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
               >
                 <td className="p-4">
                   <p className="text-sm text-slate-400">{el.name}</p>
@@ -170,7 +170,7 @@ const InventoryAndPriceListTable: React.FC = () => {
                       onChange={(e) => {
                         handleInputChange(e, el._id!, "price");
                       }}
-                      className="text-sm text-slate-400 bg-[#1a2634] outline-none border-none rounded px-2 py-1"
+                      className="text-sm text-slate-400 bg-BlueL outline-none border-none rounded px-2 py-1"
                     />
                   ) : (
                     <p className="text-sm text-slate-400">{el.price}</p>
@@ -184,7 +184,7 @@ const InventoryAndPriceListTable: React.FC = () => {
                       onChange={(e) => {
                         handleInputChange(e, el._id!, "quantity");
                       }}
-                      className="text-sm text-slate-400 outline-none bg-[#1a2634] border-none rounded px-2 py-1"
+                      className="text-sm text-slate-400 outline-none bg-BlueL border-none rounded px-2 py-1"
                     />
                   ) : (
                     <p className="text-sm text-slate-400">{el.quantity}</p>

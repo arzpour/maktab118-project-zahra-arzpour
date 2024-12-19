@@ -28,7 +28,7 @@ export const Pagination: React.FC<IPagination> = ({
       <button
         onClick={() => handlePageChange(page > 1 ? page - 1 : page)}
         disabled={page === 1}
-        className="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-400 bg-[#0E1B2A] border border-[#0E1B2A] rounded hover:bg-[#091622] hover:border-[#091622] transition duration-200 ease"
+        className="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-400 bg-CyanBlueDark border border-CyanBlueDark rounded hover:bg-BackgroundColor hover:border-BackgroundColor transition duration-200 ease"
       >
         قبلی
       </button>
@@ -38,9 +38,9 @@ export const Pagination: React.FC<IPagination> = ({
           onClick={() => handlePageChange(pageNumber)}
           className={`px-3 py-1 min-w-9 min-h-9 text-sm font-normal ${
             page === pageNumber
-              ? "text-white bg-[#091622]"
-              : "text-slate-400 bg-[#0E1B2A]"
-          } border border-[#0E1B2A] rounded hover:bg-[#091622] hover:border-[#091622] transition duration-200 ease`}
+              ? "text-white bg-BackgroundColor"
+              : "text-slate-400 bg-CyanBlueDark"
+          } border border-CyanBlueDark rounded hover:bg-BackgroundColor hover:border-BackgroundColor transition duration-200 ease`}
         >
           {pageNumber}
         </button>
@@ -48,7 +48,7 @@ export const Pagination: React.FC<IPagination> = ({
       <button
         onClick={() => handlePageChange(page + 1)}
         disabled={page === totalPages}
-        className="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-400 bg-[#0E1B2A] border border-[#0E1B2A] rounded hover:bg-[#091622] hover:border-[#091622] transition duration-200 ease"
+        className="px-3 py-1 min-w-9 min-h-9 text-sm font-normal text-slate-400 bg-CyanBlueDark border border-CyanBlueDark rounded hover:bg-BackgroundColor hover:border-BackgroundColor transition duration-200 ease"
       >
         بعدی
       </button>

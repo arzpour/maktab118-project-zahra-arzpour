@@ -208,7 +208,7 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       <div className="mt-2 mb-1 flex gap-4 justify-end">
         <button
           type="submit"
-          className="mb-4 mt-3 shadow-sm text-sm py-2 px-7 bg-[#15273b] font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
+          className="mb-4 mt-3 shadow-sm text-sm py-2 px-7 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
         >
           ویرایش
         </button>

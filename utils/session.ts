@@ -35,3 +35,22 @@ export const deleteRefreshToken = () => {
     process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME as string
   );
 };
+
+export const setRole = (role: string) => {
+  return window.localStorage.setItem(
+    process.env.NEXT_PUBLIC_LOGIN_ROLE as string,
+    role
+  );
+};
+
+export const getRole = () => {
+  return window.localStorage.getItem(
+    process.env.NEXT_PUBLIC_LOGIN_ROLE as string
+  );
+};
+
+export const deleteRole = () => {
+  return window.localStorage.removeItem(
+    process.env.NEXT_PUBLIC_LOGIN_ROLE as string
+  );
+};
