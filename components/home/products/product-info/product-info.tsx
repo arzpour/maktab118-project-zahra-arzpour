@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname } from "next/navigation";
+import { notFound, usePathname } from "next/navigation";
 import React from "react";
 import useCategoryList from "@/hooks/useCategory";
 import useProductList from "@/hooks/useProduct";
@@ -22,6 +22,12 @@ const ProductInfoById = () => {
   const findCategory = categories?.data?.categories.find(
     (el) => el._id === findProduct?.category
   );
+
+  if (isSuccess) {
+    if (findProduct?._id !== id) {
+      notFound();
+    }
+  }
 
   return (
     <>

@@ -38,6 +38,7 @@ const InventoryAndPriceListTable: React.FC = () => {
     field: keyof Product
   ) => {
     const value = e.target.value;
+
     setEditedProducts((prev) => ({
       ...prev,
       [id]: {
@@ -45,19 +46,19 @@ const InventoryAndPriceListTable: React.FC = () => {
         [field]: Number(value),
       },
     }));
-  };
-
-  const prepareUpdates = () => {
-    return Object.entries(editedProducts).map(([id, changes]) => ({
-      id,
-      ...changes,
-    }));
+    console.log(editedProducts);
   };
 
   const editProduct = usePatchProducts();
 
-  const saveChanges = async () => {
-    const updates = prepareUpdates();
+  const onSubmit = async () => {
+    const updates = Object.entries(editedProducts).map(([id, changes]) => ({
+      id,
+      ...changes,
+    }));
+
+    console.log(updates);
+    console.log(editedProducts);
 
     try {
       const updateRequests = updates.map((update) => {
@@ -97,7 +98,6 @@ const InventoryAndPriceListTable: React.FC = () => {
       errorHandler(error as AxiosError<IError>);
     }
   };
-
   return (
     <div className="mx-5">
       <div className="w-full flex justify-between items-center mb-3 mt-1 pl-3">
@@ -115,12 +115,20 @@ const InventoryAndPriceListTable: React.FC = () => {
               ویرایش
             </button>
           ) : (
-            <button
-              onClick={saveChanges}
-              className="bg-green-600 text-white py-1.5 px-6 rounded text-sm"
-            >
-              ذخیره
-            </button>
+            <>
+              <button
+                onClick={onSubmit}
+                className="bg-green-600 text-white py-1.5 px-6 rounded text-sm"
+              >
+                ذخیره
+              </button>
+              <button
+                onClick={() => setEdit(false)}
+                className="bg-red-500 text-white py-1.5 px-5 rounded text-sm"
+              >
+                کنسل
+              </button>
+            </>
           )}
         </div>
       </div>

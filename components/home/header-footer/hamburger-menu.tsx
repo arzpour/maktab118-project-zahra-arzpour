@@ -4,7 +4,6 @@ import Link from "next/link";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { FaBars, FaUserLarge } from "react-icons/fa6";
-import { IoSearchOutline } from "react-icons/io5";
 import { AiFillHome } from "react-icons/ai";
 import { AiFillProduct } from "react-icons/ai";
 import { MdOutlineChatBubble } from "react-icons/md";
