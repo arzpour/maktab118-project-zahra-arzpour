@@ -1,6 +1,7 @@
 "use client";
 
-import { useAppSelector } from "@/redux/hook";
+import { productActions } from "@/redux/features/product.slice";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
@@ -10,33 +11,57 @@ import { toast } from "react-toastify";
 interface IAddToCart {
   addToCart: (quantity: number) => void;
   productId?: string;
+  quantity: number;
 }
-const AddToCartBtn: React.FC<IAddToCart> = ({ addToCart, productId }) => {
-  const [selectedQuantity, setSelectedQuantity] = React.useState<number>(1);
+const AddToCartBtn: React.FC<IAddToCart> = ({
+  addToCart,
+  productId,
+  quantity,
+}) => {
   const list = useAppSelector((state) => state.product.list);
+  const productItem = list.find((el) => el._id === productId);
 
-  const decreaseProduct = () => {
-    if (selectedQuantity > 1) {
+  const [selectedQuantity, setSelectedQuantity] = React.useState<number>(
+    productItem?.selectedQuantity || 1
+  );
+
+  const dispatch = useAppDispatch();
+
+  const increaseQuantity = () => {
+    if (productId && selectedQuantity < quantity) {
+      setSelectedQuantity((prev) => prev + 1);
+      dispatch(
+        productActions.increase({
+          _id: productId,
+          quantity: 1,
+        })
+      );
+    }
+  };
+
+  const decreaseQuantity = () => {
+    if (productId && productItem?.selectedQuantity! > 1) {
       setSelectedQuantity((prev) => prev - 1);
+      dispatch(
+        productActions.decrease({
+          _id: productId,
+          quantity: 1,
+        })
+      );
     }
   };
 
   const addToCartHandler = () => {
     addToCart(selectedQuantity);
 
-    const productItem = list.find((el) => el._id === productId);
-
     if (productItem) {
-      toast.error(
-        "محصول شما در سبد خرید موجود میباشد. برای تغییر تعداد محصول به صفجه سبد خرید بروید.",
-        {
-          style: {
-            backgroundColor: "#6e6e6e",
-            color: "#fff",
-            fontSize: "15px",
-          },
-        }
-      );
+      toast.error("محصول شما در سبد خرید موجود میباشد.", {
+        style: {
+          backgroundColor: "#6e6e6e",
+          color: "#fff",
+          fontSize: "15px",
+        },
+      });
     } else {
       toast.success("محصول شما به سبد خرید اضافه شد", {
         style: {
@@ -48,14 +73,24 @@ const AddToCartBtn: React.FC<IAddToCart> = ({ addToCart, productId }) => {
     }
   };
 
+  React.useEffect(() => {
+    if (productItem?.selectedQuantity === undefined) {
+      setSelectedQuantity(1);
+    }
+  }, [productItem]);
+
   return (
     <div className="flex gap-6 items-center">
       <div className="flex gap-2 h-9 items-center px-3 border border-gray-400 bg-BlueDark text-gray-800 text-xs outline-none bg-transparent rounded-md">
-        <button onClick={() => setSelectedQuantity((prev) => prev + 1)}>
+        <button onClick={increaseQuantity}>
           <IoMdAdd className="text-slate-100 w-5 h-4" />
         </button>
-        <span className="mx-2.5 text-slate-100">{selectedQuantity}</span>
-        <button onClick={decreaseProduct}>
+        <span className="mx-2.5 text-slate-100">
+          {productItem?.selectedQuantity
+            ? productItem?.selectedQuantity
+            : selectedQuantity}
+        </span>
+        <button onClick={decreaseQuantity}>
           <IoRemove className="text-slate-100 w-5 h-4" />
         </button>
       </div>
