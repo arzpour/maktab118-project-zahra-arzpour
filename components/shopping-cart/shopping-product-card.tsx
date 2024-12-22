@@ -1,5 +1,9 @@
+import { productActions } from "@/redux/features/product.slice";
+import { useAppDispatch } from "@/redux/hook";
 import Link from "next/link";
 import React from "react";
+import { FiMinus } from "react-icons/fi";
+import { IoMdAdd } from "react-icons/io";
 
 const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
   thumbnail,
@@ -7,31 +11,57 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
   selectedQuantity,
   price,
   _id,
+  quantity,
 }) => {
-  return (
-    <Link href={`/products/${_id}`}>
-      <li className="flex pt-6 pb-3 gap-5 flex-wrap">
-        <div className="size-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
-          <img
-            src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}
-            alt="product-image"
-            className="size-full object-cover"
-          />
-        </div>
+  const dispatch = useAppDispatch();
 
-        <div className="ml-4 flex flex-1 flex-col">
-          <div className="flex justify-between text-base font-medium text-gray-900">
-            <h4>{name}</h4>
-          </div>
-          <div className="flex flex-1 items-center justify-between text-sm">
-            <p className="text-slate-500 text-sm">تعداد {selectedQuantity}</p>
-            <p className="ml-4 text-slate-600 text-sm">
-              {price! * selectedQuantity!} تومان
-            </p>
+  const increaseProduct = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    e.stopPropagation();
+    if (quantity && selectedQuantity && quantity > selectedQuantity)
+      dispatch(productActions.increase({ _id: _id!, quantity: 1 }));
+  };
+
+  const decreaseProductById = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+    dispatch(productActions.decrease({ _id: _id!, quantity: 1 }));
+  };
+
+  return (
+    <>
+      <div className="size-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
+        <img
+          src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}
+          alt="product-image"
+          className="size-full object-cover"
+        />
+      </div>
+
+      <div className="ml-4 flex flex-1 flex-col">
+        <div className="flex justify-between text-base font-medium text-gray-900">
+          <Link href={`/products/${_id}`}>
+            <h4 className="text-sm">{name}</h4>
+          </Link>
+        </div>
+        <div className="flex flex-1 items-center justify-between">
+          <p className="ml-4 text-slate-600 text-xs">
+            {price! * selectedQuantity!} تومان
+          </p>
+          <div className="flex justify-center items-center max-[500px]:justify-center h-full max-md:mt-3">
+            <button className="flex gap-2 items-center justify-center px-1.5 py-1.5 text-slate-600 border border-gray-500 text-xs outline-none bg-transparent rounded-md">
+              <div onClick={(e) => increaseProduct(e)}>
+                <IoMdAdd className="w-4 h-4" />
+              </div>
+              <span>{selectedQuantity}</span>
+              <div onClick={(e) => decreaseProductById(e)}>
+                <FiMinus className="w-4 h-4 " />
+              </div>
+            </button>
           </div>
         </div>
-      </li>
-    </Link>
+      </div>
+    </>
   );
 };
 
