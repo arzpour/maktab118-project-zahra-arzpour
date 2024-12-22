@@ -57,22 +57,10 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
 
       if (response.data.user.role === "ADMIN") {
         push("/admin/products");
-        toast.success("وارد شدید", {
-          style: {
-            backgroundColor: "#6e6e6e",
-            color: "#fff",
-            fontSize: "15px",
-          },
-        });
+        toast.success("وارد شدید");
         push("/admin/categories");
       } else {
-        toast.success("اطلاعات وارد شده صحیح نیست", {
-          style: {
-            backgroundColor: "#6e6e6e",
-            color: "#fff",
-            fontSize: "15px",
-          },
-        });
+        toast.success("اطلاعات وارد شده صحیح نیست");
       }
     } catch (error) {
       errorHandler(login.error as AxiosError<IError>);

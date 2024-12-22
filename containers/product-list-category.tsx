@@ -5,7 +5,9 @@ import useSubCategoryList from "@/hooks/useSubcategory";
 import useProductList from "@/hooks/useProduct";
 import Pagination from "@/components/admin/pagination";
 import { perPageLimit } from "@/utils/config";
-import ProductCard from "@/components/home/products/product-card";
+import ProductCard, {
+  ProductCardSkeleton,
+} from "@/components/home/products/product-card";
 
 interface ICategoryProducts {
   categoryId: string;
@@ -17,8 +19,9 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
   >(null);
   const [page, setPage] = React.useState<number>(1);
 
-  const { data: subCategories } = useSubCategoryList(Infinity);
-  const { data: products } = useProductList(Infinity);
+  const { data: subCategories, isLoading: loadingSubCategory } =
+    useSubCategoryList(Infinity);
+  const { data: products, isSuccess, isLoading } = useProductList(Infinity);
 
   const getProductsByCategory = products?.data?.products.filter(
     (el) => el.category === categoryId
@@ -56,17 +59,21 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
       <div className="flex gap-6 justify-center flex-wrap">
         <p
           onClick={() => setSelectedSubcategory("all")}
-          className={`font-medium text-slate-100 px-4 py-2 rounded cursor-pointer ${
+          className={`font-medium text-slate-100 px-4 py-2 rounded-lg cursor-pointer ${
             selectedSubcategory === "all" ? "bg-orange" : "bg-BlueDark"
-          }`}
+          } ${loadingSubCategory ? "hidden" : "block"}`}
         >
           همه
         </p>
+        {loadingSubCategory &&
+          [1, 2, 3, 4].map((el) => (
+            <div className="w-32 h-8 rounded-lg bg-BlueDark animate-pulse" key={el}></div>
+          ))}
         {getSubCategoryList?.map((subcategory) => (
           <p
             key={subcategory._id}
             onClick={() => setSelectedSubcategory(subcategory._id || null)}
-            className={`font-medium text-slate-100 px-4 py-2 rounded cursor-pointer ${
+            className={`font-medium text-slate-100 px-4 py-2 rounded-lg cursor-pointer ${
               selectedSubcategory === subcategory._id
                 ? "bg-orange"
                 : "bg-BlueDark"
@@ -78,6 +85,11 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
       </div>
 
       <div className="mt-5 lg:mt-10 xl:mt-14 flex justify-center items-center flex-wrap gap-6">
+        {isLoading &&
+          [1, 2, 3, 4, 5, 6, 7, 8].map((el) => (
+            <ProductCardSkeleton key={el} />
+          ))}
+
         {filteredItems && filteredItems?.length > 0 ? (
           <div className="mt-3 md:mt-10 lg:mt-0 flex flex-col gap-2 flex-wrap justify-center items-center">
             <div className="flex gap-7 flex-wrap mb-10 justify-center">
@@ -92,9 +104,11 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
             />
           </div>
         ) : (
-          <p className="text-slate-300">
-            محصولی برای این زیر مجموعه وجود ندارد.
-          </p>
+          isSuccess && (
+            <p className="text-slate-300">
+              محصولی برای این زیر مجموعه وجود ندارد.
+            </p>
+          )
         )}
       </div>
     </div>

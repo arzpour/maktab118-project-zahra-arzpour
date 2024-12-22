@@ -68,6 +68,18 @@ export const editProductSchema = z.object({
   description: z.string({ message: "توضیحات الزامی است" }),
   category: z.string({ message: "نام دسته بندی الزامی است" }).optional(),
   subcategory: z.string({ message: "نام زیر مجموعه الزامی است" }).optional(),
+  price: z
+    .string({ message: "قیمت الزامی است" })
+    .transform((value) => Number(value))
+    .refine((value) => !isNaN(value), {
+      message: "قیمت باید عدد انگلیسی باشد",
+    }),
+  quantity: z
+    .string({ message: "مقدار الزامی است" })
+    .transform((value) => Number(value))
+    .refine((value) => !isNaN(value), {
+      message: "مقدار باید عدد انگلیسی باشد",
+    }),
   thumbnail: z
     .any()
     .optional()

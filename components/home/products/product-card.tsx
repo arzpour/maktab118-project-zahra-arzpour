@@ -41,3 +41,21 @@ const ProductCard: React.FC<IProducts> = ({
 };
 
 export default ProductCard;
+
+export const ProductCardSkeleton = () => {
+  return (
+    <div className="max-w-sm border animate-pulse w-72 h-96 border-gray-800 cursor-pointer rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div className="h-48 bg-BlueL"></div>
+      <div className="p-5">
+        <div className="flex justify-between mb-2 items-baseline py-2">
+          <h5 className="mb-2 font-bold tracking-tight bg-BlueL h-5 w-28 rounded-lg"></h5>
+          <span className="mb-3 text-xs bg-BlueL h-3 w-10 rounded-lg"></span>
+        </div>
+        <p className="text-sm font-bold tracking-tight bg-BlueL h-4 w-full mb-3 rounded-lg line-clamp-2"></p>
+        <p className="text-sm font-bold tracking-tight bg-BlueL h-4 w-56 rounded-lg line-clamp-2 mb-1"></p>
+
+        <div className="bg-BlueL h-4 w-24 rounded-lg text-sm mt-5 mr-auto"></div>
+      </div>
+    </div>
+  );
+};

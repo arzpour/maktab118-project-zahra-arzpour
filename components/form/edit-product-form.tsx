@@ -52,6 +52,8 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       reset({
         name: data.name,
         description: data.description,
+        quantity: data.quantity,
+        price: data.price,
       });
 
       setSelectedCategory(categoryName!);
@@ -87,6 +89,8 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       formData.append("description", data.description);
       formData.append("category", categoryId);
       formData.append("subcategory", subcategoryId);
+      formData.append("price", data.price.toString());
+      formData.append("quantity", data.quantity.toString());
 
       if (data.thumbnail instanceof File) {
         formData.append("thumbnail", data.thumbnail);
@@ -106,22 +110,10 @@ const EditProductForm: React.FC<IEditProductForm> = ({
 
       setShowEditProductModal(false);
 
-      toast.success("ویرایش شد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.success("ویرایش شد");
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.error("اطلاعات اشتباه میباشد");
       errorHandler(error as AxiosError<IError>);
     }
   };
@@ -180,6 +172,23 @@ const EditProductForm: React.FC<IEditProductForm> = ({
           />
         )}
       />
+
+      <div className="flex gap-3 mt-2">
+        <Controller
+          control={control}
+          name="price"
+          render={({ field, fieldState }) => (
+            <Input type="text" placeholder="قیمت محصول" {...field} />
+          )}
+        />
+        <Controller
+          control={control}
+          name="quantity"
+          render={({ field, fieldState }) => (
+            <Input type="text" placeholder="تعداد محصول" {...field} />
+          )}
+        />
+      </div>
 
       <Controller
         control={control}

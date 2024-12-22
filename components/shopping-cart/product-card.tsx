@@ -10,6 +10,7 @@ const ProductShoppingCart: React.FC<IShoppingCartProductList> = ({
   selectedQuantity,
   price,
   _id,
+  quantity,
 }) => {
   const dispatch = useAppDispatch();
 

@@ -24,16 +24,12 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
   const deleteOnclickHandler = async () => {
     try {
       await deleteProduct.mutateAsync(id);
-      toast.success("حذف شد", {
-        style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-      });
+      toast.success("حذف شد");
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
       console.log(error);
       errorHandler(error as AxiosError<IError>);
-      toast.success("حذف نشد", {
-        style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-      });
+      toast.success("حذف نشد");
     }
   };
 

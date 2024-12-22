@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import useProductList from "@/hooks/useProduct";
-import ProductCard from "../product-card";
+import ProductCard, { ProductCardSkeleton } from "../product-card";
 
 interface IProductsCards {
   categoryId: string;
@@ -18,7 +18,7 @@ const OtherProductsCards: React.FC<IProductsCards> = ({
   sort,
   productListLink,
 }) => {
-  const { data: products } = useProductList(Infinity);
+  const { data: products, isLoading } = useProductList(Infinity);
 
   const filteredProducts = React.useMemo(() => {
     const filtered = products?.data?.products.filter(
@@ -39,6 +39,8 @@ const OtherProductsCards: React.FC<IProductsCards> = ({
         </Link>
       </div>
       <div className="flex gap-5 xl:gap-10 items-center justify-center flex-wrap xl:flex-nowrap">
+        {isLoading &&
+          [1, 2, 3, 4].map((el) => <ProductCardSkeleton key={el} />)}
         {filteredProducts?.map((el) => (
           <ProductCard key={el._id} {...el} />
         ))}

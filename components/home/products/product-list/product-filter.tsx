@@ -23,6 +23,10 @@ export const FilterProducts: React.FC = () => {
   const [isOpenSpice, setIsOpenSpice] = React.useState<boolean>(false);
 
 
+  const { data: category } = useSubCategoryList(Infinity);
+
+  console.log(category);
+  
 
   const { data: subCategories } = useSubCategoryList(Infinity);
 

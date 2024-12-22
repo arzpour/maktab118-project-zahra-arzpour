@@ -81,18 +81,10 @@ const AddProductForm: React.FC<IAddProductForm> = ({
       await createProduct.mutateAsync(formData);
       setShowAddProductModal(false);
 
-      toast.success("محصول ایجاد شد", {
-        style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-      });
+      toast.success("محصول ایجاد شد");
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.error("اطلاعات اشتباه میباشد");
       errorHandler(error as AxiosError<IError>);
     }
   };
