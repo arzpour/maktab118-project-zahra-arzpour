@@ -33,15 +33,13 @@ const ProductInfoById = () => {
 
   const dispatch = useAppDispatch();
 
-  const listtt = useAppSelector((state) => state.product.list);
-  console.log(listtt, listtt);
-
   return (
     <>
       {categoryLoaded && (
         <Breadcrumbs
           categoryName={findCategory?.name || ""}
           productName={findProduct?.name || ""}
+          categoryId={findCategory?._id || ""}
         />
       )}
 

@@ -28,7 +28,12 @@ export const CategoryFilterItem: React.FC<IProductFilterItem> = ({
 
   return (
     <div className={`flex gap-3 px-2 ${className}`}>
-      <input onChange={onChangeHandler} type="checkbox" checked={checked} />
+      <input
+        onChange={onChangeHandler}
+        type="checkbox"
+        checked={checked}
+        className="outline-none"
+      />
       <p className={`my-3 text-slate-100 ${classNameP}`}>{subCategory}</p>
     </div>
   );

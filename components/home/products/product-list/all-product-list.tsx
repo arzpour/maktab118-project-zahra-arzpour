@@ -29,8 +29,6 @@ const ProductList = () => {
     );
   }, [selectedFilters, products]);
 
-  console.log(filteredProducts);
-
   const totalPages = Math.ceil(filteredProducts?.length! / perPageLimit);
 
   const filteredItems = filteredProducts?.slice(
@@ -49,9 +47,8 @@ const ProductList = () => {
       >
         {isLoading &&
           [1, 2, 3, 4, 5, 6].map((el) => <ProductCardSkeleton key={el} />)}
-
         {filteredItems && filteredItems?.length > 0 ? (
-          <div className="flex gap-7 flex-wrap mb-10 justify-center">
+          <div className="flex gap-7 flex-wrap mb-10 justify-center xl:justify-normal">
             {filteredItems?.map((el) => (
               <ProductCard key={el._id} {...el} />
             ))}

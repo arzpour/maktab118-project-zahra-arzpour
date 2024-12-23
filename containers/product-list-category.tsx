@@ -8,12 +8,9 @@ import { perPageLimit } from "@/utils/config";
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/home/products/product-card";
+import { notFound, usePathname } from "next/navigation";
 
-interface ICategoryProducts {
-  categoryId: string;
-}
-
-const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
+const ProductListByCategory: React.FC = () => {
   const [selectedSubcategory, setSelectedSubcategory] = React.useState<
     string | null
   >(null);
@@ -23,12 +20,15 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
     useSubCategoryList(Infinity);
   const { data: products, isSuccess, isLoading } = useProductList(Infinity);
 
+  const route = usePathname();
+  const id = route.split("/").pop();
+
   const getProductsByCategory = products?.data?.products.filter(
-    (el) => el.category === categoryId
+    (el) => el.category === id
   );
 
   const getSubCategoryList = subCategories?.data?.subcategories.filter(
-    (el) => el.category === categoryId
+    (el) => el.category === id
   );
 
   const filteredProducts = React.useMemo(() => {
@@ -39,7 +39,11 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
     );
   }, [selectedSubcategory, getProductsByCategory]);
 
-  console.log(filteredProducts, "fil");
+  const isExist = getSubCategoryList?.some((el) => el);
+
+  if (isExist === false) {
+    return notFound();
+  }
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -67,7 +71,10 @@ const ProductListByCategory: React.FC<ICategoryProducts> = ({ categoryId }) => {
         </p>
         {loadingSubCategory &&
           [1, 2, 3, 4].map((el) => (
-            <div className="w-32 h-8 rounded-lg bg-BlueDark animate-pulse" key={el}></div>
+            <div
+              className="w-32 h-8 rounded-lg bg-BlueDark animate-pulse"
+              key={el}
+            ></div>
           ))}
         {getSubCategoryList?.map((subcategory) => (
           <p

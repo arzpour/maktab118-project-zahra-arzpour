@@ -6,7 +6,6 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
   name,
   price,
   description,
-  quantity,
   images,
   thumbnail,
   addToCart,

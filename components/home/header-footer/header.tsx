@@ -5,6 +5,7 @@ import Link from "next/link";
 import HamburgerMenu from "./hamburger-menu";
 import Image from "next/image";
 import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
+import ProductsDropdown from "./products-dropdown";
 
 const Header = () => {
   return (
@@ -48,9 +49,7 @@ const Header = () => {
             <li className="sm:text-base lg:text-lg hover:text-orange">
               <Link href={"/"}>صفحه اصلی</Link>
             </li>
-            <li className="sm:text-base lg:text-lg hover:text-orange">
-              <Link href={"/products"}>محصولات</Link>
-            </li>
+            <ProductsDropdown />
             <li className="sm:text-base lg:text-lg hover:text-orange">
               <button>درباره ما</button>
             </li>

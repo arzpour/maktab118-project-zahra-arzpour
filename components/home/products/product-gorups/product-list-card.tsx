@@ -9,14 +9,12 @@ interface IProductsCards {
   categoryId: string;
   categoryName: string;
   sort?: boolean;
-  productListLink?: string;
 }
 
 const OtherProductsCards: React.FC<IProductsCards> = ({
   categoryId,
   categoryName,
   sort,
-  productListLink,
 }) => {
   const { data: products, isLoading } = useProductList(Infinity);
 
@@ -31,11 +29,11 @@ const OtherProductsCards: React.FC<IProductsCards> = ({
   }, [products, categoryId, sort]);
 
   return (
-    <div className="pt-10 lg:mx-10">
-      <div className="flex justify-between mx-10 lg:mx-0 mb-7">
+    <div className="pt-14 lg:mx-10">
+      <div className="flex justify-between items-center mx-10 lg:mx-0 mb-7">
         <h4 className="text-lg text-slate-100">{categoryName}</h4>
-        <Link href={`products/${productListLink}`}>
-          <p className="text-orange">مشاهده همه</p>
+        <Link href={`/products/${categoryId}`}>
+          <p className="text-orange text-sm">مشاهده همه</p>
         </Link>
       </div>
       <div className="flex gap-5 xl:gap-10 items-center justify-center flex-wrap xl:flex-nowrap">

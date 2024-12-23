@@ -6,7 +6,6 @@ const OilAndDistillateProducts = () => {
     <OtherProductsCards
       categoryId="675067e958eeb5911f2fccd5"
       categoryName="روغن ها و عصاره ها"
-      productListLink="oil"
     />
   );
 };
