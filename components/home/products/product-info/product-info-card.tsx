@@ -10,6 +10,7 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
   thumbnail,
   addToCart,
   _id,
+  quantity,
 }) => {
   return (
     <div>
@@ -51,6 +52,10 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
             </p>
 
             <div className="flex justify-between items-baseline flex-wrap space-y-3">
+              <p className="flex items-center font-medium text-gray-400 mb-1">
+                موجودی:
+                <span className="mr-1 text-slate-500 text-sm">{quantity}</span>
+              </p>
               <AddToCartBtn
                 key={_id}
                 addToCart={(quantity) => {
@@ -59,6 +64,7 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
                   }
                 }}
                 productId={_id}
+                quantity={quantity || 0}
               />
             </div>
           </div>

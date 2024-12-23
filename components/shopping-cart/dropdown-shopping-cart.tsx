@@ -24,8 +24,15 @@ const ShoppingCartDropDown: React.FC<IShoppingCartDropDown> = ({
             >
               {list.length > 0 ? (
                 <ul role="list" className="-my-6 p-2">
-                  {list.map((el) => (
-                    <ShoppingProductCard key={el._id} {...el} />
+                  {list.map((el, index) => (
+                    <li
+                      key={el._id}
+                      className={`flex pt-5 pb-3 gap-5 border-b border-gray-400 ${
+                        index === list.length - 1 ? "last:border-0" : ""
+                      }`}
+                    >
+                      <ShoppingProductCard {...el} />
+                    </li>
                   ))}
                 </ul>
               ) : (
