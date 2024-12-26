@@ -12,7 +12,7 @@ export default function Home() {
     <HomeLayout>
       <div className="bg-BackgroundColor text-white max-w-1770 mx-auto">
         <Slider data={dataSlider} />
-        <div className="max-w-1300 mx-auto">
+        <div className="max-w-1400 mx-auto">
           <HerbalTeaProducts />
           <SpiceProducts />
           <AboutUs />

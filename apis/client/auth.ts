@@ -15,7 +15,7 @@ export const getToken: getTokenType = async (refreshToken) => {
   return response.data.token.accessToken;
 };
 
-type logoutType = () => void;
+type logoutType = () => Promise<void>;
 export const logout: logoutType = async () => {
   const response = await generateAxiosInstance.get(urls.auth.logout);
   return response.data;

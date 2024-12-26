@@ -1,11 +1,11 @@
 import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
-import { FaUserLarge } from "react-icons/fa6";
 import Link from "next/link";
 import HamburgerMenu from "./hamburger-menu";
 import Image from "next/image";
 import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
 import ProductsDropdown from "./products-dropdown";
+import UserIcon from "./user-icon";
 
 const Header = () => {
   return (
@@ -36,12 +36,7 @@ const Header = () => {
           </div>
           <div className="flex gap-5 items-center">
             <ShoppingCartIcon />
-            <Link href={"/login"}>
-              <FaUserLarge
-                title="ثبت نام / ورود"
-                className="text-gray-200 w-5 h-5 cursor-pointer"
-              />
-            </Link>
+            <UserIcon />
           </div>
         </div>
         <div className="hidden sm:flex justify-between pt-4 pb-0.5 items-center border-t border-gray-800">

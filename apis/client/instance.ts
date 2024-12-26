@@ -5,6 +5,8 @@ import {
   getAccsessToken,
   setAccsessToken,
   deleteRefreshToken,
+  getRole,
+  deleteRole,
 } from "@/utils/session";
 import { getToken } from "./auth";
 import { toast } from "react-toastify";
@@ -32,11 +34,7 @@ generateAxiosInstance.interceptors.response.use(
 
     if (error.response?.status === 401 || !req.sent) {
       req.sent = true;
-      if (
-        req.url !== "/auth/token" &&
-        req.url !== "/auth/login" &&
-        req.url !== "/auth/logout"
-      ) {
+      if (req.url !== "/auth/token" && req.url !== "/auth/login") {
         try {
           const refreshToken = getRefreshToken();
 
@@ -52,7 +50,12 @@ generateAxiosInstance.interceptors.response.use(
           toast.error("دوباره وارد شوید");
           deleteAccsessToken();
           deleteRefreshToken();
-          redirect("/admin-login");
+          const role = getRole();
+          if (role === "ADMIN") {
+            redirect("/admin-login");
+          } else {
+            redirect("/login");
+          }
         }
       }
     }

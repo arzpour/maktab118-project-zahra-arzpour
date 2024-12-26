@@ -16,10 +16,10 @@ const AdminLogoutBtn = () => {
   const [showConfirmModal, setShowConfirmModal] =
     React.useState<boolean>(false);
 
-  const logoutHandler = () => {
+  const logoutHandler = async () => {
+    await logout();
     toast.success("خارج شدید");
     setShowConfirmModal(false);
-    logout();
     deleteAccsessToken();
     deleteRefreshToken();
     deleteRole();
