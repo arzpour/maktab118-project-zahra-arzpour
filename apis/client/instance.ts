@@ -34,7 +34,11 @@ generateAxiosInstance.interceptors.response.use(
 
     if (error.response?.status === 401 || !req.sent) {
       req.sent = true;
-      if (req.url !== "/auth/token" && req.url !== "/auth/login") {
+      if (
+        req.url !== "/auth/token" &&
+        req.url !== "/auth/login" &&
+        req.url !== "/auth/signup"
+      ) {
         try {
           const refreshToken = getRefreshToken();
 
@@ -51,10 +55,12 @@ generateAxiosInstance.interceptors.response.use(
           deleteAccsessToken();
           deleteRefreshToken();
           const role = getRole();
-          if (role === "ADMIN") {
-            redirect("/admin-login");
-          } else {
-            redirect("/login");
+          if (role) {
+            if (role === "ADMIN") {
+              redirect("/admin-login");
+            } else {
+              redirect("/login");
+            }
           }
         }
       }
