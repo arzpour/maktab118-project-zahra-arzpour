@@ -2,7 +2,6 @@
 
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
-import { getRole } from "@/utils/session";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
@@ -53,12 +52,6 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
   };
 
   const addToCartHandler = () => {
-    const role = getRole();
-
-    if (role && role === "ADMIN") {
-      toast.error("شما مجاز به انجام این عملیات نیستید.");
-      return;
-    }
     addToCart(selectedQuantity);
 
     if (productItem) {

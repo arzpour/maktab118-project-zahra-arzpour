@@ -25,11 +25,16 @@ const ProductCard: React.FC<IProducts> = ({
             <h5 className="mb-2 font-bold tracking-tight text-slate-50 truncate">
               {name}
             </h5>
-            <span className="mb-3 text-xs text-slate-300 truncate">{price} تومان</span>
+            <span className="mb-3 text-xs text-slate-300 truncate">
+              {price} تومان
+            </span>
           </div>
-          <p className="text-sm font-bold tracking-tight text-slate-300 line-clamp-2 mb-1">
-            {description}
-          </p>
+          <div
+            className="text-sm font-bold tracking-tight text-slate-300 line-clamp-2 mb-1"
+            dangerouslySetInnerHTML={{
+              __html: description as string | TrustedHTML,
+            }}
+          ></div>
           <p className="text-orange text-sm flex justify-end gap-2 items-center py-4 pb-5">
             مشاهده بیشتر
             <FaArrowLeft className="w-3 h-3" />

@@ -79,7 +79,10 @@ const ProductListByCategory: React.FC = () => {
         {getSubCategoryList?.map((subcategory) => (
           <p
             key={subcategory._id}
-            onClick={() => setSelectedSubcategory(subcategory._id || null)}
+            onClick={() => {
+              setSelectedSubcategory(subcategory._id || null);
+              setPage(1);
+            }}
             className={`font-medium text-slate-100 px-4 py-2 rounded-lg cursor-pointer ${
               selectedSubcategory === subcategory._id
                 ? "bg-orange"

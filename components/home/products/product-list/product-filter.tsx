@@ -9,7 +9,11 @@ import { filterActions } from "@/redux/features/filter.slice";
 import { CategoryFilterItem } from "./filter-input";
 import useCategoryList from "@/hooks/useCategory";
 
-export const FilterProducts: React.FC = () => {
+interface IFilterProducts {
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+export const FilterProducts: React.FC<IFilterProducts> = ({ setPage }) => {
   const [openCategories, setOpenCategories] = React.useState<
     Record<string, boolean>
   >({});
@@ -41,9 +45,9 @@ export const FilterProducts: React.FC = () => {
   }, [subCategories, categories]);
 
   return (
-    <div className="justify-center hidden lg:flex w-1/2 lg:w-9/12 xl:w-1/2">
+    <div className="justify-center hidden lg:flex w-1/2 lg:w-2/5 xl:w-1/3">
       <div className="rounded-lg sticky top-24 mt-10 w-full">
-        <div className="flex flex-col justify-between bg-BackgroundColor gap-y-4">
+        <div className="flex flex-col justify-between bg-BackgroundColor gap-y-7">
           {isLoading &&
             [1, 2, 3, 4, 5].map((el) => (
               <p
@@ -52,8 +56,8 @@ export const FilterProducts: React.FC = () => {
               ></p>
             ))}
           {findSubCategoryAndCategory?.map(({ category, subcategories }) => (
-            <div key={category._id}>
-              <div className="flex justify-between">
+            <React.Fragment key={category._id}>
+              <div className="flex justify-between gap-y-5">
                 <p className="text-lg font-medium text-slate-100">
                   {category.name}
                 </p>
@@ -66,18 +70,19 @@ export const FilterProducts: React.FC = () => {
                 </button>
               </div>
               {openCategories[category._id!] && (
-                <div className="w-80 overflow-y-auto scrollbar px-6 py-3">
+                <div className="w-80 overflow-y-auto scrollbar px-6">
                   {subcategories?.map((el) => (
                     <CategoryFilterItem
                       key={el._id}
                       subCategory={el.name}
                       checked={selectedFilters.includes(el._id)}
                       onChange={() => handleFilterChange(el._id)}
+                      setPage={setPage}
                     />
                   ))}
                 </div>
               )}
-            </div>
+            </React.Fragment>
           ))}
         </div>
       </div>
