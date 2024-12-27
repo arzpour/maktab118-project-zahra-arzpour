@@ -1,11 +1,14 @@
 import AdminPageHeader from "@/components/admin/header-footer/header";
+import Guard from "@/providers/guard";
 import React from "react";
 
 const HomeLayout: React.FC<IChildren> = ({ children }) => {
   return (
     <>
-      <AdminPageHeader />
-      {children}
+      <Guard>
+        <AdminPageHeader />
+        {children}
+      </Guard>
     </>
   );
 };

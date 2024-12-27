@@ -29,14 +29,16 @@ const OtherProductsCards: React.FC<IProductsCards> = ({
   }, [products, categoryId, sort]);
 
   return (
-    <div className="pt-14 lg:mx-10">
+    <div className="pt-14 xl:mx-10">
       <div className="flex justify-between items-center mx-10 lg:mx-0 mb-7">
-        <h4 className="text-lg text-slate-100">{categoryName}</h4>
+        <h4 className="text-lg text-slate-100 pr-4">{categoryName}</h4>
         <Link href={`/products/${categoryId}`}>
-          <p className="text-orange text-sm">مشاهده همه</p>
+          <p className="text-orange hover:border-b hover:border-b-orange text-sm px-6 py-2.5 rounded-full cursor-pointer">
+            مشاهده همه
+          </p>
         </Link>
       </div>
-      <div className="flex gap-5 xl:gap-10 items-center justify-center flex-wrap xl:flex-nowrap">
+      <div className="flex gap-5 xl:gap-10 items-center justify-center flex-wrap xl:flex-nowrap px-5 lg:px-0">
         {isLoading &&
           [1, 2, 3, 4].map((el) => <ProductCardSkeleton key={el} />)}
         {filteredProducts?.map((el) => (
