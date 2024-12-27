@@ -19,6 +19,7 @@ import { Input } from "./input";
 import { Textarea } from "./textarea";
 import { Thumbnail } from "./thumbnail";
 import { Images } from "./images";
+import { TextEditor } from "./text-editor";
 
 interface IAddProductForm {
   setShowAddProductModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -149,13 +150,13 @@ const AddProductForm: React.FC<IAddProductForm> = ({
         />
       </div>
 
-      <div className="flex gap-2 mt-4">
+      <div className="flex gap-2 mt-4 mb-9">
         <Controller
           control={control}
           name="price"
           render={({ field, fieldState }) => (
             <Input
-              type="text"
+              type="number"
               placeholder="قیمت محصول"
               error={fieldState.error?.message}
               {...field}
@@ -168,7 +169,7 @@ const AddProductForm: React.FC<IAddProductForm> = ({
           name="quantity"
           render={({ field, fieldState }) => (
             <Input
-              type="text"
+              type="number"
               placeholder="مقدار محصول"
               error={fieldState.error?.message}
               {...field}
@@ -181,16 +182,11 @@ const AddProductForm: React.FC<IAddProductForm> = ({
         control={control}
         name="description"
         render={({ field, fieldState }) => (
-          <Textarea
-            type="text"
-            placeholder="توضیحات محصول"
-            error={fieldState.error?.message}
-            {...field}
-          />
+          <TextEditor error={fieldState.error?.message} {...field} />
         )}
       />
 
-      <div className="flex gap-4 w-full">
+      <div className="flex gap-4 w-full mt-3">
         <Thumbnail name="thumbnail" control={control} />
         <Images name="images" control={control} />
       </div>

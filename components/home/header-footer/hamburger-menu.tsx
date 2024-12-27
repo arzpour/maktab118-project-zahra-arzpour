@@ -59,8 +59,8 @@ const HamburgerMenu = () => {
             ورود / ثبت نام
           </Link>
           <ShoppingCartIcon hamburgerMenu={true} />
-          <SearchInput />
         </ul>
+        <SearchInput />
 
         <div className="flex gap-4 items-center">
           <img

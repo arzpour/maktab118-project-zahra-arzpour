@@ -9,7 +9,7 @@ import ProductsDropdown from "./products-dropdown";
 
 const Header = () => {
   return (
-    <div className="bg-BackgroundColor text-white pb-2 pt-3 px-5">
+    <div className="bg-BackgroundColor text-white pb-2 pt-3 px-5 fixed w-full z-10">
       <div className="hidden sm:block max-w-1400 mx-auto">
         <div className="flex justify-between items-center">
           <div className="flex gap-2 items-center">
@@ -29,7 +29,7 @@ const Header = () => {
               </div>
               <input
                 type="search"
-                className="block w-full placeholder:text-xs py-2 md:placeholder:text-base bg-BackgroundColor outline-none rounded-full px-8 md:py-3 pr-12 ps-10 text-sm text-gray-900 border border-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+                className="block w-full placeholder:text-xs py-2 md:placeholder:text-base bg-BackgroundColor outline-none rounded-full px-8 md:py-2.5 pr-12 ps-10 text-sm text-gray-900 border border-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
                 placeholder="اینجا سرچ کنید..."
               />
             </div>

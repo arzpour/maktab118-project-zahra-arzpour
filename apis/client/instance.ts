@@ -7,8 +7,8 @@ import {
   deleteRefreshToken,
 } from "@/utils/session";
 import { getToken } from "./auth";
-import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 export const generateAxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -43,7 +43,6 @@ generateAxiosInstance.interceptors.response.use(
           const newAccessToken = await getToken(refreshToken!);
 
           setAccsessToken(newAccessToken);
-          toast.success("توکن جدید ست شد");
 
           req.headers["Authorization"] = `Bearer ${newAccessToken}`;
 

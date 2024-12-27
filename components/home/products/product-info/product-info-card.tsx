@@ -47,9 +47,12 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
                 {price} تومان
               </span>
             </div>
-            <p className="text-gray-400 font-semibold py-4 mb-6 lg:pl-10">
-              {description}
-            </p>
+            <p
+              className="text-gray-400 font-semibold py-4 mb-6 lg:pl-10 line-clamp-6"
+              dangerouslySetInnerHTML={{
+                __html: description as string | TrustedHTML,
+              }}
+            ></p>
 
             <div className="flex justify-between items-baseline flex-wrap space-y-3">
               <p className="flex items-center font-medium text-gray-400 mb-1">

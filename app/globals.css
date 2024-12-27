@@ -27,3 +27,12 @@ body {
 .scrollbar {
   overflow-x: auto;
 }
+
+body .jodit-container {
+  background: #ffffff;
+  color: #000000;
+}
+
+body .jodit-status-bar {
+  display: none;
+}
