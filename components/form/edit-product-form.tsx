@@ -1,6 +1,5 @@
 import { Input } from "@/components/form/input";
 import SelectBox from "@/components/form/selectbox-categories";
-import { Textarea } from "@/components/form/textarea";
 import { Thumbnail } from "@/components/form/thumbnail";
 import useCategoryList from "@/hooks/useCategory";
 import useSubCategoryList from "@/hooks/useSubcategory";
@@ -18,6 +17,7 @@ import {
 } from "@/server/validations/product.validation";
 import useGetProductById from "@/hooks/useGetProductById";
 import { useEditProducts } from "@/apis/mutations/product";
+import { TextEditor } from "./text-editor";
 
 interface IEditProductForm {
   setShowEditProductModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -35,8 +35,6 @@ const EditProductForm: React.FC<IEditProductForm> = ({
 
   const { data, isSuccess } = useGetProductById(id);
 
-  console.log(data, "all data");
-
   const { data: useCategoryData } = useCategoryList(Infinity);
   const { data: useSubCategoryData } = useSubCategoryList(Infinity);
 
@@ -46,18 +44,6 @@ const EditProductForm: React.FC<IEditProductForm> = ({
 
   const categoryName = data?.category.name;
   const subcategoryName = data?.subcategory.name;
-
-  React.useEffect(() => {
-    if (isSuccess && data) {
-      reset({
-        name: data.name,
-        description: data.description,
-      });
-
-      setSelectedCategory(categoryName!);
-      setSelectedSubCategory(subcategoryName!);
-    }
-  }, [isSuccess, data, reset]);
 
   const editProduct = useEditProducts();
 
@@ -71,14 +57,10 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       (subCategory) => subCategory.category === categoryId
     );
 
-  console.log(categoryId, "cate");
-
   const subcategoryId =
     filteredSubCategoriesByCategoryByName?.find(
       (subCategory) => subCategory.name === selectedSubCategory
     )?._id || "";
-
-  console.log(subcategoryId, "sub");
 
   const onSubmit: SubmitHandler<editProductSchemaType> = async (data) => {
     try {
@@ -87,6 +69,14 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       formData.append("description", data.description);
       formData.append("category", categoryId);
       formData.append("subcategory", subcategoryId);
+
+      if (data.price) {
+        formData.append("price", data.price.toString());
+      }
+
+      if (data.quantity) {
+        formData.append("quantity", data.quantity.toString());
+      }
 
       if (data.thumbnail instanceof File) {
         formData.append("thumbnail", data.thumbnail);
@@ -99,41 +89,43 @@ const EditProductForm: React.FC<IEditProductForm> = ({
           }
         });
       }
-      await editProduct.mutateAsync({
+      const response = await editProduct.mutateAsync({
         data: formData,
         id: id,
       });
 
       setShowEditProductModal(false);
 
-      toast.success("ویرایش شد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
-      queryClient.invalidateQueries({ queryKey: ["get-products"] });
+      if (response.status !== "success") {
+        toast.error("اطلاعات اشتباه میباشد");
+      } else {
+        toast.success("ویرایش شد");
+        queryClient.invalidateQueries({ queryKey: ["get-products"] });
+      }
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.error("اطلاعات اشتباه میباشد");
       errorHandler(error as AxiosError<IError>);
     }
   };
 
-  console.log(data?.thumbnail, "thum");
+  React.useEffect(() => {
+    if (isSuccess && data) {
+      reset({
+        name: data.name,
+        description: data.description,
+        quantity: data.quantity.toString(),
+        price: data.price.toString(),
+      });
 
-  console.log(data?.images, "iimg");
+      setSelectedCategory(categoryName!);
+      setSelectedSubCategory(subcategoryName!);
+    }
+  }, [isSuccess, data, reset]);
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="md:max-w-md w-full mx-auto"
+      className="md:max-w-xl w-full mx-auto"
     >
       <div className="flex gap-2 mb-4">
         <Controller
@@ -181,20 +173,46 @@ const EditProductForm: React.FC<IEditProductForm> = ({
         )}
       />
 
+      <div className="flex gap-3 mt-2 mb-9">
+        <Controller
+          control={control}
+          name="price"
+          render={({ field, fieldState }) => (
+            <Input
+              type="number"
+              placeholder="قیمت محصول"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+        <Controller
+          control={control}
+          name="quantity"
+          render={({ field, fieldState }) => (
+            <Input
+              type="number"
+              placeholder="تعداد محصول"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+      </div>
+
       <Controller
         control={control}
         name="description"
         render={({ field, fieldState }) => (
-          <Textarea
-            type="text"
-            placeholder="توضیحات محصول"
+          <TextEditor
+            defaultValue={data?.description}
             error={fieldState.error?.message}
             {...field}
           />
         )}
       />
 
-      <div className="flex gap-4 w-full">
+      <div className="flex gap-4 w-full mt-3">
         <Thumbnail
           name="thumbnail"
           control={control}

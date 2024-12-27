@@ -35,18 +35,10 @@ const AddCategoryForm: React.FC<IAddCategoryForm> = ({
       console.log(data);
       await createCategory.mutateAsync(data);
       setShowAddCategoryModal(false);
-      toast.success("ایجاد شد", {
-        style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-      });
+      toast.success("ایجاد شد");
       queryClient.invalidateQueries({ queryKey: ["get-categories"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.error("اطلاعات اشتباه میباشد");
 
       errorHandler(error as AxiosError<IError>);
     }

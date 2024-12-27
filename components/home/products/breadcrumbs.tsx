@@ -5,20 +5,14 @@ import { MdChevronLeft } from "react-icons/md";
 interface IBreadCrumb {
   categoryName: string;
   productName: string;
+  categoryId: string;
 }
 
-const Breadcrumbs: React.FC<IBreadCrumb> = ({ categoryName, productName }) => {
-  const categoryLink = () => {
-    if (categoryName === "دمنوش ها") {
-      return "/products/herbaltea";
-    } else if (categoryName === "گیاهان دارویی") {
-      return "/products/medicinal";
-    } else if (categoryName === "روغن ها و عصاره ها") {
-      return "/products/oil";
-    } else if (categoryName === "ادویه ها") {
-      return "/products/spice";
-    }
-  };
+const Breadcrumbs: React.FC<IBreadCrumb> = ({
+  categoryName,
+  productName,
+  categoryId,
+}) => {
   return (
     <nav className="flex mx-10 my-2" aria-label="Breadcrumb">
       <ol className="inline-flex items-center space-x-1 rtl:space-x-reverse flex-wrap gap-y-5 sm:gap-0">
@@ -46,7 +40,7 @@ const Breadcrumbs: React.FC<IBreadCrumb> = ({ categoryName, productName }) => {
             <div className="flex items-center">
               <MdChevronLeft className="w-5 h-5 text-slate-500" />
               <Link
-                href={categoryLink() || ""}
+                href={`/products/${categoryId}` || ""}
                 className="ms-1 text-sm font-medium text-slate-500 md:ms-2 dark:text-gray-400"
               >
                 {categoryName}

@@ -16,6 +16,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
+import { CgSpinner } from "react-icons/cg";
 
 interface ILoginForm {
   user?: boolean;
@@ -43,12 +44,10 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
 
   const onSubmit: SubmitHandler<authSchemaType> = async (data) => {
     try {
-      console.log(data);
       const response = await login.mutateAsync(data);
 
-      setRole(response.data.user.role);
-
       const token = response.token;
+      setRole(response.data.user.role);
 
       if (token) {
         setAccsessToken(token.accessToken);
@@ -57,24 +56,13 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
 
       if (response.data.user.role === "ADMIN") {
         push("/admin/products");
-        toast.success("وارد شدید", {
-          style: {
-            backgroundColor: "#6e6e6e",
-            color: "#fff",
-            fontSize: "15px",
-          },
-        });
-        push("/admin/categories");
-      } else {
-        toast.success("اطلاعات وارد شده صحیح نیست", {
-          style: {
-            backgroundColor: "#6e6e6e",
-            color: "#fff",
-            fontSize: "15px",
-          },
-        });
+        toast.success("وارد شدید");
+      } else if (response.data.user.role === "USER") {
+        push("/");
+        toast.success("وارد شدید");
       }
     } catch (error) {
+      toast.success("اطلاعات وارد شده صحیح نیست");
       errorHandler(login.error as AxiosError<IError>);
       console.log(login.error);
     }
@@ -151,14 +139,24 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
       </div>
 
       <div className="mt-6 sm:mt-9">
-        <button
-          type="submit"
-          className="w-full shadow-sm text-lg py-2.5 px-5 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
-        >
-          ورود
-        </button>
+        {login.isPending ? (
+          <button
+            type="submit"
+            className="w-full flex gap-2 justify-center items-center shadow-sm py-2.5 px-5 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:border-none focus:outline-none"
+          >
+            در حال ورود
+            <CgSpinner className="w-5 h-5 animate-spin" />
+          </button>
+        ) : (
+          <button
+            type="submit"
+            className="w-full shadow-sm text-lg py-2.5 px-5 bg-BlueDark font-semibold rounded-md text-white bg-purple hover:bg-purpleHover focus:outline-none"
+          >
+            ورود
+          </button>
+        )}
         {user ? (
-          <p className="text-gray-400 mt-4 flex gap-2 justify-between">
+          <div className="text-gray-400 mt-4 flex gap-2 justify-between">
             <p className="flex gap-2">
               حساب کاربری ندارید؟
               <Link
@@ -174,7 +172,7 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
             >
               بازگشت به سایت
             </Link>
-          </p>
+          </div>
         ) : (
           <p className="text-gray-400 mt-4 flex gap-2 justify-center">
             <Link

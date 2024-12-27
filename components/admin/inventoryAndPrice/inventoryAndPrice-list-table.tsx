@@ -77,24 +77,12 @@ const InventoryAndPriceListTable: React.FC = () => {
 
       await Promise.all(updateRequests);
 
-      toast.success("ویرایش شد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.success("ویرایش شد");
       setEditedProducts({});
       setEdit(false);
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.error("اطلاعات اشتباه میباشد");
       errorHandler(error as AxiosError<IError>);
     }
   };

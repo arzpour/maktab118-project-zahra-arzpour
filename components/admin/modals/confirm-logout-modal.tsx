@@ -30,8 +30,8 @@ const ConfirmLogoutModal: React.FC<IConfirmModal> = ({
             onClick={(e) => e.stopPropagation()}
             className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:max-w-lg"
           >
-            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="flex gap-4 items-center">
+            <div className="bg-white px-6 md:px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+              <div className="flex gap-2 md:gap-4 items-center">
                 <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
                   <svg
                     className="size-6 text-red-600"

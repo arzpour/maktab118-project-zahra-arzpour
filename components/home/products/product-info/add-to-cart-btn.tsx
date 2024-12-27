@@ -2,6 +2,7 @@
 
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { getRole } from "@/utils/session";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
@@ -52,24 +53,18 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
   };
 
   const addToCartHandler = () => {
+    const role = getRole();
+
+    if (role && role === "ADMIN") {
+      toast.error("شما مجاز به انجام این عملیات نیستید.");
+      return;
+    }
     addToCart(selectedQuantity);
 
     if (productItem) {
-      toast.error("محصول شما در سبد خرید موجود میباشد.", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.error("محصول شما در سبد خرید موجود میباشد.");
     } else {
-      toast.success("محصول شما به سبد خرید اضافه شد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.success("محصول شما به سبد خرید اضافه شد");
     }
   };
 
@@ -106,3 +101,12 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
 };
 
 export default AddToCartBtn;
+
+export const AddToCartBtnSkeleton = () => {
+  return (
+    <div className="flex gap-6 items-center animate-pulse">
+      <div className="flex gap-2 h-5 w-16 items-center px-3 bg-BlueDark text-xs outline-none bg-transparent rounded-md"></div>
+      <div className="inline-flex gap-3 h-5 w-28 cursor-pointer bg-BlueDark shadow items-start rounded-lg bg-primary-700 px-6 py-3 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"></div>
+    </div>
+  );
+};

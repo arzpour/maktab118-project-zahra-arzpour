@@ -1,5 +1,9 @@
+
+
+
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch } from "@/redux/hook";
+import Link from "next/link";
 import React from "react";
 import { FiMinus } from "react-icons/fi";
 import { IoMdAdd } from "react-icons/io";
@@ -39,9 +43,11 @@ const ProductShoppingCart: React.FC<IShoppingCartProductList> = ({
       <div className="grid grid-cols-1 md:grid-cols-5 w-full">
         <div className="md:col-span-2">
           <div className="flex flex-col max-[500px]:items-center gap-3">
-            <h6 className="font-semibold text-base leading-7 text-white">
-              {name}
-            </h6>
+            <Link href={`product/${_id}`}>
+              <h6 className="font-semibold text-base leading-7 text-white">
+                {name}
+              </h6>
+            </Link>
             <h6 className="hidden md:block text-sm leading-7 text-slate-500 transition-all duration-300">
               {price} تومان
             </h6>

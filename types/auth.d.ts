@@ -18,7 +18,7 @@ interface ILoginReqDto {
   password: string;
 }
 
-interface ILoginResDto {
+interface IAuthResDto {
   status: string;
   token: {
     accessToken: string;

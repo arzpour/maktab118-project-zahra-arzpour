@@ -5,10 +5,12 @@ import {
   getAccsessToken,
   setAccsessToken,
   deleteRefreshToken,
+  getRole,
+  deleteRole,
 } from "@/utils/session";
 import { getToken } from "./auth";
-import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
+import { toast } from "react-toastify";
 
 export const generateAxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
@@ -35,7 +37,7 @@ generateAxiosInstance.interceptors.response.use(
       if (
         req.url !== "/auth/token" &&
         req.url !== "/auth/login" &&
-        req.url !== "/auth/logout"
+        req.url !== "/auth/signup"
       ) {
         try {
           const refreshToken = getRefreshToken();
@@ -43,7 +45,6 @@ generateAxiosInstance.interceptors.response.use(
           const newAccessToken = await getToken(refreshToken!);
 
           setAccsessToken(newAccessToken);
-          toast.success("توکن جدید ست شد");
 
           req.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
@@ -52,7 +53,14 @@ generateAxiosInstance.interceptors.response.use(
           toast.error("دوباره وارد شوید");
           deleteAccsessToken();
           deleteRefreshToken();
-          redirect("/admin-login");
+          const role = getRole();
+          if (role) {
+            if (role === "ADMIN") {
+              redirect("/admin-login");
+            } else {
+              redirect("/login");
+            }
+          }
         }
       }
     }

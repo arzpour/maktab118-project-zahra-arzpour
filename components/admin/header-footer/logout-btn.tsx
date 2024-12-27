@@ -6,20 +6,23 @@ import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
 import ConfirmLogoutModal from "../modals/confirm-logout-modal";
 import { logout } from "@/apis/client/auth";
-import { deleteAccsessToken, deleteRefreshToken } from "@/utils/session";
+import {
+  deleteAccsessToken,
+  deleteRefreshToken,
+  deleteRole,
+} from "@/utils/session";
 
 const AdminLogoutBtn = () => {
   const [showConfirmModal, setShowConfirmModal] =
     React.useState<boolean>(false);
 
-  const logoutHandler = () => {
-    toast.success("خارج شدید", {
-      style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-    });
+  const logoutHandler = async () => {
+    await logout();
+    toast.success("خارج شدید");
     setShowConfirmModal(false);
-    logout();
     deleteAccsessToken();
     deleteRefreshToken();
+    deleteRole();
     redirect("/");
   };
 

@@ -4,13 +4,13 @@ import Pagination from "@/components/admin/pagination";
 import useProductList from "@/hooks/useProduct";
 import { perPageLimit } from "@/utils/config";
 import React from "react";
-import ProductCard from "../product-card";
+import ProductCard, { ProductCardSkeleton } from "../product-card";
 import ProductFilterMobile from "./product-filter-mobile";
 import { useAppSelector } from "@/redux/hook";
 
 const ProductList = () => {
   const [page, setPage] = React.useState<number>(1);
-  const { data: products, isSuccess } = useProductList(Infinity);
+  const { data: products, isSuccess, isLoading } = useProductList(Infinity);
 
   const selectedFilters = useAppSelector(
     (state) => state.filter.selectedFilters
@@ -29,8 +29,6 @@ const ProductList = () => {
     );
   }, [selectedFilters, products]);
 
-  console.log(filteredProducts);
-
   const totalPages = Math.ceil(filteredProducts?.length! / perPageLimit);
 
   const filteredItems = filteredProducts?.slice(
@@ -42,18 +40,24 @@ const ProductList = () => {
     <>
       <ProductFilterMobile />
 
-      <div className="mt-3 lg:mt-0 flex flex-col gap-2 flex-wrap items-center">
+      <div
+        className={`mt-3 lg:mt-0 flex flex-wrap items-center ${
+          isLoading ? "gap-7" : "flex-col gap-2"
+        }`}
+      >
+        {isLoading &&
+          [1, 2, 3, 4, 5, 6].map((el) => <ProductCardSkeleton key={el} />)}
         {filteredItems && filteredItems?.length > 0 ? (
-          <div className="flex gap-7 flex-wrap mb-10 justify-center">
+          <div className="flex gap-7 flex-wrap mb-10 justify-center xl:justify-normal">
             {filteredItems?.map((el) => (
               <ProductCard key={el._id} {...el} />
             ))}
           </div>
         ) : (
-          <p>محصولی وجود ندارد.</p>
+          isSuccess && <p>محصولی وجود ندارد.</p>
         )}
 
-        {filteredItems && filteredItems?.length > 0 && isSuccess && (
+        {filteredItems && filteredItems?.length > 0 && (
           <Pagination
             handlePageChange={handlePageChange}
             page={page}

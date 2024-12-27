@@ -10,9 +10,9 @@ import HomeLayout from "@/providers/homeLayout";
 export default function Home() {
   return (
     <HomeLayout>
-      <div className="bg-BackgroundColor text-white max-w-1770 mx-auto">
+      <div className="bg-BackgroundColor text-white max-w-1770 mx-auto pt-40">
         <Slider data={dataSlider} />
-        <div className="max-w-1300 mx-auto">
+        <div className="max-w-1400 mx-auto">
           <HerbalTeaProducts />
           <SpiceProducts />
           <AboutUs />

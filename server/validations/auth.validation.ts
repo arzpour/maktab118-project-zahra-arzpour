@@ -21,12 +21,23 @@ export const signupUserSchema = z.object({
     .min(3, { message: "نام کاربری باید بیشتر از ۳ کاراکتر باشد" }),
   password: z
     .string()
-    .min(8, { message: "رمز عبور باید بیشتر از ۸ کاراکتر باشد" }),
+    .refine(
+      (value) => /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/.test(value),
+      "رمز عبور باید بیشتر از ۸ کاراکتر (دارای حروف بزرگ, کوچک, اعداد و ... باشد.)"
+    ),
   email: z.string().optional(),
   phoneNumber: z
     .string()
-    .refine((value) => /^\d+$/.test(value), "شماره تماس اشتباه میباشد"),
-  address: z.string().min(3, { message: "آدرس باید بیشتر از ۳ کاراکتر باشد" }),
+    .refine(
+      (value) =>
+        /(0|\+98)?([ ]|-|[()]){0,2}9[1|2|3|4]([ ]|-|[()]){0,2}(?:[0-9]([ ]|-|[()]){0,2}){8}/gi.test(
+          value
+        ),
+      "شماره تماس اشتباه میباشد"
+    ),
+  address: z
+    .string()
+    .min(10, { message: "آدرس باید بیشتر از ۱۰ کاراکتر باشد" }),
 });
 
 export type signupUserSchemaType = z.infer<typeof signupUserSchema>;

@@ -40,7 +40,7 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
 
       <div className="ml-4 flex flex-1 flex-col">
         <div className="flex justify-between text-base font-medium text-gray-900">
-          <Link href={`/products/${_id}`}>
+          <Link href={`/product/${_id}`}>
             <h4 className="text-sm">{name}</h4>
           </Link>
         </div>
