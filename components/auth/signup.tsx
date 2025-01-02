@@ -9,16 +9,28 @@ import {
 } from "@/server/validations/auth.validation";
 import Link from "next/link";
 import { toast } from "react-toastify";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
 import { FaEye } from "react-icons/fa6";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { useSignup } from "@/apis/mutations/auth";
-import { setAccessToken, setRefreshToken, setRole } from "@/utils/session";
+import {
+  getUserId,
+  setAccessToken,
+  setRefreshToken,
+  setRole,
+} from "@/utils/session";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAddToShoppingCart } from "@/apis/mutations/shopping-cart";
+import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
+import { productActions } from "@/redux/features/product.slice";
 
 const SignupUserForm: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
+
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
 
   const {
     handleSubmit,
@@ -32,8 +44,37 @@ const SignupUserForm: React.FC = () => {
   const signup = useSignup();
   const { push } = useRouter();
 
+  const list = useAppSelector((state) => state.product.list);
+
+  const add = useAddToShoppingCart();
+
   const showPasswordHandler = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const addToDataBaseHandler = async () => {
+    if (!list.length) return;
+
+    try {
+      if (list.length) {
+        const getProductsList = (products: IShoppingCartProductList[]) => {
+          return products.map(
+            ({ _id, name, price, selectedQuantity, thumbnail }) => ({
+              _id: _id || "",
+              name: name || "",
+              price: price || 0,
+              selectedQuantity: selectedQuantity || 0,
+              thumbnail: thumbnail || "",
+            })
+          );
+        };
+        const data = getProductsList(list);
+
+        await add.mutateAsync(data);
+      }
+    } catch (error) {
+      errorHandler(error as AxiosError<IError>);
+    }
   };
 
   const onSubmitHandler: SubmitHandler<signupUserSchemaType> = async (data) => {
@@ -49,12 +90,16 @@ const SignupUserForm: React.FC = () => {
       if (response.status === "success") {
         toast.success("حساب کاربری ایجاد شد");
 
-        push("/");
+        if (from === "payment") {
+          push("/payment");
+        } else {
+          push("/");
+        }
+        await addToDataBaseHandler();
       }
     } catch (error) {
       toast.error("اطلاعات اشتباه میباشند");
       errorHandler(signup.error as AxiosError<IError>);
-      console.log(signup.error);
     }
   };
 
@@ -182,14 +227,14 @@ const SignupUserForm: React.FC = () => {
         <p className="flex gap-2">
           حساب کاربری دارید؟
           <Link
-            href={"/login"}
+            href={`${from === "payment" ? "/login?from=payment" : "/login"}`}
             className="text-gray-300 underline text-center font-semibold hover:underline ml-1 whitespace-nowrap"
           >
             ورود
           </Link>
         </p>
         <Link
-          href={"/"}
+          href={`${from === "payment" ? "/payment-gateway" : "/"}`}
           className="text-gray-400 text-center font-semibold hover:underline ml-1 whitespace-nowrap text-sm"
         >
           بازگشت به سایت

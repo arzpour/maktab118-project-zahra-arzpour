@@ -84,6 +84,34 @@ export const productSlice = createSlice({
       state.cartQuantity = 0;
       state.totalPrice = 0;
     },
+    updateCart: (state, action: PayloadAction<IAddToShoppingCartReqDto[]>) => {
+      if (!action.payload || action.payload.length === 0) return;
+
+      const updateList = [...state.list];
+
+      action.payload.forEach((newItem) => {
+        const item = updateList.findIndex((el) => el._id === newItem._id);
+
+        if (item >= 0) {
+          updateList[item] = {
+            ...updateList[item],
+            selectedQuantity: newItem.selectedQuantity,
+          };
+        } else {
+          updateList.push({
+            ...newItem,
+            selectedQuantity: newItem.selectedQuantity,
+          });
+        }
+      });
+
+      state.list = updateList;
+
+      state.cartQuantity = state.list.length;
+      state.totalPrice = state.list.reduce((prev, current) => {
+        return prev + (current.selectedQuantity ?? 0) * (current.price ?? 0);
+      }, 0);
+    },
   },
 });
 

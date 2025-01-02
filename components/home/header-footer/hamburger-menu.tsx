@@ -15,6 +15,7 @@ import {
   deleteAccessToken,
   deleteRefreshToken,
   deleteRole,
+  deleteUserId,
   getRole,
 } from "@/utils/session";
 
@@ -23,11 +24,16 @@ import { CgProfile } from "react-icons/cg";
 import { logout } from "@/apis/client/auth";
 
 import { toast } from "react-toastify";
+import { useAppDispatch } from "@/redux/hook";
+import { productActions } from "@/redux/features/product.slice";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
+
   const role = getRole();
+
   const logOutHandler = async () => {
     await logout();
     deleteAccessToken();
@@ -35,6 +41,8 @@ const HamburgerMenu = () => {
     deleteRole();
     toast.success("خارج شدید");
     setIsOpen(false);
+    deleteUserId();
+    dispatch(productActions.removeAll());
   };
   return (
     <>

@@ -2,6 +2,22 @@ import { editShoppingCartProductSchemaType } from "@/server/validations/shopping
 import { generateAxios } from "./axios-shopping-cart";
 import { urls } from "@/utils/urls";
 
+type getShoppingCartType = () => Promise<IShoppingCart[]>;
+export const getShoppingCart: getShoppingCartType = async () => {
+  const response = await generateAxios.get(urls.cart.list);
+
+  return response.data.data;
+};
+
+type getShoppingCartByUserIdType = (userId: string) => Promise<IShoppingCart>;
+export const getShoppingCartByUserId: getShoppingCartByUserIdType = async (
+  userId
+) => {
+  const response = await generateAxios.get(urls.cart.ById(userId));
+
+  return response.data.data;
+};
+
 type addToShoppingCartType = (
   data: IAddToShoppingCartReqDto[]
 ) => Promise<IGetShoppingCart>;

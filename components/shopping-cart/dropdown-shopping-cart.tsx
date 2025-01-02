@@ -1,7 +1,10 @@
-import { useAppSelector } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import React from "react";
 import ShoppingProductCard from "./shopping-product-card";
 import Link from "next/link";
+import { getUserId } from "@/utils/session";
+import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
+import { productActions } from "@/redux/features/product.slice";
 
 interface IShoppingCartDropDown {
   hamburgerMenu?: boolean;
@@ -11,6 +14,20 @@ const ShoppingCartDropDown: React.FC<IShoppingCartDropDown> = ({
   hamburgerMenu,
 }) => {
   const list = useAppSelector((state) => state.product.list);
+
+  console.log(list, "list");
+
+  const dispatch = useAppDispatch();
+
+  const user = getUserId();
+
+  const { data: shoppingCart, isSuccess } = useGetShoppingCartByUserId();
+
+  React.useEffect(() => {
+    if (user && isSuccess && shoppingCart) {
+      dispatch(productActions.updateCart(shoppingCart.products || []));
+    }
+  }, [user, shoppingCart, isSuccess, dispatch]);
 
   return (
     <div className="absolute z-50">
@@ -26,12 +43,20 @@ const ShoppingCartDropDown: React.FC<IShoppingCartDropDown> = ({
                 <ul role="list" className="-my-6 p-2">
                   {list.map((el, index) => (
                     <li
-                      key={el._id}
+                      key={`${el._id}-${index}`}
                       className={`flex pt-5 pb-3 gap-5 border-b border-gray-400 ${
                         index === list.length - 1 ? "last:border-0" : ""
                       }`}
                     >
-                      <ShoppingProductCard {...el} />
+                      <ShoppingProductCard
+                        _id={el._id}
+                        name={el.name}
+                        price={el.price}
+                        selectedQuantity={el.selectedQuantity}
+                        thumbnail={el.thumbnail}
+                        quantity={el.quantity}
+                        {...el}
+                      />
                     </li>
                   ))}
                 </ul>

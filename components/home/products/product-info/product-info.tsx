@@ -59,6 +59,7 @@ const ProductInfoById = () => {
         categoryId={findProduct?.category || ""}
         categoryName="محصولات مرتبط"
         sort={true}
+        className="xl:mx-0"
       />
     </>
   );

@@ -68,6 +68,9 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
                 }}
                 productId={_id}
                 quantity={quantity || 0}
+                name={name || ""}
+                price={price?.toString() || ""}
+                thumbnail={thumbnail || ""}
               />
             </div>
           </div>

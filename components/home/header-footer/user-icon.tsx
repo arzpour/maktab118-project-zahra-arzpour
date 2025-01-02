@@ -4,6 +4,7 @@ import {
   deleteAccessToken,
   deleteRefreshToken,
   deleteRole,
+  deleteUserId,
   getAccessToken,
   getRole,
 } from "@/utils/session";
@@ -16,6 +17,8 @@ import { logout } from "@/apis/client/auth";
 import { toast } from "react-toastify";
 import { FaLock } from "react-icons/fa6";
 import { FaUserPlus } from "react-icons/fa";
+import { useAppDispatch } from "@/redux/hook";
+import { productActions } from "@/redux/features/product.slice";
 
 const UserIcon = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -23,6 +26,7 @@ const UserIcon = () => {
   const userExist = getAccessToken();
 
   const role = getRole();
+  const dispatch = useAppDispatch();
 
   const logOutHandler = async () => {
     await logout();
@@ -31,6 +35,8 @@ const UserIcon = () => {
     deleteRole();
     toast.success("خارج شدید");
     setIsOpen(false);
+    deleteUserId();
+    dispatch(productActions.removeAll());
   };
 
   return (
