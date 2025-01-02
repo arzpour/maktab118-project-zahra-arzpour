@@ -1,5 +1,8 @@
 import connectMongoDB from "../database/connection";
-import { addShoppingCartProductSchemaType } from "../validations/shoppingCart.validation";
+import {
+  addShoppingCartProductSchemaType,
+  editShoppingCartProductSchemaType,
+} from "../validations/shoppingCart.validation";
 
 type getShoppingCartType = () => Promise<IShoppingCart[]>;
 export const getShoppingCart: getShoppingCartType = async () => {
@@ -89,5 +92,49 @@ export const addToShoppingCart: addToShoppingCartType = async ({
     return update;
   } catch (error) {
     console.error(error);
+  }
+};
+
+type editShoppingCartType = (_: {
+  data: editShoppingCartProductSchemaType;
+  userId: string;
+}) => Promise<any>;
+export const editShoppingCart: editShoppingCartType = async ({
+  data,
+  userId,
+}) => {
+  const db = await connectMongoDB();
+
+  try {
+    const cart = await db?.collection("cart").findOne({ userId });
+
+    const cartProducts = cart?.products || [];
+
+    const itemIndex = cartProducts.findIndex(
+      (item: any) => item._id === data._id
+    );
+
+    if (itemIndex >= 0) {
+      if (data.selectedQuantity! <= 0) {
+        cartProducts.splice(itemIndex, 1);
+      } else {
+        cartProducts[itemIndex].selectedQuantity = data.selectedQuantity;
+      }
+    }
+
+    const date = new Date();
+
+    const update = await db?.collection("cart").updateOne(
+      { userId },
+      {
+        $set: { products: cartProducts, updatedAt: date },
+        $setOnInsert: { createdAt: date },
+      },
+      { upsert: true }
+    );
+
+    return update;
+  } catch (error) {
+    console.log(error);
   }
 };
