@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import ConfirmLogoutModal from "../modals/confirm-logout-modal";
 import { logout } from "@/apis/client/auth";
 import {
-  deleteAccsessToken,
+  deleteAccessToken,
   deleteRefreshToken,
   deleteRole,
 } from "@/utils/session";
@@ -20,7 +20,7 @@ const AdminLogoutBtn = () => {
     await logout();
     toast.success("خارج شدید");
     setShowConfirmModal(false);
-    deleteAccsessToken();
+    deleteAccessToken();
     deleteRefreshToken();
     deleteRole();
     redirect("/");

@@ -6,7 +6,7 @@ import {
   authSchemaType,
 } from "@/server/validations/auth.validation";
 import errorHandler from "@/utils/errorHandler";
-import { setAccsessToken, setRefreshToken, setRole } from "@/utils/session";
+import { setAccessToken, setRefreshToken, setRole } from "@/utils/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import Link from "next/link";
@@ -50,7 +50,7 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
       setRole(response.data.user.role);
 
       if (token) {
-        setAccsessToken(token.accessToken);
+        setAccessToken(token.accessToken);
         setRefreshToken(token.refreshToken);
       }
 

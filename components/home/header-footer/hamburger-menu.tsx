@@ -12,7 +12,7 @@ import { RiAdminFill } from "react-icons/ri";
 import SearchInput from "@/components/form/search";
 import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
 import {
-  deleteAccsessToken,
+  deleteAccessToken,
   deleteRefreshToken,
   deleteRole,
   getRole,
@@ -30,7 +30,7 @@ const HamburgerMenu = () => {
   const role = getRole();
   const logOutHandler = async () => {
     await logout();
-    deleteAccsessToken();
+    deleteAccessToken();
     deleteRefreshToken();
     deleteRole();
     toast.success("خارج شدید");

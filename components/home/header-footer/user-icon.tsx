@@ -1,10 +1,10 @@
 "use client";
 
 import {
-  deleteAccsessToken,
+  deleteAccessToken,
   deleteRefreshToken,
   deleteRole,
-  getAccsessToken,
+  getAccessToken,
   getRole,
 } from "@/utils/session";
 import Link from "next/link";
@@ -20,13 +20,13 @@ import { FaUserPlus } from "react-icons/fa";
 const UserIcon = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
-  const userExist = getAccsessToken();
+  const userExist = getAccessToken();
 
   const role = getRole();
 
   const logOutHandler = async () => {
     await logout();
-    deleteAccsessToken();
+    deleteAccessToken();
     deleteRefreshToken();
     deleteRole();
     toast.success("خارج شدید");

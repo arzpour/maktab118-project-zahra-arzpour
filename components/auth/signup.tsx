@@ -15,7 +15,7 @@ import { AxiosError } from "axios";
 import { FaEye } from "react-icons/fa6";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { useSignup } from "@/apis/mutations/auth";
-import { setAccsessToken, setRefreshToken, setRole } from "@/utils/session";
+import { setAccessToken, setRefreshToken, setRole } from "@/utils/session";
 
 const SignupUserForm: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -43,7 +43,7 @@ const SignupUserForm: React.FC = () => {
       setRole(response.data.user.role);
 
       if (response.token) {
-        setAccsessToken(response.token.accessToken);
+        setAccessToken(response.token.accessToken);
         setRefreshToken(response.token.refreshToken);
       }
       if (response.status === "success") {

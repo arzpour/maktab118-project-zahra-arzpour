@@ -1,12 +1,12 @@
 import axios from "axios";
 import {
-  deleteAccsessToken,
   getRefreshToken,
-  getAccsessToken,
-  setAccsessToken,
   deleteRefreshToken,
-  getRole,
   deleteRole,
+  getAccessToken,
+  setAccessToken,
+  deleteAccessToken,
+  deleteUserId,
 } from "@/utils/session";
 import { getToken } from "./auth";
 import { redirect } from "next/navigation";
@@ -18,7 +18,7 @@ export const generateAxiosInstance = axios.create({
 
 generateAxiosInstance.interceptors.request.use(
   (config) => {
-    const token = getAccsessToken();
+    const token = getAccessToken();
     if (token) {
       config.headers["Authorization"] = `Bearer ${token}`;
     }
@@ -37,30 +37,26 @@ generateAxiosInstance.interceptors.response.use(
       if (
         req.url !== "/auth/token" &&
         req.url !== "/auth/login" &&
-        req.url !== "/auth/signup"
+        req.url !== "/auth/signup" &&
+        req.url !== "/auth/logout"
       ) {
         try {
           const refreshToken = getRefreshToken();
 
           const newAccessToken = await getToken(refreshToken!);
 
-          setAccsessToken(newAccessToken);
+          setAccessToken(newAccessToken);
 
           req.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
           return generateAxiosInstance(req);
         } catch (err) {
           toast.error("دوباره وارد شوید");
-          deleteAccsessToken();
+          deleteAccessToken();
           deleteRefreshToken();
-          const role = getRole();
-          if (role) {
-            if (role === "ADMIN") {
-              redirect("/admin-login");
-            } else {
-              redirect("/login");
-            }
-          }
+          deleteUserId();
+          deleteRole();
+          redirect("/login");
         }
       }
     }
