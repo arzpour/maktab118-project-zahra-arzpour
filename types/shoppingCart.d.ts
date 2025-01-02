@@ -11,3 +11,15 @@ interface IShoppingCart {
   createdAt: string;
   updatedAt: string;
 }
+
+interface IAddToShoppingCartReqDto {
+  _id: string;
+  name: string;
+  price: number;
+  selectedQuantity: number;
+  thumbnail: string;
+}
+
+interface IGetShoppingCart {
+  data: IShoppingCart[];
+}
