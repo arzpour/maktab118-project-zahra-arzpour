@@ -48,7 +48,7 @@ export const getShoppingCartByUserId: getShoppingCartByUserIdType = async (
 type addToShoppingCartType = (_: {
   data: addShoppingCartProductSchemaType;
   userId: string;
-}) => Promise<any>;
+}) => Promise<IShoppingCart[] | undefined>;
 
 export const addToShoppingCart: addToShoppingCartType = async ({
   data,
@@ -62,7 +62,7 @@ export const addToShoppingCart: addToShoppingCartType = async ({
 
     for (const product of data) {
       const itemIndex = cartProducts.findIndex(
-        (item: any) => item.id === product._id
+        (item: IShoppingCart) => item._id === product._id
       );
 
       if (itemIndex < 0) {
@@ -80,7 +80,7 @@ export const addToShoppingCart: addToShoppingCartType = async ({
 
     const date = new Date();
 
-    const update = await db?.collection("cart").updateOne(
+    await db?.collection("cart").updateOne(
       { userId },
       {
         $set: { products: cartProducts, updatedAt: date },
@@ -89,7 +89,15 @@ export const addToShoppingCart: addToShoppingCartType = async ({
       { upsert: true }
     );
 
-    return update;
+    return [
+      {
+        _id: cart?._id,
+        userId,
+        products: cartProducts,
+        createdAt: cart?.createdAt || date.toISOString(),
+        updatedAt: date.toISOString(),
+      },
+    ];
   } catch (error) {
     console.error(error);
   }
@@ -98,7 +106,7 @@ export const addToShoppingCart: addToShoppingCartType = async ({
 type editShoppingCartType = (_: {
   data: editShoppingCartProductSchemaType;
   userId: string;
-}) => Promise<any>;
+}) => Promise<IShoppingCart | undefined>;
 export const editShoppingCart: editShoppingCartType = async ({
   data,
   userId,
@@ -111,7 +119,7 @@ export const editShoppingCart: editShoppingCartType = async ({
     const cartProducts = cart?.products || [];
 
     const itemIndex = cartProducts.findIndex(
-      (item: any) => item._id === data._id
+      (item: IShoppingCart) => item._id === data._id
     );
 
     if (itemIndex >= 0) {
@@ -124,7 +132,7 @@ export const editShoppingCart: editShoppingCartType = async ({
 
     const date = new Date();
 
-    const update = await db?.collection("cart").updateOne(
+    await db?.collection("cart").updateOne(
       { userId },
       {
         $set: { products: cartProducts, updatedAt: date },
@@ -133,7 +141,31 @@ export const editShoppingCart: editShoppingCartType = async ({
       { upsert: true }
     );
 
-    return update;
+    return {
+      _id: cart?._id,
+      userId,
+      products: cartProducts,
+      createdAt: cart?.createdAt || date.toISOString(),
+      updatedAt: date.toISOString(),
+    };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+type deleteShoppingCartType = (userId: string) => Promise<string | undefined>;
+
+export const deleteShoppingCart: deleteShoppingCartType = async (userId) => {
+  const db = await connectMongoDB();
+
+  try {
+    const response = await db?.collection("cart").deleteOne({ userId });
+
+    if (response?.deletedCount === 1) {
+      return "deleted";
+    } else {
+      return "no deleted";
+    }
   } catch (error) {
     console.log(error);
   }
