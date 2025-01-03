@@ -28,44 +28,49 @@ const DatePickerDelivery = () => {
   };
 
   const onSubmit = (data: dateSchemaType) => {
-    console.log("تاریخ انتخاب‌شده:", data.deliveryDate);
+    console.log("تاریخ انتخاب‌ شده:", data.deliveryDate);
   };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="mt-7 flex justify-between items-center flex-wrap gap-4"
+      className="mt-7 flex flex-col justify-between flex-wrap gap-4"
     >
-      <h2 className="text-sm text-slate-300">انتخاب تاریخ تحویل: </h2>
-      <div className="flex flex-col gap-1">
-        <DatePicker
-          value={selectedDate}
-          onChange={handleDateChange}
-          calendar={persian}
-          locale={persian_fa}
-          inputClass={`p-2 rounded border-b text-sm border-slate-800 pr-7 bg-BackgroundColor text-slate-50 outline-none placeholder:text-xs ${
-            errors.deliveryDate ? "border-red-500" : ""
-          }`}
-          placeholder="تاریخ را انتخاب کنید"
-        />
-        <input type="hidden" {...register("deliveryDate")} />
-        {errors.deliveryDate && (
-          <p className="text-red-500 text-xs mt-1">
-            {errors.deliveryDate.message}
-          </p>
-        )}
+      <div className="flex justify-between gap-1">
+        <div className="flex flex-col">
+          <DatePicker
+            value={selectedDate}
+            onChange={handleDateChange}
+            calendar={persian}
+            locale={persian_fa}
+            inputClass={`p-2 rounded border-b text-slate-300 text-sm border-slate-800 pr-1 bg-BackgroundColor text-slate-50 outline-none placeholder:text-xs ${
+              errors.deliveryDate ? "border-red-500" : ""
+            }`}
+            placeholder="تاریخ تحویل را انتخاب کنید"
+          />
+          <input
+            type="hidden"
+            {...register("deliveryDate")}
+            className="text-slate-500"
+          />
+          {errors.deliveryDate && (
+            <p className="text-red-500 text-xs mt-1">
+              {errors.deliveryDate.message}
+            </p>
+          )}
+        </div>
         {/* {selectedDate && (
           <p className="text-gray-600 text-sm mt-2">
             تاریخ انتخاب‌شده: {selectedDate}
           </p>
         )} */}
+        <button
+          type="submit"
+          className="px-4 py-2 rounded text-slate-300 text-sm underline"
+        >
+          تایید
+        </button>
       </div>
-      <button
-        type="submit"
-        className="px-4 py-2 rounded text-slate-200 text-sm"
-      >
-        تایید
-      </button>
     </form>
   );
 };

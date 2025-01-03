@@ -22,10 +22,6 @@ const PaymentProducts = () => {
 
   const { data: user, isSuccess } = useUserById();
 
-  const userFound = getUserId();
-  const { data: shoppingCart, isSuccess: successShoppingCart } =
-    useGetShoppingCartByUserId();
-
   return (
     <div className="mb-20 mx-10">
       <div className="grid lg:grid-cols-5 gap-7 xl:gap-10 max-lg:max-w-1500 lg:w-11/12 mx-auto">
@@ -84,7 +80,7 @@ const PaymentProducts = () => {
               type="button"
               className="text-sm px-4 py-2.5 w-full font-semibold tracking-wide bg-BlueDark hover:bg-BlueL text-white rounded-md"
             >
-              پرداخت
+              <Link href={"/payment-gateway"}>پرداخت</Link>
             </button>
           </div>
 

@@ -10,10 +10,10 @@ const Payment = () => {
 
   return (
     <div className="flex flex-col justify-center gap-y-5">
-      <h3 className="text-xl mb-2">صفحه پرداخت</h3>
+      <h3 className="text-xl mb-2 mx-24">پرداخت</h3>
       {!role && (
         <div className="flex gap-2">
-          <h3>لطفا وارد حساب کاربری خود شوید</h3>
+          <h3 className="mx-24">لطفا وارد حساب کاربری خود شوید</h3>
           <Link href={"/login?from=payment"} className="text-orange underline">
             حساب کاربری
           </Link>

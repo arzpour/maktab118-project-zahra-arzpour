@@ -19,6 +19,7 @@ export const urls = {
   },
   orders: {
     list: "/orders",
+    edit: (id: string) => `/orders/${id}`,
   },
   users: {
     list: "/users",

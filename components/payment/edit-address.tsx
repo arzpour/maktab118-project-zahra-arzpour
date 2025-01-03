@@ -65,9 +65,9 @@ const EditAddress: React.FC<IEditAddressModal> = ({
         <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
           <div
             onClick={(e) => e.stopPropagation()}
-            className="relative transform overflow-hidden rounded-lg bg-slate-100 text-left shadow-xl transition-all sm:my-8 w-11/12 sm:w-1/2 sm:max-w-xl md:max-w-md xl:w-1/4"
+            className="relative transform overflow-hidden rounded-lg bg-slate-50 text-left shadow-xl transition-all sm:my-8 w-11/12 sm:w-1/2 sm:max-w-xl md:max-w-md lg:1/3 xl:w-1/4"
           >
-            <div className="bg-slate-100 px-4 pb-2 pt-2 sm:p-6 sm:pb-4">
+            <div className="bg-slate-50 px-4 pb-2 pt-2 sm:p-6 sm:pb-4">
               <div className="mt-2 mb-5 text-start">
                 <p className="font-medium text-gray-800">ادیت کردن محصول</p>
               </div>
@@ -83,7 +83,7 @@ const EditAddress: React.FC<IEditAddressModal> = ({
                       type="text"
                       placeholder="آدرس"
                       error={fieldState.error?.message}
-                      className="bg-slate-100 outline-none text-sm text-slate-900 border-b border-slate-800 pb-2 pr-1.5 rounded"
+                      className="bg-slate-50 outline-none text-sm text-slate-900 border-b border-slate-800 pb-2 pr-1.5 rounded"
                       {...field}
                     />
                   )}
