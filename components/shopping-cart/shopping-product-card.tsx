@@ -1,5 +1,10 @@
+import { useEditShoppingCart } from "@/apis/mutations/shopping-cart";
+import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
+import { queryClient } from "@/providers/tanstack.provider";
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch } from "@/redux/hook";
+import { editShoppingCartProductSchemaType } from "@/server/validations/shoppingCart.validation";
+import { getUserId } from "@/utils/session";
 import Link from "next/link";
 import React from "react";
 import { FiMinus } from "react-icons/fi";
@@ -15,17 +20,57 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const increaseProduct = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    e.stopPropagation();
-    if (quantity && selectedQuantity && quantity > selectedQuantity)
-      dispatch(productActions.increase({ _id: _id!, quantity: 1 }));
+  const user = getUserId();
+
+  const editShoppingCart = useEditShoppingCart();
+
+  const editShoppingCartHandler = async (
+    data: editShoppingCartProductSchemaType
+  ) => {
+    try {
+      await editShoppingCart.mutateAsync({
+        userId: user || "",
+        data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const decreaseProductById = (
+  const increaseProduct = async (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.stopPropagation();
-    dispatch(productActions.decrease({ _id: _id!, quantity: 1 }));
+    if (
+      quantity &&
+      selectedQuantity &&
+      quantity > selectedQuantity &&
+      quantity > 0
+    ) {
+      dispatch(productActions.increase({ _id: _id || "", quantity: 1 }));
+      if (user) {
+        await editShoppingCartHandler({
+          selectedQuantity: selectedQuantity! + 1,
+          _id,
+        });
+      }
+    }
+  };
+
+  const decreaseProductById = async (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
+    e.stopPropagation();
+
+    if (quantity && quantity > 0) {
+      dispatch(productActions.decrease({ _id: _id || "", quantity: 1 }));
+      if (user) {
+        await editShoppingCartHandler({
+          selectedQuantity: selectedQuantity! - 1,
+          _id,
+        });
+      }
+    }
   };
 
   return (
@@ -54,6 +99,7 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
                 <IoMdAdd className="w-4 h-4" />
               </div>
               <span>{selectedQuantity}</span>
+
               <div onClick={(e) => decreaseProductById(e)}>
                 <FiMinus className="w-4 h-4 " />
               </div>

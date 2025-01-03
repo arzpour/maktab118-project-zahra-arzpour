@@ -12,9 +12,10 @@ import { RiAdminFill } from "react-icons/ri";
 import SearchInput from "@/components/form/search";
 import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
 import {
-  deleteAccsessToken,
+  deleteAccessToken,
   deleteRefreshToken,
   deleteRole,
+  deleteUserId,
   getRole,
 } from "@/utils/session";
 
@@ -23,18 +24,25 @@ import { CgProfile } from "react-icons/cg";
 import { logout } from "@/apis/client/auth";
 
 import { toast } from "react-toastify";
+import { useAppDispatch } from "@/redux/hook";
+import { productActions } from "@/redux/features/product.slice";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
+
   const role = getRole();
+
   const logOutHandler = async () => {
     await logout();
-    deleteAccsessToken();
+    deleteAccessToken();
     deleteRefreshToken();
     deleteRole();
     toast.success("خارج شدید");
     setIsOpen(false);
+    deleteUserId();
+    dispatch(productActions.removeAll());
   };
   return (
     <>

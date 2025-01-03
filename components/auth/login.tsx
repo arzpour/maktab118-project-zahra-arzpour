@@ -6,17 +6,30 @@ import {
   authSchemaType,
 } from "@/server/validations/auth.validation";
 import errorHandler from "@/utils/errorHandler";
-import { setAccsessToken, setRefreshToken, setRole } from "@/utils/session";
+import {
+  getAccessToken,
+  getUserId,
+  setAccessToken,
+  setRefreshToken,
+  setRole,
+  setUserId,
+} from "@/utils/session";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { FaEye } from "react-icons/fa";
 import { toast } from "react-toastify";
 import { CgSpinner } from "react-icons/cg";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAddToShoppingCart } from "@/apis/mutations/shopping-cart";
+import { productActions } from "@/redux/features/product.slice";
+import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
+import { useQuery } from "@tanstack/react-query";
+import { getShoppingCartByUserId } from "@/apis/client/shopping-cart";
 
 interface ILoginForm {
   user?: boolean;
@@ -39,8 +52,40 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
   };
 
   const login = useLogin();
+  const list = useAppSelector((state) => state.product.list);
 
   const { push } = useRouter();
+  const add = useAddToShoppingCart();
+
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+
+  const dispatch = useAppDispatch();
+
+  const addToDataBaseHandler = async () => {
+    try {
+      if (list.length) {
+        const getProductsList = (products: IShoppingCartProductList[]) => {
+          return products.map(
+            ({ _id, name, price, selectedQuantity, thumbnail }) => ({
+              _id: _id || "",
+              name: name || "",
+              price: price || 0,
+              selectedQuantity: selectedQuantity || 0,
+              thumbnail: thumbnail || "",
+            })
+          );
+        };
+        const data = getProductsList(list);
+
+        await add.mutateAsync(data);
+      }
+      await getShoppingCart();
+    } catch (error) {
+      // errorHandler(error as AxiosError<IError>);
+      console.log(error);
+    }
+  };
 
   const onSubmit: SubmitHandler<authSchemaType> = async (data) => {
     try {
@@ -48,9 +93,10 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
 
       const token = response.token;
       setRole(response.data.user.role);
+      setUserId(response.data.user._id);
 
       if (token) {
-        setAccsessToken(token.accessToken);
+        setAccessToken(token.accessToken);
         setRefreshToken(token.refreshToken);
       }
 
@@ -58,13 +104,42 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
         push("/admin/products");
         toast.success("وارد شدید");
       } else if (response.data.user.role === "USER") {
-        push("/");
+        if (from === "payment") {
+          push("/payment");
+        } else {
+          push("/");
+        }
         toast.success("وارد شدید");
       }
+
+      await addToDataBaseHandler();
     } catch (error) {
       toast.error("اطلاعات وارد شده صحیح نیست");
       errorHandler(login.error as AxiosError<IError>);
-      console.log(login.error);
+    }
+  };
+
+  const getShoppingCart = async () => {
+    try {
+      const token = getAccessToken();
+      if (!token) {
+        throw new Error("توکن یافت نشد");
+      }
+
+      const userId = getUserId();
+
+      const shoppingCart = useQuery({
+        queryKey: ["get-shopping-cart-by-user-id"],
+        queryFn: () => getShoppingCartByUserId(userId || ""),
+        refetchOnWindowFocus: false,
+        retry: 1,
+      });
+      if (shoppingCart) {
+        dispatch(productActions.updateCart(shoppingCart.data?.products || []));
+      }
+    } catch (error) {
+      // errorHandler(error as AxiosError<IError>);
+      console.log(error);
     }
   };
 
@@ -160,7 +235,9 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
             <p className="flex gap-2">
               حساب کاربری ندارید؟
               <Link
-                href={"/signup"}
+                href={`${
+                  from === "payment" ? "/signup?from=payment" : "/signup"
+                }`}
                 className="text-gray-300 underline text-center font-semibold hover:underline ml-1 whitespace-nowrap"
               >
                 ثبت نام
@@ -176,8 +253,8 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
         ) : (
           <p className="text-gray-400 mt-4 flex gap-2 justify-center">
             <Link
-              href={"/"}
-              className="text-gray-300 underline text-center font-semibold hover:underline ml-1 whitespace-nowrap"
+              href={`${from === "payment" ? "/payment-gateway" : "/"}`}
+              className="text-gray-400 text-center font-semibold hover:underline ml-1 whitespace-nowrap text-sm"
             >
               بازگشت به سایت
             </Link>

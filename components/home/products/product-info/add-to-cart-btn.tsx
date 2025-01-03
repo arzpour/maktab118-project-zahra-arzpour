@@ -1,7 +1,15 @@
 "use client";
 
+import {
+  useAddToShoppingCart,
+  useEditShoppingCart,
+} from "@/apis/mutations/shopping-cart";
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { editShoppingCartProductSchemaType } from "@/server/validations/shoppingCart.validation";
+import errorHandler from "@/utils/errorHandler";
+import { getUserId } from "@/utils/session";
+import { AxiosError } from "axios";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
@@ -12,23 +20,49 @@ interface IAddToCart {
   addToCart: (quantity: number) => void;
   productId?: string;
   quantity: number;
+  price: string;
+  name: string;
+  thumbnail: string;
 }
 const AddToCartBtn: React.FC<IAddToCart> = ({
   addToCart,
   productId,
   quantity,
+  name,
+  price,
+  thumbnail,
 }) => {
   const list = useAppSelector((state) => state.product.list);
-  const productItem = list.find((el) => el._id === productId);
 
-  const [selectedQuantity, setSelectedQuantity] = React.useState<number>(
+  const productItem = (list || []).find((el) => el._id === productId);
+
+  const [getSelectedQuantity, setSelectedQuantity] = React.useState<number>(
     productItem?.selectedQuantity || 1
   );
 
-  const dispatch = useAppDispatch();
+  const user = getUserId();
 
-  const increaseQuantity = () => {
-    if (productId && selectedQuantity < quantity) {
+  const dispatch = useAppDispatch();
+  const add = useAddToShoppingCart();
+
+  const editShoppingCart = useEditShoppingCart();
+
+  const editShoppingCartHandler = async (
+    data: editShoppingCartProductSchemaType
+  ) => {
+    try {
+      await editShoppingCart.mutateAsync({
+        userId: user || "",
+        data,
+      });
+    } catch (error) {
+      console.log(error);
+      errorHandler(error as AxiosError<IError>);
+    }
+  };
+
+  const increaseQuantity = async () => {
+    if (productId && getSelectedQuantity < quantity) {
       setSelectedQuantity((prev) => prev + 1);
       dispatch(
         productActions.increase({
@@ -36,11 +70,24 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
           quantity: 1,
         })
       );
+
+      if (productItem?.selectedQuantity && productItem?.selectedQuantity >= 1) {
+        if (user) {
+          await editShoppingCartHandler({
+            _id: productId,
+            selectedQuantity: productItem.selectedQuantity + 1,
+          });
+        }
+      }
     }
   };
 
-  const decreaseQuantity = () => {
-    if (productId && productItem?.selectedQuantity! > 1) {
+  const decreaseQuantity = async () => {
+    if (
+      productId &&
+      productItem?.selectedQuantity &&
+      productItem?.selectedQuantity > 1
+    ) {
       setSelectedQuantity((prev) => prev - 1);
       dispatch(
         productActions.decrease({
@@ -48,24 +95,55 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
           quantity: 1,
         })
       );
+
+      if (productItem?.selectedQuantity && productItem?.selectedQuantity >= 1) {
+        if (user) {
+          await editShoppingCartHandler({
+            _id: productId,
+            selectedQuantity: productItem.selectedQuantity - 1,
+          });
+        }
+      }
     }
   };
 
-  const addToCartHandler = () => {
-    addToCart(selectedQuantity);
+  const addToDataBaseHandler = async () => {
+    try {
+      const data = [
+        {
+          _id: productId || "",
+          name: productItem?.name || name,
+          price: productItem?.price || Number(price),
+          selectedQuantity: getSelectedQuantity,
+          thumbnail: productItem?.thumbnail || thumbnail,
+        },
+      ];
 
-    if (productItem) {
-      toast.error("محصول شما در سبد خرید موجود میباشد.");
+      await add.mutateAsync(data);
+
+      // toast.success("به دیتابیس اضافه شد");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addToCartHandler = async () => {
+    if (quantity > 0) {
+      addToCart(getSelectedQuantity);
+
+      if (productItem) {
+        toast.error("محصول شما در سبد خرید موجود میباشد.");
+      } else {
+        toast.success("محصول شما به سبد خرید اضافه شد");
+
+        if (user) {
+          await addToDataBaseHandler();
+        }
+      }
     } else {
-      toast.success("محصول شما به سبد خرید اضافه شد");
+      toast.error("مجصول در انبار موجود نیست");
     }
   };
-
-  React.useEffect(() => {
-    if (productItem?.selectedQuantity === undefined) {
-      setSelectedQuantity(1);
-    }
-  }, [productItem]);
 
   return (
     <div className="flex gap-6 items-center">
@@ -76,7 +154,7 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
         <span className="mx-2.5 text-slate-100">
           {productItem?.selectedQuantity
             ? productItem?.selectedQuantity
-            : selectedQuantity}
+            : getSelectedQuantity}
         </span>
         <button onClick={decreaseQuantity}>
           <IoRemove className="text-slate-100 w-5 h-4" />

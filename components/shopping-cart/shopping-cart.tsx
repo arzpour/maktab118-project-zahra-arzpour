@@ -1,24 +1,43 @@
-
 "use client";
 
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import Link from "next/link";
 import React from "react";
 import ProductShoppingCart from "./product-card";
-import { getRole } from "@/utils/session";
 import { productActions } from "@/redux/features/product.slice";
+import { toast } from "react-toastify";
+import { getUserId } from "@/utils/session";
+import errorHandler from "@/utils/errorHandler";
+import { AxiosError } from "axios";
+import { useDeleteShoppingCart } from "@/apis/mutations/shopping-cart";
 
 const ShoppingCart = () => {
   const list = useAppSelector((state) => state.product.list);
 
   const totalPrice = useAppSelector((state) => state.product.totalPrice);
 
-  const role = getRole();
-
   const dispatch = useAppDispatch();
 
-  const remove = () => {
+  const deleteShoppingCart = useDeleteShoppingCart();
+
+  const userId = getUserId();
+
+  const deleteShoppingCartHandler = async () => {
+    try {
+      await deleteShoppingCart.mutateAsync(userId || "");
+
+      // toast.success("از دیتا بیس حذف شد");
+
+      dispatch(productActions.removeAll());
+    } catch (error) {
+      console.log(error);
+      // errorHandler(error as AxiosError<IError>);
+    }
+  };
+
+  const remove = async () => {
     dispatch(productActions.removeAll());
+    await deleteShoppingCartHandler();
   };
 
   return (
@@ -59,16 +78,24 @@ const ShoppingCart = () => {
                 </div>
 
                 {list.map((el) => (
-                  <ProductShoppingCart key={el._id} {...el} />
+                  <ProductShoppingCart
+                    key={el._id}
+                    _id={el._id}
+                    name={el.name}
+                    selectedQuantity={el.selectedQuantity}
+                    thumbnail={el.thumbnail}
+                    quantity={el.quantity}
+                    {...el}
+                  />
                 ))}
               </div>
               <div className="flex justify-between items-center pr-10 col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
                 <p className="text-slate-300">قیمت کل: {totalPrice} تومان</p>
                 <Link
-                  href={`${role ? "/payment-gateway" : "/payment"}`}
-                  className="bg-green-600 rounded py-1.5 px-7 text-center"
+                  href={"/payment"}
+                  className="bg-green-600 rounded py-2 px-7 text-center text-sm"
                 >
-                  پرداخت
+                  نهایی کردن سبد خرید
                 </Link>
               </div>
             </div>
@@ -80,4 +107,3 @@ const ShoppingCart = () => {
 };
 
 export default ShoppingCart;
-

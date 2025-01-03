@@ -23,4 +23,8 @@ export const urls = {
   users: {
     list: "/users",
   },
+  cart: {
+    list: "/shopping-cart",
+    ById: (id: string) => `http://localhost:3000/server/shopping-cart/${id}`,
+  },
 };

@@ -7,22 +7,29 @@ import { redirect } from "next/navigation";
 import ConfirmLogoutModal from "../modals/confirm-logout-modal";
 import { logout } from "@/apis/client/auth";
 import {
-  deleteAccsessToken,
+  deleteAccessToken,
   deleteRefreshToken,
   deleteRole,
+  deleteUserId,
 } from "@/utils/session";
+import { useAppDispatch } from "@/redux/hook";
+import { productActions } from "@/redux/features/product.slice";
 
 const AdminLogoutBtn = () => {
   const [showConfirmModal, setShowConfirmModal] =
     React.useState<boolean>(false);
 
+  const dispatch = useAppDispatch();
+
   const logoutHandler = async () => {
     await logout();
     toast.success("خارج شدید");
     setShowConfirmModal(false);
-    deleteAccsessToken();
+    deleteAccessToken();
     deleteRefreshToken();
     deleteRole();
+    dispatch(productActions.removeAll());
+    deleteUserId();
     redirect("/");
   };
 
