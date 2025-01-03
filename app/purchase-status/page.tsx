@@ -131,7 +131,6 @@ const PurchaseStatusPage = () => {
         console.log(hasCreatedOrder, "hasCreatedOrder");
         console.log(hasEditedProducts, "hasEditedProducts");
 
-        if (!hasCreatedOrder || !hasEditedProducts) return;
         await deleteShoppingCart.mutateAsync(userId || "");
 
         toast.success("از دیتا بیس حذف شد");
@@ -141,7 +140,14 @@ const PurchaseStatusPage = () => {
         console.log(error);
       }
     };
-  }, [isSuccess, data, userId]);
+  }, [
+    isSuccess,
+    data,
+    userId,
+    hasCreatedOrder,
+    hasEditedProducts,
+    allProducts,
+  ]);
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">

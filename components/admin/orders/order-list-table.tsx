@@ -8,6 +8,7 @@ import useUsersList from "@/hooks/useUsers";
 import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
 import OrdersBtn from "./order-filter-btn";
+import OrdersModal from "../modals/orders-modal";
 
 export enum Tab {
   All = "all",
@@ -18,6 +19,8 @@ export enum Tab {
 const OrderListTable = () => {
   const [selectedTab, setSelectedTab] = React.useState<Tab>(Tab.All);
   const [page, setPage] = React.useState<number>(1);
+  const [showOrderModal, setShowOrderModal] = React.useState<boolean>(false);
+  const [orderId, setOrderId] = React.useState<string>("");
 
   const { data: allOrders } = useOrderList(Infinity);
   const { data: users } = useUsersList();
@@ -86,7 +89,7 @@ const OrderListTable = () => {
               return (
                 <tr
                   key={el._id}
-                  className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
+                  className="bg-[#0c1724] border-b border-CyanBlueDark odd:bg-[#0c1724] even:bg-CyanBlueDark"
                 >
                   <td className="px-4 py-5">
                     {users?.data.users.find((user) => user._id === el.user) ? (
@@ -110,7 +113,15 @@ const OrderListTable = () => {
                     </p>
                   </td>
                   <td className="px-4 py-5">
-                    <button className="text-orange text-sm">بررسی سفارش</button>
+                    <button
+                      onClick={() => {
+                        setShowOrderModal(true);
+                        setOrderId(el._id);
+                      }}
+                      className="text-orange text-sm"
+                    >
+                      بررسی سفارش
+                    </button>
                   </td>
                 </tr>
               );
@@ -126,6 +137,10 @@ const OrderListTable = () => {
         />
         <TotalPageTable page={page} total={filteredData?.length!} />
       </div>
+
+      {showOrderModal && (
+        <OrdersModal setShowOrderModal={setShowOrderModal} id={orderId} />
+      )}
     </>
   );
 };
