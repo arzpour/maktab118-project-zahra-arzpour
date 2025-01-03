@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="max-w-1400 mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-col-3 lg:grid-cols-4 gap-10 lg:gap-16 items-start">
         <div className="w-full">
           <h4 className="text-lg">درباره ما</h4>
-          <p className="mt-7 text-sm lg:text-base text-gray-100 line-clamp-5 md:line-clamp-6 xl:line-clamp-none">
+          <p className="mt-7 text-xs lg:text-base text-gray-100 line-clamp-5 md:line-clamp-6 xl:line-clamp-none">
             لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با
             استفاده از طراحان گرافیک است، چاپگرها و متون بلکه روزنامه و مجله در
             ستون و سطرآنچنان که لازم است، و برای شرایط فعلی تکنولوژی مورد نیاز،

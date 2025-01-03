@@ -36,3 +36,9 @@ body .jodit-container {
 body .jodit-status-bar {
   display: none;
 }
+
+.react-datepicker__close-icon:after {
+  background: none;
+  position: relative;
+  bottom: 2px;
+}

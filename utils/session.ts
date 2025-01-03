@@ -1,56 +1,53 @@
-export const getAccsessToken = () => {
-  return window.localStorage.getItem(
-    process.env.NEXT_PUBLIC_ACCSESS_TOKEN_NAME as string
-  );
+import Cookies from "js-cookie";
+
+// Access Token
+export const getAccessToken = () => {
+  return Cookies.get(process.env.NEXT_PUBLIC_ACCSESS_TOKEN_NAME as string);
 };
 
-export const setAccsessToken = (token: string) => {
-  return window.localStorage.setItem(
-    process.env.NEXT_PUBLIC_ACCSESS_TOKEN_NAME as string,
-    token
-  );
+export const setAccessToken = (token: string) => {
+  Cookies.set(process.env.NEXT_PUBLIC_ACCSESS_TOKEN_NAME as string, token);
 };
 
-export const deleteAccsessToken = () => {
-  return window.localStorage.removeItem(
-    process.env.NEXT_PUBLIC_ACCSESS_TOKEN_NAME as string
-  );
+export const deleteAccessToken = () => {
+  Cookies.remove(process.env.NEXT_PUBLIC_ACCSESS_TOKEN_NAME as string);
 };
 
+// Refresh Token
 export const getRefreshToken = () => {
-  return window.localStorage.getItem(
-    process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME as string
-  );
+  return Cookies.get(process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME as string);
 };
 
 export const setRefreshToken = (token: string) => {
-  return window.localStorage.setItem(
-    process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME as string,
-    token
-  );
+  Cookies.set(process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME as string, token);
 };
 
 export const deleteRefreshToken = () => {
-  return window.localStorage.removeItem(
-    process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME as string
-  );
+  Cookies.remove(process.env.NEXT_PUBLIC_REFRESH_TOKEN_NAME as string);
 };
 
+// User Role
 export const setRole = (role: string) => {
-  return window.localStorage.setItem(
-    process.env.NEXT_PUBLIC_LOGIN_ROLE as string,
-    role
-  );
+  Cookies.set(process.env.NEXT_PUBLIC_LOGIN_ROLE as string, role);
 };
 
 export const getRole = () => {
-  return window.localStorage.getItem(
-    process.env.NEXT_PUBLIC_LOGIN_ROLE as string
-  );
+  return Cookies.get(process.env.NEXT_PUBLIC_LOGIN_ROLE as string);
 };
 
 export const deleteRole = () => {
-  return window.localStorage.removeItem(
-    process.env.NEXT_PUBLIC_LOGIN_ROLE as string
-  );
+  Cookies.remove(process.env.NEXT_PUBLIC_LOGIN_ROLE as string);
+};
+
+// User ID
+export const setUserId = (id: string) => {
+  Cookies.set(process.env.NEXT_PUBLIC_USER_ID as string, id);
+};
+
+export const getUserId = () => {
+  return Cookies.get(process.env.NEXT_PUBLIC_USER_ID as string);
+};
+
+export const deleteUserId = () => {
+  Cookies.remove(process.env.NEXT_PUBLIC_USER_ID as string);
 };

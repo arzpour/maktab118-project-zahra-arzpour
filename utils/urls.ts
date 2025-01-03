@@ -19,8 +19,14 @@ export const urls = {
   },
   orders: {
     list: "/orders",
+    edit: (id: string) => `/orders/${id}`,
   },
   users: {
     list: "/users",
+    userById: (id: string) => `/users/${id}`,
+  },
+  cart: {
+    list: "/shopping-cart",
+    ById: (id: string) => `/shopping-cart/${id}`,
   },
 };

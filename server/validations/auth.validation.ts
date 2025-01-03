@@ -41,3 +41,12 @@ export const signupUserSchema = z.object({
 });
 
 export type signupUserSchemaType = z.infer<typeof signupUserSchema>;
+
+export const editUserSchema = z.object({
+  address: z
+    .string()
+    .min(10, { message: "آدرس باید بیشتر از ۱۰ کاراکتر باشد" })
+    .optional(),
+});
+
+export type editUserSchemaType = z.infer<typeof editUserSchema>;

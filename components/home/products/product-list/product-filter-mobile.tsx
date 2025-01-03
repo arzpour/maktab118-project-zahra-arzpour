@@ -7,7 +7,11 @@ import { filterActions } from "@/redux/features/filter.slice";
 import { CategoryFilterItem } from "./filter-input";
 import useCategoryList from "@/hooks/useCategory";
 
-const ProductFilterMobile: React.FC = () => {
+interface IProductFilterMobile {
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const ProductFilterMobile: React.FC<IProductFilterMobile> = ({ setPage }) => {
   const [openCategories, setOpenCategories] = React.useState<
     Record<string, boolean>
   >({});
@@ -63,6 +67,7 @@ const ProductFilterMobile: React.FC = () => {
                         onChange={() => handleFilterChange(el._id!)}
                         classNameP="text-slate-700 text-sm"
                         className="px-5 py-1"
+                        setPage={setPage}
                       />
                     ))}
                   </div>

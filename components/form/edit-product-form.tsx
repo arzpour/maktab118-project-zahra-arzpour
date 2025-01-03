@@ -42,8 +42,8 @@ const EditProductForm: React.FC<IEditProductForm> = ({
   const [selectedSubCategory, setSelectedSubCategory] =
     React.useState<string>("");
 
-  const categoryName = data?.category.name;
-  const subcategoryName = data?.subcategory.name;
+  const categoryName = data?.category?.name || "";
+  const subcategoryName = data?.subcategory?.name || "";
 
   const editProduct = useEditProducts();
 
@@ -117,8 +117,8 @@ const EditProductForm: React.FC<IEditProductForm> = ({
         price: data.price.toString(),
       });
 
-      setSelectedCategory(categoryName!);
-      setSelectedSubCategory(subcategoryName!);
+      setSelectedCategory(categoryName);
+      setSelectedSubCategory(subcategoryName);
     }
   }, [isSuccess, data, reset]);
 

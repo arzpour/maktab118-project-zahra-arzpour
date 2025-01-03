@@ -34,32 +34,34 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
   };
 
   return (
-    <div>
+    <>
       <button
         onClick={() => setShowDeleteProductModal(true)}
         className="bg-red-600 text-white py-1.5 px-5 rounded text-sm ml-2"
       >
         حذف
       </button>
-      {showDeleteProductModal && (
-        <DeleteProductModal
-          setShowDeleteProductModal={setShowDeleteProductModal}
-          deleteProduct={deleteOnclickHandler}
-        />
-      )}
+
       <button
         onClick={() => setShowEditProductModal(true)}
         className="bg-orange text-white py-1.5 px-5 rounded text-sm mr-2"
       >
         ویرایش
       </button>
+
+      {showDeleteProductModal && (
+        <DeleteProductModal
+          setShowDeleteProductModal={setShowDeleteProductModal}
+          deleteProduct={deleteOnclickHandler}
+        />
+      )}
       {showEditProductModal && (
         <EditProductModal
           setShowEditProductModal={setShowEditProductModal}
           id={id}
         />
       )}
-    </div>
+    </>
   );
 };
 

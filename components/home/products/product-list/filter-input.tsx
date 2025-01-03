@@ -8,6 +8,7 @@ interface IProductFilterItem {
   classNameP?: string;
   className?: string;
   checked: boolean;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const CategoryFilterItem: React.FC<IProductFilterItem> = ({
@@ -16,12 +17,14 @@ export const CategoryFilterItem: React.FC<IProductFilterItem> = ({
   classNameP,
   className,
   checked,
+  setPage,
 }) => {
   const onChangeHandler: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     if (onChange) {
       onChange(event.target.checked);
+      setPage(1);
     }
     console.log(event.target.checked);
   };

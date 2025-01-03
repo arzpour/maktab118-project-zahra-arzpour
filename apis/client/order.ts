@@ -14,3 +14,11 @@ export const addOrder: addOrderType = async (body) => {
   const response = await generateAxiosInstance.post(urls.orders.list, body);
   return response.data.data.order;
 };
+
+type editOrderType = (id: string) => Promise<IAddOrderResDto>;
+export const editOrder: editOrderType = async (id) => {
+  const response = await generateAxiosInstance.patch(urls.orders.edit(id), {
+    deliveryStatus: true,
+  });
+  return response.data;
+};

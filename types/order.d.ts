@@ -1,13 +1,11 @@
 interface IOrder {
   _id: string;
   user: string;
-  products: [
-    {
-      product: string;
-      count: number;
-      _id: string;
-    }
-  ];
+  products: {
+    product: string;
+    count: number;
+    _id: string;
+  }[];
   totalPrice: number;
   deliveryDate: string;
   deliveryStatus: boolean;
@@ -28,12 +26,10 @@ interface IOrderResDto {
 
 interface IAddOrderReqDto {
   user: string;
-  products: [
-    {
-      product: string;
-      count: number;
-    }
-  ];
+  products: {
+    product: string;
+    count: number;
+  }[];
   deliveryStatus: boolean;
 }
 
@@ -42,16 +38,14 @@ interface IAddOrderResDto {
   data: {
     order: {
       user: string;
-      products: [
-        {
-          product: {
-            _id: string;
-            price: number;
-          };
-          count: 2;
+      products: {
+        product: {
           _id: string;
-        }
-      ];
+          price: number;
+        };
+        count: 2;
+        _id: string;
+      }[];
       totalPrice: number;
       deliveryDate: string;
       deliveryStatus: boolean;
