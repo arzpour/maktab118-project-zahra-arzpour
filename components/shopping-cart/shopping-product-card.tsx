@@ -37,7 +37,9 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
     }
   };
 
-  const increaseProduct = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+  const increaseProduct = async (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>
+  ) => {
     e.stopPropagation();
     if (
       quantity &&
@@ -46,30 +48,28 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
       quantity > 0
     ) {
       dispatch(productActions.increase({ _id: _id || "", quantity: 1 }));
-    }
-
-    if (user) {
-      editShoppingCartHandler({
-        selectedQuantity: selectedQuantity! + 1,
-        _id,
-      });
+      if (user) {
+        await editShoppingCartHandler({
+          selectedQuantity: selectedQuantity! + 1,
+          _id,
+        });
+      }
     }
   };
 
-  const decreaseProductById = (
+  const decreaseProductById = async (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>
   ) => {
     e.stopPropagation();
 
     if (quantity && quantity > 0) {
       dispatch(productActions.decrease({ _id: _id || "", quantity: 1 }));
-    }
-
-    if (user) {
-      editShoppingCartHandler({
-        selectedQuantity: selectedQuantity! - 1,
-        _id,
-      });
+      if (user) {
+        await editShoppingCartHandler({
+          selectedQuantity: selectedQuantity! - 1,
+          _id,
+        });
+      }
     }
   };
 

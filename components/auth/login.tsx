@@ -60,6 +60,8 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
   const searchParams = useSearchParams();
   const from = searchParams.get("from");
 
+  const dispatch = useAppDispatch();
+
   const addToDataBaseHandler = async () => {
     try {
       if (list.length) {
@@ -78,8 +80,10 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
 
         await add.mutateAsync(data);
       }
+      await getShoppingCart();
     } catch (error) {
-      errorHandler(error as AxiosError<IError>);
+      // errorHandler(error as AxiosError<IError>);
+      console.log(error);
     }
   };
 
@@ -112,6 +116,30 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
     } catch (error) {
       toast.error("اطلاعات وارد شده صحیح نیست");
       errorHandler(login.error as AxiosError<IError>);
+    }
+  };
+
+  const getShoppingCart = async () => {
+    try {
+      const token = getAccessToken();
+      if (!token) {
+        throw new Error("توکن یافت نشد");
+      }
+
+      const userId = getUserId();
+
+      const shoppingCart = useQuery({
+        queryKey: ["get-shopping-cart-by-user-id"],
+        queryFn: () => getShoppingCartByUserId(userId || ""),
+        refetchOnWindowFocus: false,
+        retry: 1,
+      });
+      if (shoppingCart) {
+        dispatch(productActions.updateCart(shoppingCart.data?.products || []));
+      }
+    } catch (error) {
+      // errorHandler(error as AxiosError<IError>);
+      console.log(error);
     }
   };
 

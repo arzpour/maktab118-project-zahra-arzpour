@@ -1,8 +1,8 @@
-
-
-
+import { useEditShoppingCart } from "@/apis/mutations/shopping-cart";
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch } from "@/redux/hook";
+import { editShoppingCartProductSchemaType } from "@/server/validations/shoppingCart.validation";
+import { getUserId } from "@/utils/session";
 import Link from "next/link";
 import React from "react";
 import { FiMinus } from "react-icons/fi";
@@ -18,17 +18,54 @@ const ProductShoppingCart: React.FC<IShoppingCartProductList> = ({
 }) => {
   const dispatch = useAppDispatch();
 
-  const increaseProduct = () => {
-    if (quantity && selectedQuantity && quantity > selectedQuantity)
+  const user = getUserId();
+
+  const editShoppingCart = useEditShoppingCart();
+
+  const editShoppingCartHandler = async (
+    data: editShoppingCartProductSchemaType
+  ) => {
+    try {
+      await editShoppingCart.mutateAsync({
+        userId: user || "",
+        data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const increaseProduct = async () => {
+    if (quantity && selectedQuantity && quantity > selectedQuantity) {
       dispatch(productActions.increase({ _id: _id!, quantity: 1 }));
+      if (user) {
+        await editShoppingCartHandler({
+          selectedQuantity: selectedQuantity! + 1,
+          _id: _id,
+        });
+      }
+    }
   };
 
-  const decreaseProductById = () => {
+  const decreaseProductById = async () => {
     dispatch(productActions.decrease({ _id: _id!, quantity: 1 }));
+
+    if (user) {
+      await editShoppingCartHandler({
+        selectedQuantity: selectedQuantity! - 1,
+        _id: _id,
+      });
+    }
   };
 
-  const removeProductById = () => {
+  const removeProductById = async () => {
     dispatch(productActions.removeProduct(_id!));
+    if (user) {
+      await editShoppingCartHandler({
+        selectedQuantity: 0,
+        _id: _id,
+      });
+    }
   };
 
   return (

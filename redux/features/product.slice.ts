@@ -87,25 +87,18 @@ export const productSlice = createSlice({
     updateCart: (state, action: PayloadAction<IAddToShoppingCartReqDto[]>) => {
       if (!action.payload || action.payload.length === 0) return;
 
-      const updateList = [...state.list];
-
       action.payload.forEach((newItem) => {
-        const item = updateList.findIndex((el) => el._id === newItem._id);
+        const item = state.list.find((el) => el._id === newItem._id);
 
-        if (item >= 0) {
-          updateList[item] = {
-            ...updateList[item],
-            selectedQuantity: newItem.selectedQuantity,
-          };
+        if (item) {
+          item.selectedQuantity = newItem.selectedQuantity;
         } else {
-          updateList.push({
+          state.list.push({
             ...newItem,
             selectedQuantity: newItem.selectedQuantity,
           });
         }
       });
-
-      state.list = updateList;
 
       state.cartQuantity = state.list.length;
       state.totalPrice = state.list.reduce((prev, current) => {

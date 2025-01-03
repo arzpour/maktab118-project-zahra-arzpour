@@ -1,10 +1,10 @@
 import { editShoppingCartProductSchemaType } from "@/server/validations/shoppingCart.validation";
-import { generateAxios } from "./axios-shopping-cart";
-import { urls } from "@/utils/urls";
+import axios from "axios";
+const url = "http://localhost:3000/server/shopping-cart";
 
 type getShoppingCartType = () => Promise<IShoppingCart[]>;
 export const getShoppingCart: getShoppingCartType = async () => {
-  const response = await generateAxios.get(urls.cart.list);
+  const response = await axios.get(url);
 
   return response.data.data;
 };
@@ -13,7 +13,9 @@ type getShoppingCartByUserIdType = (userId: string) => Promise<IShoppingCart>;
 export const getShoppingCartByUserId: getShoppingCartByUserIdType = async (
   userId
 ) => {
-  const response = await generateAxios.get(urls.cart.ById(userId));
+  const url = `http://localhost:3000/server/shopping-cart/${userId}`;
+
+  const response = await axios.get(url);
 
   return response.data.data;
 };
@@ -22,7 +24,7 @@ type addToShoppingCartType = (
   data: IAddToShoppingCartReqDto[]
 ) => Promise<IGetShoppingCart>;
 export const addToShoppingCart: addToShoppingCartType = async (data) => {
-  const response = await generateAxios.post(urls.cart.list, data);
+  const response = await axios.post(url, data);
   return response.data;
 };
 
@@ -35,6 +37,20 @@ export const editShoppingCart: editShoppingCartType = async ({
   data,
   userId,
 }) => {
-  const response = await generateAxios.put(urls.cart.ById(userId), data);
+  const url = `http://localhost:3000/server/shopping-cart/${userId}`;
+
+  const response = await axios.put(url, data);
   return response.data;
 };
+
+type deleteShoppingCartByUserIdType = (
+  userId: string
+) => Promise<string | undefined>;
+
+export const deleteShoppingCartByUserId: deleteShoppingCartByUserIdType =
+  async (userId) => {
+    const url = `http://localhost:3000/server/shopping-cart/${userId}`;
+
+    const response = await axios.delete(url);
+    return response.data;
+  };

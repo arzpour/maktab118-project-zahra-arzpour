@@ -16,7 +16,7 @@ const errorHandler = (error: AxiosError<IError>) => {
   const token = getRefreshToken();
   if (!token) {
     toast.error("توکن موجود نیست دوباره وارد شوید.");
-    redirect("/admin-login");
+    redirect("/login");
   }
 
   if (error.status === 409) {

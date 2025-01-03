@@ -121,7 +121,7 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
 
       await add.mutateAsync(data);
 
-      toast.success("به دیتابیس اضافه شد");
+      // toast.success("به دیتابیس اضافه شد");
     } catch (error) {
       console.log(error);
     }

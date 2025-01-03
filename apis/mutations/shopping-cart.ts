@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { addToShoppingCart, editShoppingCart } from "../client/shopping-cart";
+import { addToShoppingCart, deleteShoppingCartByUserId, editShoppingCart } from "../client/shopping-cart";
 
 export const useAddToShoppingCart = () => {
   return useMutation({
@@ -12,5 +12,12 @@ export const useEditShoppingCart = () => {
   return useMutation({
     mutationKey: ["edit-shopping-cart"],
     mutationFn: editShoppingCart,
+  });
+};
+
+export const useDeleteShoppingCart = () => {
+  return useMutation({
+    mutationKey: ["delete-shopping-cart"],
+    mutationFn: deleteShoppingCartByUserId,
   });
 };

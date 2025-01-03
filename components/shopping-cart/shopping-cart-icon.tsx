@@ -1,12 +1,9 @@
 "use client";
 
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAppSelector } from "@/redux/hook";
 import React from "react";
 import { FaShoppingCart } from "react-icons/fa";
 import ShoppingCartDropDown from "./dropdown-shopping-cart";
-import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
-import { getUserId } from "@/utils/session";
-import { productActions } from "@/redux/features/product.slice";
 
 interface IShoppingCartIcon {
   hamburgerMenu?: boolean;
@@ -17,17 +14,6 @@ const ShoppingCartIcon: React.FC<IShoppingCartIcon> = ({ hamburgerMenu }) => {
   const cartShoppingNumber = useAppSelector(
     (state) => state.product.cartQuantity
   );
-
-  const user = getUserId();
-  const dispatch = useAppDispatch();
-
-  const { data: shoppingCart, isSuccess } = useGetShoppingCartByUserId();
-
-  React.useEffect(() => {
-    if (user && isSuccess && shoppingCart) {
-      dispatch(productActions.updateCart(shoppingCart.products || []));
-    }
-  }, [user, shoppingCart, isSuccess, dispatch]);
 
   return (
     <div

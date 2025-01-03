@@ -16,6 +16,7 @@ import { FaEye } from "react-icons/fa6";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { useSignup } from "@/apis/mutations/auth";
 import {
+  getAccessToken,
   getUserId,
   setAccessToken,
   setRefreshToken,
@@ -25,6 +26,8 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { useAddToShoppingCart } from "@/apis/mutations/shopping-cart";
 import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
 import { productActions } from "@/redux/features/product.slice";
+import { getShoppingCartByUserId } from "@/apis/client/shopping-cart";
+import { useQuery } from "@tanstack/react-query";
 
 const SignupUserForm: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -47,6 +50,7 @@ const SignupUserForm: React.FC = () => {
   const list = useAppSelector((state) => state.product.list);
 
   const add = useAddToShoppingCart();
+  const dispatch = useAppDispatch();
 
   const showPasswordHandler = () => {
     setShowPassword((prev) => !prev);
@@ -55,25 +59,25 @@ const SignupUserForm: React.FC = () => {
   const addToDataBaseHandler = async () => {
     if (!list.length) return;
 
-    try {
-      if (list.length) {
-        const getProductsList = (products: IShoppingCartProductList[]) => {
-          return products.map(
-            ({ _id, name, price, selectedQuantity, thumbnail }) => ({
-              _id: _id || "",
-              name: name || "",
-              price: price || 0,
-              selectedQuantity: selectedQuantity || 0,
-              thumbnail: thumbnail || "",
-            })
-          );
-        };
-        const data = getProductsList(list);
+    const getProductsList = (products: IShoppingCartProductList[]) => {
+      return products.map(
+        ({ _id, name, price, selectedQuantity, thumbnail }) => ({
+          _id: _id || "",
+          name: name || "",
+          price: price || 0,
+          selectedQuantity: selectedQuantity || 0,
+          thumbnail: thumbnail || "",
+        })
+      );
+    };
+    const data = getProductsList(list);
 
-        await add.mutateAsync(data);
-      }
+    try {
+      await add.mutateAsync(data);
+
+      await getShoppingCart();
     } catch (error) {
-      errorHandler(error as AxiosError<IError>);
+      console.log(error);
     }
   };
 
@@ -100,9 +104,32 @@ const SignupUserForm: React.FC = () => {
     } catch (error) {
       toast.error("اطلاعات اشتباه میباشند");
       errorHandler(signup.error as AxiosError<IError>);
+      console.log(signup.error);
     }
   };
 
+  const getShoppingCart = async () => {
+    try {
+      const token = getAccessToken();
+      if (!token) {
+        throw new Error("توکن یافت نشد");
+      }
+
+      const userId = getUserId();
+
+      const shoppingCart = useQuery({
+        queryKey: ["get-shopping-cart-by-user-id"],
+        queryFn: () => getShoppingCartByUserId(userId || ""),
+        refetchOnWindowFocus: false,
+        retry: 1,
+      });
+      if (shoppingCart) {
+        dispatch(productActions.updateCart(shoppingCart.data?.products || []));
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4">
       <div className="flex w-full gap-4 mt-2">
@@ -233,6 +260,7 @@ const SignupUserForm: React.FC = () => {
             ورود
           </Link>
         </p>
+
         <Link
           href={`${from === "payment" ? "/payment-gateway" : "/"}`}
           className="text-gray-400 text-center font-semibold hover:underline ml-1 whitespace-nowrap text-sm"
