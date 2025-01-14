@@ -7,6 +7,7 @@ export const addShoppingCartProductSchema = z.array(
     selectedQuantity: z.number(),
     _id: z.string(),
     thumbnail: z.string(),
+    quantity: z.number(),
   })
 );
 
@@ -19,6 +20,7 @@ export const editShoppingCartProductSchema = z.object({
   price: z.number().optional(),
   selectedQuantity: z.number().optional(),
   _id: z.string().optional(),
+  quantity: z.number().optional(),
   thumbnail: z.string().optional(),
 });
 

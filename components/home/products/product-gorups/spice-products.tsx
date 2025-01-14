@@ -6,7 +6,6 @@ const SpiceProducts = () => {
     <OtherProductsCards
       categoryId="675066f658eeb5911f2fcccc"
       categoryName="ادویه ها"
-      productListLink="spice"
     />
   );
 };

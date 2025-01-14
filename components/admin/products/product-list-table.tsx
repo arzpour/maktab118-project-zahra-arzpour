@@ -8,6 +8,7 @@ import React from "react";
 import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
 import ActionBtns from "./action-products/action-product-btns";
+import Image from "next/image";
 
 const ProductListTable = () => {
   const { data: products, setPage, page } = useProductList();
@@ -76,14 +77,9 @@ const ProductListTable = () => {
                 className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
               >
                 <td className="p-4 py-5 flex justify-center">
-                  {/* <Image
-                    width={500}
+                  <Image
+                    width={800}
                     height={500}
-                    src={`http://localhost:8000/images/products/images/${el.images?.[0]}`}
-                    alt="عکس محصول"
-                    className="w-12 h-12 rounded"
-                  /> */}
-                  <img
                     src={`http://localhost:8000/images/products/images/${el.images?.[0]}`}
                     alt="عکس محصول"
                     className="w-12 h-12 rounded"

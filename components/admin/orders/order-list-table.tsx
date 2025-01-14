@@ -2,7 +2,7 @@
 
 import { perPageLimit } from "@/utils/config";
 import React from "react";
-import moment from "moment";
+import moment from "moment-jalaali";
 import useOrderList from "@/hooks/useOrder";
 import useUsersList from "@/hooks/useUsers";
 import Pagination from "../pagination";
@@ -24,8 +24,6 @@ const OrderListTable = () => {
 
   const { data: allOrders } = useOrderList(Infinity);
   const { data: users } = useUsersList();
-
-  console.log(users, "users");
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -89,7 +87,7 @@ const OrderListTable = () => {
               return (
                 <tr
                   key={el._id}
-                  className="bg-[#0c1724] border-b border-CyanBlueDark odd:bg-[#0c1724] even:bg-CyanBlueDark"
+                  className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
                 >
                   <td className="px-4 py-5">
                     {users?.data.users.find((user) => user._id === el.user) ? (
@@ -109,7 +107,9 @@ const OrderListTable = () => {
                   </td>
                   <td className="px-4 py-5 justify-items-center">
                     <p className="text-sm text-slate-400 text-right">
-                      {moment(el.createdAt).format("YYYY/MM/DD")}
+                      {moment(el.createdAt, "YYYY/MM/DD")
+                        .locale("fa")
+                        .format("jYYYY/jMM/jDD")}
                     </p>
                   </td>
                   <td className="px-4 py-5">

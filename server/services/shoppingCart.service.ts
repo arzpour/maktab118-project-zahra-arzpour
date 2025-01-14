@@ -14,6 +14,8 @@ export const getShoppingCart: getShoppingCartType = async () => {
       .find()
       .toArray();
 
+    console.log(response, "rea");
+
     return response || [];
   } catch (error) {
     console.log(error);

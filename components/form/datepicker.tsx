@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
-import { useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   dateSchema,
@@ -11,24 +11,18 @@ import {
 
 const DatePickerDelivery = () => {
   const {
-    register,
-    setValue,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<dateSchemaType>({
     resolver: zodResolver(dateSchema),
+    mode: "onChange",
   });
 
-  const [selectedDate, setSelectedDate] = useState<any>(null);
+  const [selectedDate, setSelectedDate] = React.useState<string>("");
 
-  const handleDateChange = (date: any) => {
-    const formattedDate = date?.format("YYYY/MM/DD") || "";
-    setValue("deliveryDate", formattedDate, { shouldValidate: true });
-    setSelectedDate(date);
-  };
-
-  const onSubmit = (data: dateSchemaType) => {
-    console.log("تاریخ انتخاب‌ شده:", data.deliveryDate);
+  const onSubmit: SubmitHandler<dateSchemaType> = (data) => {
+    console.log("تاریخ انتخاب‌شده:", data.deliveryDate);
   };
 
   return (
@@ -37,33 +31,34 @@ const DatePickerDelivery = () => {
       className="mt-7 flex flex-col justify-between flex-wrap gap-4"
     >
       <div className="flex justify-between gap-1">
-        <div className="flex flex-col">
-          <DatePicker
-            value={selectedDate}
-            onChange={handleDateChange}
-            calendar={persian}
-            locale={persian_fa}
-            inputClass={`p-2 rounded border-b text-slate-300 text-sm border-slate-800 pr-1 bg-BackgroundColor text-slate-50 outline-none placeholder:text-xs ${
-              errors.deliveryDate ? "border-red-500" : ""
-            }`}
-            placeholder="تاریخ تحویل را انتخاب کنید"
-          />
-          <input
-            type="hidden"
-            {...register("deliveryDate")}
-            className="text-slate-500"
-          />
-          {errors.deliveryDate && (
-            <p className="text-red-500 text-xs mt-1">
-              {errors.deliveryDate.message}
-            </p>
+        <Controller
+          control={control}
+          name="deliveryDate"
+          render={({ field, fieldState }) => (
+            <div className="flex flex-col">
+              <DatePicker
+                value={selectedDate}
+                onChange={(date) => {
+                  const formatDate = date?.format("YYYY/MM/DD") || "";
+                  setSelectedDate(formatDate);
+                  field.onChange(formatDate);
+                  console.log(formatDate, "formatDate");
+                }}
+                calendar={persian}
+                locale={persian_fa}
+                inputClass={`p-2 rounded border-b text-slate-300 text-sm border-slate-800 pr-1 bg-BackgroundColor text-slate-50 outline-none placeholder:text-xs ${
+                  errors.deliveryDate ? "border-red-500" : ""
+                }`}
+                placeholder="تاریخ تحویل را انتخاب کنید"
+              />
+              {errors.deliveryDate && (
+                <p className="text-red-500 text-xs mt-1">
+                  {fieldState.error?.message}
+                </p>
+              )}
+            </div>
           )}
-        </div>
-        {/* {selectedDate && (
-          <p className="text-gray-600 text-sm mt-2">
-            تاریخ انتخاب‌شده: {selectedDate}
-          </p>
-        )} */}
+        />
         <button
           type="submit"
           className="px-4 py-2 rounded text-slate-300 text-sm underline"

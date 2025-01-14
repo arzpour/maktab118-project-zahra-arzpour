@@ -7,7 +7,7 @@ import useProductList from "@/hooks/useProduct";
 import OtherProductsCards from "../product-gorups/product-list-card";
 import ProductInfoCard, { ProductInfoCardSkeleton } from "./product-info-card";
 import Breadcrumbs from "../breadcrumbs";
-import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { useAppDispatch } from "@/redux/hook";
 import { productActions } from "@/redux/features/product.slice";
 
 const ProductInfoById = () => {
@@ -19,7 +19,6 @@ const ProductInfoById = () => {
   console.log(id);
 
   const findProduct = products?.data?.products.find((el) => el._id === id);
-  console.log(findProduct);
 
   if (isSuccess) {
     if (findProduct?._id !== id) {

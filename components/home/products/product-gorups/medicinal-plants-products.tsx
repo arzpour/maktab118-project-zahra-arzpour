@@ -6,7 +6,6 @@ const MedicinalPlantsProducts = () => {
     <OtherProductsCards
       categoryId="6750684d58eeb5911f2fccd9"
       categoryName="گیاهان دارویی"
-      productListLink="medicinal"
     />
   );
 };

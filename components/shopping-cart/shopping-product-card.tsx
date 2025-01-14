@@ -1,6 +1,4 @@
 import { useEditShoppingCart } from "@/apis/mutations/shopping-cart";
-import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
-import { queryClient } from "@/providers/tanstack.provider";
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch } from "@/redux/hook";
 import { editShoppingCartProductSchemaType } from "@/server/validations/shoppingCart.validation";

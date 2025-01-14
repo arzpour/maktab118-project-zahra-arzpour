@@ -20,13 +20,15 @@ export const urls = {
   orders: {
     list: "/orders",
     edit: (id: string) => `/orders/${id}`,
+    ById: (id: string) => `/orders/${id}`,
   },
   users: {
     list: "/users",
     userById: (id: string) => `/users/${id}`,
   },
   cart: {
-    list: "/shopping-cart",
-    ById: (id: string) => `/shopping-cart/${id}`,
+    list: `${process.env.NEXT_PUBLIC_SHOPPING_CART_URL}/shopping-cart`,
+    ById: (id: string) =>
+      `${process.env.NEXT_PUBLIC_SHOPPING_CART_URL}/shopping-cart/${id}`,
   },
 };

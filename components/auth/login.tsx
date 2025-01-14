@@ -7,8 +7,6 @@ import {
 } from "@/server/validations/auth.validation";
 import errorHandler from "@/utils/errorHandler";
 import {
-  getAccessToken,
-  getUserId,
   setAccessToken,
   setRefreshToken,
   setRole,
@@ -28,8 +26,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { useAddToShoppingCart } from "@/apis/mutations/shopping-cart";
 import { productActions } from "@/redux/features/product.slice";
 import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
-import { useQuery } from "@tanstack/react-query";
-import { getShoppingCartByUserId } from "@/apis/client/shopping-cart";
 
 interface ILoginForm {
   user?: boolean;
@@ -51,6 +47,8 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
     setShowPassword((prev) => !prev);
   };
 
+  const { data: shoppingCart, isSuccess } = useGetShoppingCartByUserId();
+
   const login = useLogin();
   const list = useAppSelector((state) => state.product.list);
 
@@ -66,21 +64,19 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
     try {
       if (list.length) {
         const getProductsList = (products: IShoppingCartProductList[]) => {
-          return products.map(
-            ({ _id, name, price, selectedQuantity, thumbnail }) => ({
-              _id: _id || "",
-              name: name || "",
-              price: price || 0,
-              selectedQuantity: selectedQuantity || 0,
-              thumbnail: thumbnail || "",
-            })
-          );
+          return products.map((el) => ({
+            _id: el._id || "",
+            name: el.name || "",
+            price: el.price || 0,
+            selectedQuantity: el.selectedQuantity || 0,
+            thumbnail: el.thumbnail || "",
+            quantity: el.quantity || 0,
+          }));
         };
         const data = getProductsList(list);
 
         await add.mutateAsync(data);
       }
-      await getShoppingCart();
     } catch (error) {
       // errorHandler(error as AxiosError<IError>);
       console.log(error);
@@ -119,29 +115,11 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
     }
   };
 
-  const getShoppingCart = async () => {
-    try {
-      const token = getAccessToken();
-      if (!token) {
-        throw new Error("توکن یافت نشد");
-      }
-
-      const userId = getUserId();
-
-      const shoppingCart = useQuery({
-        queryKey: ["get-shopping-cart-by-user-id"],
-        queryFn: () => getShoppingCartByUserId(userId || ""),
-        refetchOnWindowFocus: false,
-        retry: 1,
-      });
-      if (shoppingCart) {
-        dispatch(productActions.updateCart(shoppingCart.data?.products || []));
-      }
-    } catch (error) {
-      // errorHandler(error as AxiosError<IError>);
-      console.log(error);
+  React.useEffect(() => {
+    if (user && isSuccess && shoppingCart) {
+      dispatch(productActions.updateCart(shoppingCart.products || []));
     }
-  };
+  }, [user, shoppingCart, isSuccess, dispatch]);
 
   return (
     <form

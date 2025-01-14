@@ -5,10 +5,7 @@ import Link from "next/link";
 import React from "react";
 import ProductShoppingCart from "./product-card";
 import { productActions } from "@/redux/features/product.slice";
-import { toast } from "react-toastify";
 import { getUserId } from "@/utils/session";
-import errorHandler from "@/utils/errorHandler";
-import { AxiosError } from "axios";
 import { useDeleteShoppingCart } from "@/apis/mutations/shopping-cart";
 
 const ShoppingCart = () => {
@@ -78,15 +75,7 @@ const ShoppingCart = () => {
                 </div>
 
                 {list.map((el) => (
-                  <ProductShoppingCart
-                    key={el._id}
-                    _id={el._id}
-                    name={el.name}
-                    selectedQuantity={el.selectedQuantity}
-                    thumbnail={el.thumbnail}
-                    quantity={el.quantity}
-                    {...el}
-                  />
+                  <ProductShoppingCart key={el._id} {...el} />
                 ))}
               </div>
               <div className="flex justify-between items-center pr-10 col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">

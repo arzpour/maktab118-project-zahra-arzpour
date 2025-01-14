@@ -1,16 +1,18 @@
-import { getShoppingCartByUserId } from "@/apis/client/shopping-cart";
+import { getOrderById } from "@/apis/client/order";
 import errorHandler from "@/utils/errorHandler";
-import { getUserId } from "@/utils/session";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 
-const useGetShoppingCartByUserId = () => {
-  const userId = getUserId();
-
+const useGetOrderById = (id: string) => {
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-shopping-cart-by-user-id", userId],
-    queryFn: async () => await getShoppingCartByUserId(userId || ""),
+    queryKey: ["get-order-by-id", id],
+    queryFn: async () => {
+      const response = await getOrderById(id);
+      console.log(response, "resorder");
+
+      return response.order;
+    },
     refetchOnWindowFocus: false,
     retry: 1,
   });
@@ -22,4 +24,4 @@ const useGetShoppingCartByUserId = () => {
   return { data, isLoading, isSuccess };
 };
 
-export default useGetShoppingCartByUserId;
+export default useGetOrderById;

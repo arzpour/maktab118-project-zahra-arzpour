@@ -1,13 +1,15 @@
 import React from "react";
 
 interface IConfirmModal {
-  logoutHandler?: () => void;
+  onSubmitHandler?: () => void;
   setShowConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
+  status: "logout" | "delete-category" | "delete-product";
 }
 
-const ConfirmLogoutModal: React.FC<IConfirmModal> = ({
-  logoutHandler,
+const ConfirmModal: React.FC<IConfirmModal> = ({
+  onSubmitHandler,
   setShowConfirmModal,
+  status,
 }) => {
   return (
     <div
@@ -30,8 +32,8 @@ const ConfirmLogoutModal: React.FC<IConfirmModal> = ({
             onClick={(e) => e.stopPropagation()}
             className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:max-w-lg"
           >
-            <div className="bg-white px-6 md:px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-              <div className="flex gap-2 md:gap-4 items-center">
+            <div className="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+              <div className="flex gap-4 items-center">
                 <div className="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
                   <svg
                     className="size-6 text-red-600"
@@ -51,14 +53,20 @@ const ConfirmLogoutModal: React.FC<IConfirmModal> = ({
                 </div>
                 <div className="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
                   <p className="text-sm text-gray-700">
-                    مطمئنید که میخواهید خارج شود؟
+                    {status === "logout"
+                      ? "مطمئنید که میخواهید خارج شود؟"
+                      : status === "delete-category"
+                      ? "مطمئنید که میخواهید این دسته بندی را حذف کنید؟"
+                      : status === "delete-product"
+                      ? "مطمئنید که میخواهید این محصول را حذف کنید؟"
+                      : ""}
                   </p>
                 </div>
               </div>
             </div>
             <div className="bg-gray-50 px-4 pb-5 flex gap-2 sm:px-6 items-center justify-center">
               <button
-                onClick={logoutHandler}
+                onClick={onSubmitHandler}
                 type="button"
                 className="inline-flex w-full justify-center rounded-md bg-red-600 px-6 sm:px-10 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto"
               >
@@ -79,4 +87,4 @@ const ConfirmLogoutModal: React.FC<IConfirmModal> = ({
   );
 };
 
-export default ConfirmLogoutModal;
+export default ConfirmModal;
