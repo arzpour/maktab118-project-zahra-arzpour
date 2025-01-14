@@ -20,8 +20,6 @@ const SelectBox: React.FC<ISelectBox> = ({
   error,
   label,
 }) => {
-  console.log(selected);
-
   return (
     <div className="relative flex flex-col text-gray-900 mt-2 w-full">
       <select

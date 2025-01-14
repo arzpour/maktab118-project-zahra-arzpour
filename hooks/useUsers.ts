@@ -12,7 +12,6 @@ const useUsersList = () => {
         limit: Infinity,
         page: 1,
       });
-      console.log(res);
       return res;
     },
     refetchOnWindowFocus: false,

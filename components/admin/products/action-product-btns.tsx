@@ -6,8 +6,8 @@ import React from "react";
 import { toast } from "react-toastify";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
-import DeleteProductModal from "@/components/admin/modals/delete-product-modal";
 import EditProductModal from "@/components/admin/modals/edit-product-modal";
+import ConfirmModal from "../modals/confirm-modal";
 
 interface IActionBtns {
   id: string;
@@ -48,11 +48,11 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
       >
         ویرایش
       </button>
-
       {showDeleteProductModal && (
-        <DeleteProductModal
-          setShowDeleteProductModal={setShowDeleteProductModal}
-          deleteProduct={deleteOnclickHandler}
+        <ConfirmModal
+          setShowConfirmModal={setShowDeleteProductModal}
+          onSubmitHandler={deleteOnclickHandler}
+          status="delete-product"
         />
       )}
       {showEditProductModal && (

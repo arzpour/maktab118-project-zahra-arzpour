@@ -107,7 +107,7 @@ const OrderListTable = () => {
                   </td>
                   <td className="px-4 py-5 justify-items-center">
                     <p className="text-sm text-slate-400 text-right">
-                      {moment(el.createdAt, "YYYY/MM/DD")
+                      {moment(el.createdAt)
                         .locale("fa")
                         .format("jYYYY/jMM/jDD")}
                     </p>

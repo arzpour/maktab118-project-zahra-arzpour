@@ -9,7 +9,6 @@ const useGetProductById = (id: string) => {
     queryKey: ["get-product-by-id", id],
     queryFn: async () => {
       const response = await getProductById(id);
-      console.log(response);
       return response.data?.product;
     },
     refetchOnWindowFocus: false,

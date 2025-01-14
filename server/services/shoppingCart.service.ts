@@ -1,4 +1,4 @@
-import connectMongoDB from "../database/connection";
+import { db } from "../database/connection";
 import {
   addShoppingCartProductSchemaType,
   editShoppingCartProductSchemaType,
@@ -6,15 +6,11 @@ import {
 
 type getShoppingCartType = () => Promise<IShoppingCart[]>;
 export const getShoppingCart: getShoppingCartType = async () => {
-  const db = await connectMongoDB();
-
   try {
     const response = await db
       ?.collection<IShoppingCart>("cart")
       .find()
       .toArray();
-
-    console.log(response, "rea");
 
     return response || [];
   } catch (error) {
@@ -29,14 +25,10 @@ type getShoppingCartByUserIdType = (
 export const getShoppingCartByUserId: getShoppingCartByUserIdType = async (
   userId
 ) => {
-  const db = await connectMongoDB();
-
   try {
     const response = await db
       ?.collection<IShoppingCart>("cart")
       .findOne({ userId });
-
-    console.log(response);
 
     if (!response) return "not found";
 
@@ -56,8 +48,6 @@ export const addToShoppingCart: addToShoppingCartType = async ({
   data,
   userId,
 }) => {
-  const db = await connectMongoDB();
-
   try {
     const cart = await db?.collection("cart").findOne({ userId });
     const cartProducts = cart?.products || [];
@@ -113,8 +103,6 @@ export const editShoppingCart: editShoppingCartType = async ({
   data,
   userId,
 }) => {
-  const db = await connectMongoDB();
-
   try {
     const cart = await db?.collection("cart").findOne({ userId });
 
@@ -158,8 +146,6 @@ export const editShoppingCart: editShoppingCartType = async ({
 type deleteShoppingCartType = (userId: string) => Promise<string | undefined>;
 
 export const deleteShoppingCart: deleteShoppingCartType = async (userId) => {
-  const db = await connectMongoDB();
-
   try {
     const response = await db?.collection("cart").deleteOne({ userId });
 

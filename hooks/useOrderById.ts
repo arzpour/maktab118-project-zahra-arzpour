@@ -9,8 +9,6 @@ const useGetOrderById = (id: string) => {
     queryKey: ["get-order-by-id", id],
     queryFn: async () => {
       const response = await getOrderById(id);
-      console.log(response, "resorder");
-
       return response.order;
     },
     refetchOnWindowFocus: false,

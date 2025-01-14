@@ -15,7 +15,11 @@ export const getAllCategories: getAllCategoriesType = async ({
 type addCategoryType = (_: ICategoryReqDto) => Promise<IPostCategoryResDto>;
 export const addCategory: addCategoryType = async (body) => {
   const response = await generateAxiosInstance.post(urls.category.list, body);
-  console.log(response.data);
+  return response.data;
+};
 
+type deleteCategoryType = (id: string) => Promise<IDeleteCategory>;
+export const deleteCategory: deleteCategoryType = async (id) => {
+  const response = await generateAxiosInstance.delete(urls.category.delete(id));
   return response.data;
 };

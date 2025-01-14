@@ -7,6 +7,7 @@ export const urls = {
   },
   category: {
     list: "/categories",
+    delete: (id: string) => `/categories/${id}`,
   },
   subcategories: {
     list: "/subcategories",

@@ -13,7 +13,7 @@ import {
 } from "@/utils/session";
 import { useAppDispatch } from "@/redux/hook";
 import { productActions } from "@/redux/features/product.slice";
-import ConfirmModal from "../modals/confirm-logout-modal";
+import ConfirmModal from "../modals/confirm-modal";
 
 const AdminLogoutBtn = () => {
   const [showConfirmModal, setShowConfirmModal] =

@@ -7,7 +7,7 @@ import { perPageLimit } from "@/utils/config";
 import React from "react";
 import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
-import ActionBtns from "./action-products/action-product-btns";
+import ActionBtns from "./action-product-btns";
 import Image from "next/image";
 
 const ProductListTable = () => {

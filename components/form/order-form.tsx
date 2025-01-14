@@ -74,7 +74,7 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           <p>
             زمان سفارش:
             <span className="mr-2 text-slate-600 text-sm">
-              {moment(user?.createdAt, "YYYY/MM/DD")
+              {moment(user?.createdAt)
                 .locale("fa")
                 .format("hh:mm:ss ___ jYYYY/jMM/jDD")}
             </span>
@@ -118,7 +118,7 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           <p>
             زمان تحویل:
             <span className="mr-2 text-slate-600 text-sm">
-              {moment(getOrder?.updatedAt, "YYYY/MM/DD")
+              {moment(getOrder?.deliveryDate)
                 .locale("fa")
                 .format("hh:mm:ss ___ jYYYY/jMM/jDD")}
             </span>

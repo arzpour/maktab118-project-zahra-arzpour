@@ -1,6 +1,6 @@
 "use client";
 
-import { notFound, usePathname } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import React from "react";
 import useCategoryList from "@/hooks/useCategory";
 import useProductList from "@/hooks/useProduct";
@@ -14,14 +14,15 @@ const ProductInfoById = () => {
   const { data: categories, isSuccess: categoryLoaded } =
     useCategoryList(Infinity);
   const { data: products, isSuccess, isLoading } = useProductList(Infinity);
-  const route = usePathname();
-  const id = route.split("/").pop();
-  console.log(id);
 
-  const findProduct = products?.data?.products.find((el) => el._id === id);
+  const { productId } = useParams();
+
+  const findProduct = products?.data?.products.find(
+    (el) => el._id === productId
+  );
 
   if (isSuccess) {
-    if (findProduct?._id !== id) {
+    if (findProduct?._id !== productId) {
       notFound();
     }
   }

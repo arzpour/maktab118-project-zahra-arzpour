@@ -7,6 +7,7 @@ import Pagination from "../pagination";
 import useSubCategoryList from "@/hooks/useSubcategory";
 import TotalPageTable from "../total-page-table";
 import Image from "next/image";
+import ActionCategoryBtn from "./action-category-btn";
 
 const CategoryListTable = () => {
   const { page, setPage, data: categories } = useCategoryList();
@@ -91,17 +92,12 @@ const CategoryListTable = () => {
                 </td>
                 <td className="px-4 justify-items-center">
                   <div className="flex gap-1 justify-center truncate w-48 lg:w-72 !overflow-x-auto scrollbar">
-                    {getSubCategories(el.name!)}
+                    {getSubCategories(el.name || "")}
                   </div>
                 </td>
 
                 <td className="px-4">
-                  <button className="bg-red-600 text-white py-1.5 px-5 rounded text-sm ml-2">
-                    حذف
-                  </button>
-                  <button className="bg-orange text-white py-1.5 px-5 rounded text-sm mr-2">
-                    ویرایش
-                  </button>
+                  <ActionCategoryBtn id={el._id || ""} />
                 </td>
               </tr>
             ))}

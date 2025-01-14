@@ -34,3 +34,14 @@ interface IPostCategoryResDto {
     category: ICategory;
   };
 }
+
+interface IDeleteCategory {
+  status: string;
+  data: {
+    category: ICategory;
+    subcategories: {
+      acknowledged: boolean;
+      deletedCount: number;
+    };
+  };
+}
