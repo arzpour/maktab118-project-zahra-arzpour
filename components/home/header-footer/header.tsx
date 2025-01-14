@@ -52,7 +52,7 @@ const Header = () => {
               <button>تماس با ما</button>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
-              <button>وبلاگ</button>
+              <Link href={"/blog"}>وبلاگ</Link>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
               <Link href={"/admin-login"}>ادمین</Link>

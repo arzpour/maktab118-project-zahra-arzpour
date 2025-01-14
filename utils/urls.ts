@@ -32,4 +32,7 @@ export const urls = {
     ById: (id: string) =>
       `${process.env.NEXT_PUBLIC_SHOPPING_CART_URL}/shopping-cart/${id}`,
   },
+  blog: {
+    list: `${process.env.NEXT_PUBLIC_SHOPPING_CART_URL}/blog`,
+  },
 };
