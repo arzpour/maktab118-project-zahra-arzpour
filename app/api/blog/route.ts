@@ -21,8 +21,6 @@ export const GET = async () => {
 };
 
 export const POST = async (req: Request) => {
-  const body = await req.json();
-
   const cookies = req.headers.get("cookie");
 
   if (!cookies) {
@@ -51,7 +49,17 @@ export const POST = async (req: Request) => {
     );
   }
 
-  const validationResult = blogSchema.safeParse(body);
+  const body = await req.formData();
+
+  const thumbnail = body.get("thumbnail");
+
+  const blog: IBlogReqDto = {
+    title: body.get("title")?.toString() || "",
+    description: body.get("description")?.toString() || "",
+    thumbnail: thumbnail instanceof File ? thumbnail : undefined,
+  };
+
+  const validationResult = blogSchema.safeParse(blog);
 
   if (!validationResult.success) {
     return NextResponse.json(
@@ -60,7 +68,7 @@ export const POST = async (req: Request) => {
     );
   }
 
-  const addNewBlog = await addBlog({ data: body });
+  const addNewBlog = await addBlog(blog);
 
   if (!addNewBlog) {
     Response.json(

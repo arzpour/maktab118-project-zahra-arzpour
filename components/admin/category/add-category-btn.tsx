@@ -1,8 +1,7 @@
 "use client";
 
 import React from "react";
-import AddCategoryModal from "../modals/add-category-modal";
-import AddSubCategoryModal from "../modals/add-subcategory-modal";
+import CreateModal from "../modals/create-modal";
 
 const AddCategoryBtn = () => {
   const [showAddCategoryModal, setShowAddCategoryModal] =
@@ -20,7 +19,10 @@ const AddCategoryBtn = () => {
         اضافه کردن دسته بندی
       </button>
       {showAddCategoryModal && (
-        <AddCategoryModal setShowAddCategoryModal={setShowAddCategoryModal} />
+        <CreateModal
+          setShowAddModal={setShowAddCategoryModal}
+          status="category"
+        />
       )}
       <button
         onClick={() => setShowAddSubCategoryModal(true)}
@@ -29,8 +31,9 @@ const AddCategoryBtn = () => {
         اضافه کردن زیر مجموعه
       </button>
       {showAddSubCategoryModal && (
-        <AddSubCategoryModal
-          setShowAddSubCategoryModal={setShowAddSubCategoryModal}
+        <CreateModal
+          setShowAddModal={setShowAddSubCategoryModal}
+          status="subcategory"
         />
       )}
     </div>

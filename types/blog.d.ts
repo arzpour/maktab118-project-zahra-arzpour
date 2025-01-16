@@ -2,7 +2,6 @@ interface IBlogResDto {
   _id: string;
   title: string;
   thumbnail: string;
-  // date: string;
   description: string;
   createdAt: string;
   updatedAt: string;
@@ -10,8 +9,6 @@ interface IBlogResDto {
 
 interface IBlogReqDto {
   title: string;
-  thumbnail: string;
-  // date: string;
+  thumbnail?: File;
   description: string;
-  updatedAt: string;
 }

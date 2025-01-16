@@ -1,4 +1,4 @@
-import { getBlogs } from "@/server/services/blog.service";
+import { getBlogs } from "@/apis/client/blog";
 import errorHandler from "@/utils/errorHandler";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";

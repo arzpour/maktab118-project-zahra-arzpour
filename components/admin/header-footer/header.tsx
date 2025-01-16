@@ -23,7 +23,7 @@ const AdminPageHeader = () => {
                 پنل مدیریت
               </h3>
             </div>
-            <ul className="hidden md:flex gap-4 xl:text-lg lg:gap-8 items-center relative top-2">
+            <ul className="hidden md:flex gap-4 xl:text-base lg:gap-8 items-center relative top-2">
               <li className="hover:text-orange">
                 <Link href={"/admin/categories"}>دسته بندی ها</Link>
               </li>
@@ -32,6 +32,9 @@ const AdminPageHeader = () => {
               </li>
               <li className="hover:text-orange">
                 <Link href={"/admin/orders"}>سفارش ها</Link>
+              </li>
+              <li className="hover:text-orange">
+                <Link href={"/admin/blogs"}>بلاگ ها</Link>
               </li>
               <li className="hover:text-orange">
                 <Link href={"/admin/InventoryAndPrice"}>موجودی و قیمت</Link>

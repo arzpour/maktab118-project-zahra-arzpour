@@ -1,11 +1,6 @@
 "use client";
 
-import { useAddCategory } from "@/apis/mutations/category";
 import { queryClient } from "@/providers/tanstack.provider";
-import {
-  categorySchema,
-  categorySchemaType,
-} from "@/server/validations/subcategory.validation";
 import errorHandler from "@/utils/errorHandler";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AxiosError } from "axios";
@@ -22,10 +17,10 @@ import { TextEditor } from "./text-editor";
 import { Thumbnail } from "./thumbnail";
 
 interface IAddBlogForm {
-  setShowAddCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setShowAddBlogModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const AddBlogForm: React.FC<IAddBlogForm> = ({ setShowAddCategoryModal }) => {
+const AddBlogForm: React.FC<IAddBlogForm> = ({ setShowAddBlogModal }) => {
   const { handleSubmit, control } = useForm<blogSchemaType>({
     mode: "all",
     resolver: zodResolver(blogSchema),
@@ -36,18 +31,17 @@ const AddBlogForm: React.FC<IAddBlogForm> = ({ setShowAddCategoryModal }) => {
   const onSubmit: SubmitHandler<blogSchemaType> = async (data) => {
     const formData = new FormData();
 
-    const date = new Date();
-
-    formData.append("title", data.title);
-    formData.append("description", data.description);
-    formData.append("updatedAt", date.toString());
+    formData.append("title", data.title || "");
+    formData.append("description", data.description || "");
 
     if (data.thumbnail instanceof File) {
       formData.append("thumbnail", data.thumbnail);
     }
+
     try {
       await addBlog.mutateAsync(formData);
-      setShowAddCategoryModal(false);
+
+      setShowAddBlogModal(false);
       toast.success("ایجاد شد");
       queryClient.invalidateQueries({ queryKey: ["get-blogs"] });
     } catch (error) {
@@ -62,18 +56,20 @@ const AddBlogForm: React.FC<IAddBlogForm> = ({ setShowAddCategoryModal }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="md:max-w-md w-full mx-auto"
     >
-      <Controller
-        control={control}
-        name="title"
-        render={({ field, fieldState }) => (
-          <Input
-            type="text"
-            placeholder="عنوان"
-            error={fieldState.error?.message}
-            {...field}
-          />
-        )}
-      />
+      <div className="mb-5">
+        <Controller
+          control={control}
+          name="title"
+          render={({ field, fieldState }) => (
+            <Input
+              type="text"
+              placeholder="عنوان"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+      </div>
 
       <Controller
         control={control}

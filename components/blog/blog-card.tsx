@@ -1,12 +1,12 @@
 import React from "react";
 
-const BlogCard: React.FC<IBlog> = ({
+const BlogCard: React.FC<IBlogResDto> = ({
   // date,
   description,
   _id,
   thumbnail,
   title,
-  updatedAt
+  updatedAt,
 }) => {
   return (
     <div className="bg-white py-24 sm:py-32">
