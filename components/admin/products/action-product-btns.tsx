@@ -25,6 +25,7 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
     try {
       await deleteProduct.mutateAsync(id);
       toast.success("حذف شد");
+      setShowDeleteProductModal(false);
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
       console.log(error);

@@ -1,11 +1,19 @@
 import connectMongoDB from "../database/connection";
+import { ObjectId } from "mongodb";
 
-type getBlogsType = () => Promise<IBlogResDto[]>;
-export const getBlogs: getBlogsType = async () => {
+type getBlogsType = (_: IParams) => Promise<IBlogResDto[]>;
+export const getBlogs: getBlogsType = async ({ limit, page }) => {
   const db = await connectMongoDB();
 
+  const skip = (page - 1) * limit;
+
   try {
-    const response = await db?.collection("blog").find().toArray();
+    const response = await db
+      ?.collection("blog")
+      .find()
+      .skip(skip)
+      .limit(limit)
+      .toArray();
 
     const blogs: IBlogResDto[] = (response || []).map((blog) => ({
       _id: blog._id.toString(),
@@ -58,5 +66,22 @@ export const addBlog: addBlogType = async ({
   } catch (error) {
     console.log(error);
     throw new Error("error!");
+  }
+};
+
+type deleteBlogType = (id: string) => Promise<string | undefined>;
+export const deleteBlog: deleteBlogType = async (id) => {
+  const db = await connectMongoDB();
+
+  if (!db) {
+    console.log("Database connection failed");
+    return undefined;
+  }
+
+  try {
+    await db?.collection("blog").deleteOne({ _id: new ObjectId(id) });
+    return "deleted";
+  } catch (error) {
+    console.log(error);
   }
 };

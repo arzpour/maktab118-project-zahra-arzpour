@@ -6,14 +6,14 @@ import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
 import Image from "next/image";
 import useGetBlogs from "@/hooks/useGetBlogs";
-import ActionCategoryBtn from "../category/action-category-btn";
+import ActionBlogBtn from "./action-blog-btn";
 
 const BlogListTable = () => {
-  const [page, setPage] = React.useState<number>(1);
+  // const [page, setPage] = React.useState<number>(1);
 
-  const { data } = useGetBlogs();
+  const { data, page, setPage } = useGetBlogs(Infinity);
 
-  console.log(data, "dataaaa");
+  console.log(data, "data");
 
   const totalPages = Math.ceil(data?.length! / perPageLimit);
 
@@ -28,23 +28,18 @@ const BlogListTable = () => {
       <div className="relative flex flex-col w-full h-full text-slate-300 bg-CyanBlueDark shadow-md rounded-xl bg-clip-border overflow-auto scrollbar">
         <table className="w-full text-center table-auto min-w-max">
           <thead>
-            <tr>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark">
+            <tr className="col-span-12">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/3">
                 <p className="text-sm font-normal leading-none text-slate-400">
-                  آیکون دسته بندی
+                  تصویر بلاگ
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-2/5">
                 <p className="text-sm font-normal leading-none text-slate-400">
-                  نام دسته بندی
+                  عنوان بلاگ
                 </p>
               </th>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark">
-                <p className="text-sm font-normal leading-none text-slate-400">
-                  زیر مجموعه ها
-                </p>
-              </th>
-              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark">
+              <th className="p-4 py-6 border-b border-CyanBlueDark bg-CyanBlueDark w-1/3">
                 <p className="text-sm font-normal leading-none text-slate-400">
                   تغییرات
                 </p>
@@ -59,7 +54,7 @@ const BlogListTable = () => {
               >
                 <td className="p-4 py-5 flex justify-center">
                   <Image
-                    src={`http://localhost:8000/images/categories/icons/${el.thumbnail}`}
+                    src={`http://localhost:8000/images/blogs/${el.thumbnail}`}
                     alt="عکس محصول"
                     width={500}
                     height={500}
@@ -69,14 +64,8 @@ const BlogListTable = () => {
                 <td className="px-4">
                   <p className="text-sm text-slate-400">{el.title}</p>
                 </td>
-                <td className="px-4 justify-items-center">
-                  <div className="flex gap-1 justify-center truncate w-48 lg:w-72 !overflow-x-auto scrollbar">
-                    {/* {getSubCategories(el.name || "")} */}i dont know
-                  </div>
-                </td>
-
                 <td className="px-4">
-                  <ActionCategoryBtn id={el._id || ""} />
+                  <ActionBlogBtn id={el._id || ""} />
                 </td>
               </tr>
             ))}

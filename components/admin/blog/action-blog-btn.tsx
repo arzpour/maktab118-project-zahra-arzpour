@@ -1,26 +1,29 @@
-import { useDeleteCategory } from "@/apis/mutations/category";
+"use client";
+
 import { queryClient } from "@/providers/tanstack.provider";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 import ConfirmModal from "../modals/confirm-modal";
+import { useDeleteblog } from "@/apis/mutations/blog";
 
-interface IActionCategoryBtn {
+interface IActionBlogBtn {
   id: string;
 }
 
-const ActionCategoryBtn: React.FC<IActionCategoryBtn> = ({ id }) => {
-  const [showDeleteCategoryModal, setShowDeleteCategoryModal] =
+const ActionBlogBtn: React.FC<IActionBlogBtn> = ({ id }) => {
+  const [showDeleteBlogModal, setShowDeleteBlogModal] =
     React.useState<boolean>(false);
-  const deleteCategory = useDeleteCategory();
+  const deleteBlog = useDeleteblog();
 
-  const deleteCategoryHandler = async () => {
+  const deleteBlogHandler = async () => {
     try {
-      await deleteCategory.mutateAsync(id);
+      await deleteBlog.mutateAsync(id);
+
       toast.success("حذف شد");
-      setShowDeleteCategoryModal(false);
-      queryClient.invalidateQueries({ queryKey: ["get-categories"] });
+      setShowDeleteBlogModal(false);
+      queryClient.invalidateQueries({ queryKey: ["get-blogs"] });
     } catch (error) {
       toast.error("حذف نشد");
       errorHandler(error as AxiosError<IError>);
@@ -30,7 +33,7 @@ const ActionCategoryBtn: React.FC<IActionCategoryBtn> = ({ id }) => {
   return (
     <>
       <button
-        onClick={() => setShowDeleteCategoryModal(true)}
+        onClick={() => setShowDeleteBlogModal(true)}
         className="bg-red-600 text-white py-1.5 px-5 rounded text-sm ml-2"
       >
         حذف
@@ -39,15 +42,15 @@ const ActionCategoryBtn: React.FC<IActionCategoryBtn> = ({ id }) => {
         ویرایش
       </button>
 
-      {showDeleteCategoryModal && (
+      {showDeleteBlogModal && (
         <ConfirmModal
-          setShowConfirmModal={setShowDeleteCategoryModal}
-          onSubmitHandler={deleteCategoryHandler}
-          status="delete-category"
+          setShowConfirmModal={setShowDeleteBlogModal}
+          onSubmitHandler={deleteBlogHandler}
+          status="delete-blog"
         />
       )}
     </>
   );
 };
 
-export default ActionCategoryBtn;
+export default ActionBlogBtn;

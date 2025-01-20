@@ -8,7 +8,7 @@ import React from "react";
 const useUserById = () => {
   const userId = getUserId();
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-user-by-id"],
+    queryKey: ["get-user-by-id", userId],
     queryFn: () => getUserById(userId || ""),
     refetchOnWindowFocus: false,
     retry: 1,

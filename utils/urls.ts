@@ -28,11 +28,13 @@ export const urls = {
     userById: (id: string) => `/users/${id}`,
   },
   cart: {
-    list: `${process.env.NEXT_PUBLIC_SHOPPING_CART_URL}/shopping-cart`,
+    list: `${process.env.NEXT_PUBLIC_DATABASE_URL}/shopping-cart`,
     ById: (id: string) =>
-      `${process.env.NEXT_PUBLIC_SHOPPING_CART_URL}/shopping-cart/${id}`,
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/shopping-cart/${id}`,
   },
   blog: {
-    list: `${process.env.NEXT_PUBLIC_SHOPPING_CART_URL}/blog`,
+    list: `${process.env.NEXT_PUBLIC_DATABASE_URL}/blog`,
+    ById: (id: string) =>
+      `${process.env.NEXT_PUBLIC_DATABASE_URL}/blog/${id}`,
   },
 };

@@ -9,7 +9,7 @@ const useOrderList = (limitCus?: number, page?: number) => {
   const limit = limitCus ?? perPageLimit;
 
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-orders", limit],
+    queryKey: ["get-orders", limit, page],
     queryFn: async () => {
       const res = await getAllOrders({
         limit: limit,

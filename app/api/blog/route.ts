@@ -3,8 +3,22 @@ import { NextResponse } from "next/server";
 import { parse } from "cookie";
 import { blogSchema } from "@/server/validations/blog.validation";
 
-export const GET = async () => {
-  const blogs = await getBlogs();
+export const GET = async (req: Request) => {
+  const url = new URL(req.url);
+  console.log(url, "url");
+
+  const page = parseInt(url.searchParams.get("page") || "1");
+
+  const limit = parseInt(url.searchParams.get("limit") || "6");
+
+  console.log(limit, "limit");
+
+  console.log(page, "page");
+
+  const blogs = await getBlogs({
+    limit,
+    page,
+  });
 
   if (!blogs) {
     Response.json(

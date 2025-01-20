@@ -11,7 +11,7 @@ const useSubCategoryList = (limitCus?: number) => {
   const limit = limitCus ?? perPageLimit;
 
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-subcategories", page],
+    queryKey: ["get-subcategories", page, limit],
     queryFn: async () => {
       const res = await getAllSubCategories({
         limit: limit,
