@@ -28,11 +28,8 @@ const AddCategoryForm: React.FC<IAddCategoryForm> = ({
 
   const createCategory = useAddCategory();
 
-  console.log(createCategory.data?.data?.category);
-
   const onSubmit: SubmitHandler<categorySchemaType> = async (data) => {
     try {
-      console.log(data);
       await createCategory.mutateAsync(data);
       setShowAddCategoryModal(false);
       toast.success("ایجاد شد");

@@ -4,8 +4,6 @@ import { useAppSelector } from "@/redux/hook";
 import Link from "next/link";
 import React from "react";
 import { IoLocationSharp } from "react-icons/io5";
-import { getUserId } from "@/utils/session";
-import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
 import useUserById from "@/hooks/useUserById";
 import EditAddress from "./edit-address";
 import DatePickerDelivery from "../form/datepicker";

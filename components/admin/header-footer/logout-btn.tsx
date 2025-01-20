@@ -4,7 +4,6 @@ import React from "react";
 import { CiLogout } from "react-icons/ci";
 import { toast } from "react-toastify";
 import { redirect } from "next/navigation";
-import ConfirmLogoutModal from "../modals/confirm-logout-modal";
 import { logout } from "@/apis/client/auth";
 import {
   deleteAccessToken,
@@ -14,6 +13,7 @@ import {
 } from "@/utils/session";
 import { useAppDispatch } from "@/redux/hook";
 import { productActions } from "@/redux/features/product.slice";
+import ConfirmModal from "../modals/confirm-modal";
 
 const AdminLogoutBtn = () => {
   const [showConfirmModal, setShowConfirmModal] =
@@ -42,9 +42,10 @@ const AdminLogoutBtn = () => {
         />
       </button>
       {showConfirmModal && (
-        <ConfirmLogoutModal
+        <ConfirmModal
           setShowConfirmModal={setShowConfirmModal}
-          logoutHandler={logoutHandler}
+          onSubmitHandler={logoutHandler}
+          status="logout"
         />
       )}
     </>

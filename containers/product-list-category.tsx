@@ -8,7 +8,7 @@ import { perPageLimit } from "@/utils/config";
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/home/products/product-card";
-import { notFound, usePathname } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 
 const ProductListByCategory: React.FC = () => {
   const [selectedSubcategory, setSelectedSubcategory] = React.useState<
@@ -20,15 +20,14 @@ const ProductListByCategory: React.FC = () => {
     useSubCategoryList(Infinity);
   const { data: products, isSuccess, isLoading } = useProductList(Infinity);
 
-  const route = usePathname();
-  const id = route.split("/").pop();
+  const { productId } = useParams();
 
   const getProductsByCategory = products?.data?.products.filter(
-    (el) => el.category === id
+    (el) => el.category === productId
   );
 
   const getSubCategoryList = subCategories?.data?.subcategories.filter(
-    (el) => el.category === id
+    (el) => el.category === productId
   );
 
   const filteredProducts = React.useMemo(() => {

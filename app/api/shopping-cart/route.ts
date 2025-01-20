@@ -6,34 +6,7 @@ import { NextResponse } from "next/server";
 import { parse } from "cookie";
 import { addShoppingCartProductSchema } from "@/server/validations/shoppingCart.validation";
 
-export const GET = async (req: Request) => {
-  const cookies = req.headers.get("cookie");
-
-  if (!cookies) {
-    return NextResponse.json(
-      {
-        error: "Unauthorized",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
-
-  const parseCookies = parse(cookies);
-
-  const token = parseCookies["accsess-token-store"];
-
-  if (!token) {
-    return NextResponse.json(
-      {
-        error: "Unauthorized",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
+export const GET = async () => {
   const products = await getShoppingCart();
 
   if (!products) {

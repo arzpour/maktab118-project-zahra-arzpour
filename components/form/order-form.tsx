@@ -1,18 +1,15 @@
 import { useEditOrder } from "@/apis/mutations/order";
-import useOrderList from "@/hooks/useOrder";
-import useProductList from "@/hooks/useProduct";
-import useUsersList from "@/hooks/useUsers";
 import { queryClient } from "@/providers/tanstack.provider";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
-import moment from "moment";
+import moment from "moment-jalaali";
 import React from "react";
 import { toast } from "react-toastify";
-import { FaLocationDot } from "react-icons/fa6";
+import { FaCalendarCheck, FaLocationDot } from "react-icons/fa6";
 import { FaUser } from "react-icons/fa";
 import { FaPhone } from "react-icons/fa";
 import { IoTime } from "react-icons/io5";
-import { FaCalendarCheck } from "react-icons/fa";
+import useGetOrderById from "@/hooks/useOrderById";
 
 interface IOrderForm {
   setShowOrderModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,19 +17,9 @@ interface IOrderForm {
 }
 
 const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
-  const { data: orders } = useOrderList(Infinity);
+  const { data: getOrder } = useGetOrderById(id);
 
-  const { data: users } = useUsersList();
-
-  const { data: products } = useProductList(Infinity);
-
-  const findOrder = orders?.data.orders.find((el) => el._id === id);
-
-  const findUser = users?.data.users.find((el) => el._id === findOrder?.user);
-
-  const productName = products?.data?.products.find(
-    (el) => el._id === findOrder?.products[0].product
-  )?.name;
+  const user = getOrder?.user;
 
   const editOrder = useEditOrder();
 
@@ -40,21 +27,13 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
     try {
       await editOrder.mutateAsync(id);
 
-      toast.success("سفارش به تحویل داده شده تغییر یافت", {
-        style: { backgroundColor: "#6e6e6e", color: "#fff", fontSize: "15px" },
-      });
+      toast.success("سفارش به تحویل داده شده تغییر یافت");
 
       setShowOrderModal(false);
 
       queryClient.invalidateQueries({ queryKey: ["get-orders"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد", {
-        style: {
-          backgroundColor: "#6e6e6e",
-          color: "#fff",
-          fontSize: "15px",
-        },
-      });
+      toast.error("اطلاعات اشتباه میباشد");
       errorHandler(error as AxiosError<IError>);
       console.log(error);
     }
@@ -68,7 +47,7 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           <p>
             نام مشتری:
             <span className="mr-2 text-slate-600 text-sm">
-              {findUser?.firstname} {findUser?.lastname}
+              {user?.firstname} {user?.lastname}
             </span>
           </p>
         </div>
@@ -77,9 +56,7 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           <FaLocationDot className="w-4 h-4" />
           <p>
             آدرس:
-            <span className="mr-2 text-slate-600 text-sm">
-              {findUser?.address}
-            </span>
+            <span className="mr-2 text-slate-600 text-sm">{user?.address}</span>
           </p>
         </div>
 
@@ -88,17 +65,18 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           <p>
             تلفن:
             <span className="mr-2 text-slate-600 text-sm">
-              {findUser?.phoneNumber}
+              {user?.phoneNumber}
             </span>
           </p>
         </div>
-
         <div className="flex justify-center items-center gap-2">
           <IoTime className="w-4 h-4" />
           <p>
             زمان سفارش:
             <span className="mr-2 text-slate-600 text-sm">
-              {moment(findUser?.createdAt).format("hh:mm:ss ___ DD/MM/YYYY")}
+              {moment(user?.createdAt)
+                .locale("fa")
+                .format("hh:mm:ss ___ jYYYY/jMM/jDD")}
             </span>
           </p>
         </div>
@@ -118,37 +96,37 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           </tr>
         </thead>
         <tbody>
-          <tr className="hover:bg-slate-100">
-            {findOrder?.products.map((el) => (
-              <>
-                <td className="p-4">
-                  <p className="text-sm">{productName}</p>
-                </td>
-                <td className="p-4">
-                  <p className="text-sm">{findOrder.totalPrice}</p>
-                </td>
-                <td className="p-4">
-                  <p className="text-sm">{el.count}</p>
-                </td>
-              </>
-            ))}
-          </tr>
+          {getOrder?.products.map((el) => (
+            <tr key={el._id} className="hover:bg-slate-100">
+              <td className="p-4">
+                <p className="text-sm">{el.product.name}</p>
+              </td>
+              <td className="p-4">
+                <p className="text-sm">{el.product.price}</p>
+              </td>
+              <td className="p-4">
+                <p className="text-sm">{el.count}</p>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
-      {findOrder?.deliveryStatus === true && (
+      {getOrder?.deliveryStatus === true && (
         <div className="flex justify-center items-center gap-2 text-BlueDark mt-9 mb-3">
           <FaCalendarCheck className="w-4 h-4" />
           <p>
             زمان تحویل:
             <span className="mr-2 text-slate-600 text-sm">
-              {moment(findUser?.updatedAt).format("hh:mm:ss ___ DD/MM/YYYY")}
+              {moment(getOrder?.deliveryDate)
+                .locale("fa")
+                .format("hh:mm:ss ___ jYYYY/jMM/jDD")}
             </span>
           </p>
         </div>
       )}
 
-      {findOrder?.deliveryStatus === false && (
+      {getOrder?.deliveryStatus !== true && (
         <div className="text-center mt-5 mb-3">
           <button
             onClick={editHandler}

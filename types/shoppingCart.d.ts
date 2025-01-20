@@ -7,6 +7,7 @@ interface IShoppingCart {
     price: number;
     selectedQuantity: number;
     thumbnail: string;
+    quantity: number;
   }[];
   createdAt: string;
   updatedAt: string;
@@ -17,6 +18,7 @@ interface IAddToShoppingCartReqDto {
   name: string;
   price: number;
   selectedQuantity: number;
+  quantity: number;
   thumbnail: string;
 }
 

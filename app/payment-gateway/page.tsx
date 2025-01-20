@@ -98,6 +98,9 @@ const PaymentGateway = () => {
             <Link href={"/purchase-status?success=false"}>کنسل</Link>
           </p>
         </form>
+        <div className="text-sm text-gray-500 text-center border-t pt-4 !mt-3">
+          <p>این درگاه صرفاً به‌عنوان نمونه طراحی شده است.</p>
+        </div>
       </div>
     </div>
   );

@@ -9,6 +9,12 @@ export const getAllOrders: getAllOrdersType = async (params) => {
   return response.data;
 };
 
+type getOrderByIdType = (id: string) => Promise<IGetOrderOrderByIdResDto>;
+export const getOrderById: getOrderByIdType = async (id) => {
+  const response = await generateAxiosInstance.get(urls.orders.ById(id));
+  return response.data.data;
+};
+
 type addOrderType = (_: IAddOrderReqDto) => Promise<IAddOrderResDto>;
 export const addOrder: addOrderType = async (body) => {
   const response = await generateAxiosInstance.post(urls.orders.list, body);

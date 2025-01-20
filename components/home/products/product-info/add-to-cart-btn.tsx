@@ -116,6 +116,7 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
           price: productItem?.price || Number(price),
           selectedQuantity: getSelectedQuantity,
           thumbnail: productItem?.thumbnail || thumbnail,
+          quantity: productItem?.quantity || 0,
         },
       ];
 

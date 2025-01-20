@@ -16,7 +16,6 @@ import { FaEye } from "react-icons/fa6";
 import { BsEyeSlashFill } from "react-icons/bs";
 import { useSignup } from "@/apis/mutations/auth";
 import {
-  getAccessToken,
   getUserId,
   setAccessToken,
   setRefreshToken,
@@ -26,8 +25,6 @@ import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { useAddToShoppingCart } from "@/apis/mutations/shopping-cart";
 import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
 import { productActions } from "@/redux/features/product.slice";
-import { getShoppingCartByUserId } from "@/apis/client/shopping-cart";
-import { useQuery } from "@tanstack/react-query";
 
 const SignupUserForm: React.FC = () => {
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
@@ -46,8 +43,10 @@ const SignupUserForm: React.FC = () => {
 
   const signup = useSignup();
   const { push } = useRouter();
+  const user = getUserId();
 
   const list = useAppSelector((state) => state.product.list);
+  const { data: shoppingCart, isSuccess } = useGetShoppingCartByUserId();
 
   const add = useAddToShoppingCart();
   const dispatch = useAppDispatch();
@@ -60,22 +59,19 @@ const SignupUserForm: React.FC = () => {
     if (!list.length) return;
 
     const getProductsList = (products: IShoppingCartProductList[]) => {
-      return products.map(
-        ({ _id, name, price, selectedQuantity, thumbnail }) => ({
-          _id: _id || "",
-          name: name || "",
-          price: price || 0,
-          selectedQuantity: selectedQuantity || 0,
-          thumbnail: thumbnail || "",
-        })
-      );
+      return products.map((el) => ({
+        _id: el._id || "",
+        name: el.name || "",
+        price: el.price || 0,
+        selectedQuantity: el.selectedQuantity || 0,
+        thumbnail: el.thumbnail || "",
+        quantity: el.quantity || 0,
+      }));
     };
     const data = getProductsList(list);
 
     try {
       await add.mutateAsync(data);
-
-      await getShoppingCart();
     } catch (error) {
       console.log(error);
     }
@@ -108,28 +104,12 @@ const SignupUserForm: React.FC = () => {
     }
   };
 
-  const getShoppingCart = async () => {
-    try {
-      const token = getAccessToken();
-      if (!token) {
-        throw new Error("توکن یافت نشد");
-      }
-
-      const userId = getUserId();
-
-      const shoppingCart = useQuery({
-        queryKey: ["get-shopping-cart-by-user-id"],
-        queryFn: () => getShoppingCartByUserId(userId || ""),
-        refetchOnWindowFocus: false,
-        retry: 1,
-      });
-      if (shoppingCart) {
-        dispatch(productActions.updateCart(shoppingCart.data?.products || []));
-      }
-    } catch (error) {
-      console.log(error);
+  React.useEffect(() => {
+    if (user && isSuccess && shoppingCart) {
+      dispatch(productActions.updateCart(shoppingCart.products || []));
     }
-  };
+  }, [user, shoppingCart, isSuccess, dispatch]);
+
   return (
     <form onSubmit={handleSubmit(onSubmitHandler)} className="space-y-4">
       <div className="flex w-full gap-4 mt-2">

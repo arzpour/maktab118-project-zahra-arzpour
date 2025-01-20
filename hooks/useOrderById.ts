@@ -1,18 +1,15 @@
-import { getUsers } from "@/apis/client/user";
+import { getOrderById } from "@/apis/client/order";
 import errorHandler from "@/utils/errorHandler";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 
-const useUsersList = () => {
+const useGetOrderById = (id: string) => {
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-users"],
+    queryKey: ["get-order-by-id", id],
     queryFn: async () => {
-      const res = await getUsers({
-        limit: Infinity,
-        page: 1,
-      });
-      return res;
+      const response = await getOrderById(id);
+      return response.order;
     },
     refetchOnWindowFocus: false,
     retry: 1,
@@ -25,4 +22,4 @@ const useUsersList = () => {
   return { data, isLoading, isSuccess };
 };
 
-export default useUsersList;
+export default useGetOrderById;

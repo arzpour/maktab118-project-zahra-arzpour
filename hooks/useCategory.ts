@@ -17,7 +17,6 @@ const useCategoryList = (limitCus?: number) => {
         limit: limit,
         page,
       });
-      console.log(res);
       return res;
     },
     refetchOnWindowFocus: false,

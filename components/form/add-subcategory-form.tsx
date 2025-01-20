@@ -27,8 +27,6 @@ const AddSubCategoryForm: React.FC<IAddSubCategoryForm> = ({
 
   const { data: categoryData } = useCategoryList();
 
-  console.log(categoryData);
-
   const categoryId =
     categoryData?.data?.categories.find(
       (category) => category.name === selectedCategory
@@ -47,9 +45,7 @@ const AddSubCategoryForm: React.FC<IAddSubCategoryForm> = ({
 
   const onSubmit: SubmitHandler<subcategorySchemaType> = async (data) => {
     try {
-      console.log(data);
       const newData = { ...data, category: categoryId };
-      console.log(newData);
 
       await createSubCategory.mutateAsync(newData);
       setShowAddSubCategoryModal(false);
