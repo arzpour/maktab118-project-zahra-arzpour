@@ -5,17 +5,12 @@ import { blogSchema } from "@/server/validations/blog.validation";
 
 export const GET = async (req: Request) => {
   const url = new URL(req.url);
-  console.log(url, "url");
 
   const page = parseInt(url.searchParams.get("page") || "1");
 
   const limit = parseInt(url.searchParams.get("limit") || "6");
 
-  console.log(limit, "limit");
-
-  console.log(page, "page");
-
-  const blogs = await getBlogs({
+  const { blogs, total, totalPages } = await getBlogs({
     limit,
     page,
   });
@@ -31,7 +26,7 @@ export const GET = async (req: Request) => {
     );
   }
 
-  return Response.json({ data: blogs });
+  return Response.json({ data: blogs, total, totalPages, page });
 };
 
 export const POST = async (req: Request) => {

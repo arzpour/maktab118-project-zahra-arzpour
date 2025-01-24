@@ -12,7 +12,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Input } from "./input";
+import { Input } from "../input";
 
 interface IAddCategoryForm {
   setShowAddCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;

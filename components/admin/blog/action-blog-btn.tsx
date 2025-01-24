@@ -6,7 +6,8 @@ import { AxiosError } from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 import ConfirmModal from "../modals/confirm-modal";
-import { useDeleteblog } from "@/apis/mutations/blog";
+import { useDeleteBlog, useEditBlog } from "@/apis/mutations/blog";
+import EditModal from "../modals/edit-product-modal";
 
 interface IActionBlogBtn {
   id: string;
@@ -15,7 +16,10 @@ interface IActionBlogBtn {
 const ActionBlogBtn: React.FC<IActionBlogBtn> = ({ id }) => {
   const [showDeleteBlogModal, setShowDeleteBlogModal] =
     React.useState<boolean>(false);
-  const deleteBlog = useDeleteblog();
+
+  const [showEditBlogModal, setShowEditBlogModal] =
+    React.useState<boolean>(false);
+  const deleteBlog = useDeleteBlog();
 
   const deleteBlogHandler = async () => {
     try {
@@ -38,7 +42,10 @@ const ActionBlogBtn: React.FC<IActionBlogBtn> = ({ id }) => {
       >
         حذف
       </button>
-      <button className="bg-orange text-white py-1.5 px-5 rounded text-sm mr-2">
+      <button
+        onClick={() => setShowEditBlogModal(true)}
+        className="bg-orange text-white py-1.5 px-5 rounded text-sm mr-2"
+      >
         ویرایش
       </button>
 
@@ -47,6 +54,14 @@ const ActionBlogBtn: React.FC<IActionBlogBtn> = ({ id }) => {
           setShowConfirmModal={setShowDeleteBlogModal}
           onSubmitHandler={deleteBlogHandler}
           status="delete-blog"
+        />
+      )}
+
+      {showEditBlogModal && (
+        <EditModal
+          setShowEditModal={setShowDeleteBlogModal}
+          id={id}
+          status="blog"
         />
       )}
     </>

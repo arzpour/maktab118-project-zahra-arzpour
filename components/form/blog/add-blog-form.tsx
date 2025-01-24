@@ -7,14 +7,14 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Input } from "./input";
+import { Input } from "../input";
 import { useAddBlog } from "@/apis/mutations/blog";
 import {
   blogSchema,
   blogSchemaType,
 } from "@/server/validations/blog.validation";
-import { TextEditor } from "./text-editor";
-import { Thumbnail } from "./thumbnail";
+import { TextEditor } from "../text-editor";
+import { Thumbnail } from "../thumbnail";
 
 interface IAddBlogForm {
   setShowAddBlogModal: React.Dispatch<React.SetStateAction<boolean>>;

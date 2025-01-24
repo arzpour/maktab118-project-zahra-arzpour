@@ -1,7 +1,7 @@
-import AddBlogForm from "@/components/form/add-blog-form";
-import AddCategoryForm from "@/components/form/add-category-form";
-import AddProductForm from "@/components/form/add-product-form";
-import AddSubCategoryForm from "@/components/form/add-subcategory-form";
+import AddBlogForm from "@/components/form/blog/add-blog-form";
+import AddCategoryForm from "@/components/form/categories/add-category-form";
+import AddProductForm from "@/components/form/product/add-product-form";
+import AddSubCategoryForm from "@/components/form/categories/add-subcategory-form";
 import React from "react";
 
 interface ICreateModal {

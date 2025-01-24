@@ -14,11 +14,11 @@ import {
   productSchemaType,
 } from "@/server/validations/product.validation";
 import { useAddProducts } from "@/apis/mutations/product";
-import SelectBox from "./selectbox-categories";
-import { Input } from "./input";
-import { Thumbnail } from "./thumbnail";
-import { Images } from "./images";
-import { TextEditor } from "./text-editor";
+import SelectBox from "../selectbox-categories";
+import { Input } from "../input";
+import { Thumbnail } from "../thumbnail";
+import { Images } from "../images";
+import { TextEditor } from "../text-editor";
 
 interface IAddProductForm {
   setShowAddProductModal: React.Dispatch<React.SetStateAction<boolean>>;

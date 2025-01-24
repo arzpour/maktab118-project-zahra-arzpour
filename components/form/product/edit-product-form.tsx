@@ -10,14 +10,14 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Images } from "./images";
+import { Images } from "../images";
 import {
   editProductSchema,
   editProductSchemaType,
 } from "@/server/validations/product.validation";
 import useGetProductById from "@/hooks/useGetProductById";
 import { useEditProducts } from "@/apis/mutations/product";
-import { TextEditor } from "./text-editor";
+import { TextEditor } from "../text-editor";
 
 interface IEditProductForm {
   setShowEditProductModal: React.Dispatch<React.SetStateAction<boolean>>;

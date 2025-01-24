@@ -6,8 +6,8 @@ import React from "react";
 import { toast } from "react-toastify";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
-import EditProductModal from "@/components/admin/modals/edit-product-modal";
 import ConfirmModal from "../modals/confirm-modal";
+import EditModal from "../modals/edit-product-modal";
 
 interface IActionBtns {
   id: string;
@@ -57,9 +57,10 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
         />
       )}
       {showEditProductModal && (
-        <EditProductModal
-          setShowEditProductModal={setShowEditProductModal}
+        <EditModal
+          setShowEditModal={setShowEditProductModal}
           id={id}
+          status="product"
         />
       )}
     </>

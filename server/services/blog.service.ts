@@ -1,11 +1,20 @@
+import { ObjectId, UpdateResult } from "mongodb";
 import connectMongoDB from "../database/connection";
-import { ObjectId } from "mongodb";
+import { blogSchemaType } from "../validations/blog.validation";
 
-type getBlogsType = (_: IParams) => Promise<IBlogResDto[]>;
+type getBlogsType = (_: IParams) => Promise<{
+  blogs: IBlog[];
+  total: number | undefined;
+  totalPages: number;
+}>;
 export const getBlogs: getBlogsType = async ({ limit, page }) => {
   const db = await connectMongoDB();
 
   const skip = (page - 1) * limit;
+
+  const total = await db?.collection("blog").countDocuments();
+
+  const totalPages = Math.ceil((total || 0) / limit);
 
   try {
     const response = await db
@@ -15,7 +24,7 @@ export const getBlogs: getBlogsType = async ({ limit, page }) => {
       .limit(limit)
       .toArray();
 
-    const blogs: IBlogResDto[] = (response || []).map((blog) => ({
+    const blogs: IBlog[] = (response || []).map((blog) => ({
       _id: blog._id.toString(),
       title: blog.title,
       thumbnail: blog.thumbnail,
@@ -24,14 +33,14 @@ export const getBlogs: getBlogsType = async ({ limit, page }) => {
       updatedAt: blog.updatedAt,
     }));
 
-    return blogs;
+    return { blogs, total, totalPages };
   } catch (error) {
     console.log(error);
-    return [];
+    return { blogs: [], total: 0, totalPages: 0 };
   }
 };
 
-type addBlogType = (_: IBlogReqDto) => Promise<IBlogResDto>;
+type addBlogType = (_: IBlogReqDto) => Promise<IBlog>;
 export const addBlog: addBlogType = async ({
   description,
   title,
@@ -83,5 +92,26 @@ export const deleteBlog: deleteBlogType = async (id) => {
     return "deleted";
   } catch (error) {
     console.log(error);
+  }
+};
+
+type editBlogType = (_: {
+  data: blogSchemaType;
+  _id: string;
+}) => Promise<UpdateResult<Document> | undefined>;
+
+export const editBlog: editBlogType = async ({ _id, data }) => {
+  const db = await connectMongoDB();
+
+  try {
+    return await db?.collection("blog").updateOne(
+      { _id: new ObjectId(_id) },
+      {
+        $set: { data },
+      }
+    );
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 };

@@ -9,16 +9,10 @@ import useGetBlogs from "@/hooks/useGetBlogs";
 import ActionBlogBtn from "./action-blog-btn";
 
 const BlogListTable = () => {
-  // const [page, setPage] = React.useState<number>(1);
-
-  const { data, page, setPage } = useGetBlogs(Infinity);
-
-  console.log(data, "data");
-
-  const totalPages = Math.ceil(data?.length! / perPageLimit);
+  const { data: blogs, page, setPage } = useGetBlogs(perPageLimit);
 
   const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
+    if (newPage > 0 && newPage <= (blogs?.totalPages || 0)) {
       setPage(newPage);
     }
   };
@@ -47,7 +41,7 @@ const BlogListTable = () => {
             </tr>
           </thead>
           <tbody>
-            {data?.map((el) => (
+            {blogs?.data?.map((el) => (
               <tr
                 key={el._id}
                 className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
@@ -74,11 +68,11 @@ const BlogListTable = () => {
       </div>
       <div className="flex flex-wrap justify-between items-center gap-y-6 sm:px-10 py-3 mt-5">
         <Pagination
-          page={page}
-          totalPages={totalPages}
+          page={blogs?.page || 0}
+          totalPages={blogs?.totalPages || 0}
           handlePageChange={handlePageChange}
         />
-        <TotalPageTable page={page} total={data?.length!} />
+        <TotalPageTable page={page} total={blogs?.total || 0} />
       </div>
     </>
   );
