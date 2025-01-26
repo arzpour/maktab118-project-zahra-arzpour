@@ -80,7 +80,6 @@ const SignupUserForm: React.FC = () => {
   const onSubmitHandler: SubmitHandler<signupUserSchemaType> = async (data) => {
     try {
       const response = await signup.mutateAsync(data);
-      console.log(response);
       setRole(response.data.user.role);
 
       if (response.token) {
@@ -100,7 +99,6 @@ const SignupUserForm: React.FC = () => {
     } catch (error) {
       toast.error("اطلاعات اشتباه میباشند");
       errorHandler(signup.error as AxiosError<IError>);
-      console.log(signup.error);
     }
   };
 

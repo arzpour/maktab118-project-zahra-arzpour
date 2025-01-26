@@ -1,5 +1,5 @@
 interface IBlog {
-  _id: string;
+  _id: ObjectId | string;
   title: string;
   thumbnail: string;
   description: string;

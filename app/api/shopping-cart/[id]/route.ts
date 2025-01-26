@@ -25,8 +25,6 @@ export const GET = async (req: Request) => {
 
   const userId = parseCookies["user-id"];
 
-  console.log(userId);
-
   if (!userId) {
     return NextResponse.json(
       {

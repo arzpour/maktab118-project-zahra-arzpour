@@ -72,7 +72,7 @@ const BlogListTable = () => {
           totalPages={blogs?.totalPages || 0}
           handlePageChange={handlePageChange}
         />
-        <TotalPageTable page={page} total={blogs?.total || 0} />
+        <TotalPageTable page={page} total={blogs?.total!} />
       </div>
     </>
   );

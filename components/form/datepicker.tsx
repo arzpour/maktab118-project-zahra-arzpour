@@ -42,7 +42,6 @@ const DatePickerDelivery = () => {
                   const formatDate = date?.format("YYYY/MM/DD") || "";
                   setSelectedDate(formatDate);
                   field.onChange(formatDate);
-                  console.log(formatDate, "formatDate");
                 }}
                 calendar={persian}
                 locale={persian_fa}

@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 import React from "react";
 import { toast } from "react-toastify";
 import ConfirmModal from "../modals/confirm-modal";
-import { useDeleteBlog, useEditBlog } from "@/apis/mutations/blog";
+import { useDeleteBlog } from "@/apis/mutations/blog";
 import EditModal from "../modals/edit-product-modal";
 
 interface IActionBlogBtn {
@@ -59,7 +59,7 @@ const ActionBlogBtn: React.FC<IActionBlogBtn> = ({ id }) => {
 
       {showEditBlogModal && (
         <EditModal
-          setShowEditModal={setShowDeleteBlogModal}
+          setShowEditModal={setShowEditBlogModal}
           id={id}
           status="blog"
         />

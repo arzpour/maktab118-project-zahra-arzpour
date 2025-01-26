@@ -1,4 +1,4 @@
-import { ObjectId, UpdateResult } from "mongodb";
+import { ObjectId, UpdateResult, WithId } from "mongodb";
 import connectMongoDB from "../database/connection";
 import { blogSchemaType } from "../validations/blog.validation";
 
@@ -37,6 +37,22 @@ export const getBlogs: getBlogsType = async ({ limit, page }) => {
   } catch (error) {
     console.log(error);
     return { blogs: [], total: 0, totalPages: 0 };
+  }
+};
+
+type getBlogByIdType = (id: string) => Promise<IBlog | undefined>;
+export const getBlogById: getBlogByIdType = async (id) => {
+  const db = await connectMongoDB();
+
+  try {
+    const response = await db
+      ?.collection<IBlog>("blog")
+      .findOne({ _id: new ObjectId(id) });
+
+    return response || undefined;
+  } catch (error) {
+    console.log(error);
+    return undefined;
   }
 };
 
@@ -82,11 +98,6 @@ type deleteBlogType = (id: string) => Promise<string | undefined>;
 export const deleteBlog: deleteBlogType = async (id) => {
   const db = await connectMongoDB();
 
-  if (!db) {
-    console.log("Database connection failed");
-    return undefined;
-  }
-
   try {
     await db?.collection("blog").deleteOne({ _id: new ObjectId(id) });
     return "deleted";
@@ -107,7 +118,12 @@ export const editBlog: editBlogType = async ({ _id, data }) => {
     return await db?.collection("blog").updateOne(
       { _id: new ObjectId(_id) },
       {
-        $set: { data },
+        $set: {
+          title: data.title,
+          description: data.description,
+          thumbnail: data.thumbnail.name,
+          updatedAt: new Date(),
+        },
       }
     );
   } catch (error) {

@@ -1,18 +1,23 @@
-import { blogSchemaType } from "@/server/validations/blog.validation";
 import { urls } from "@/utils/urls";
-import axios from "axios";
+import { axiosInstance } from "./instance";
 
 type getBlogsType = (_: IParams) => Promise<IBlogResDto>;
 export const getBlogs: getBlogsType = async ({ page, limit }) => {
-  const response = await axios.get(urls.blog.list, {
+  const response = await axiosInstance.get(urls.blog.list, {
     params: { page, limit },
   });
   return response.data;
 };
 
+type getBlogByIdType = (id: string) => Promise<IBlog>;
+export const getBlogById: getBlogByIdType = async (id) => {
+  const response = await axiosInstance.get(urls.blog.ById(id));
+  return response.data.data;
+};
+
 type addBlogType = (data: FormData) => Promise<IBlog>;
 export const addBlog: addBlogType = async (data) => {
-  const response = await axios.post(urls.blog.list, data, {
+  const response = await axiosInstance.post(urls.blog.list, data, {
     headers: {
       "Content-Type": "multipart/form-data",
     },
@@ -22,15 +27,12 @@ export const addBlog: addBlogType = async (data) => {
 
 type deleteBlogType = (id: string) => Promise<string>;
 export const deleteBlog: deleteBlogType = async (id) => {
-  const response = await axios.delete(urls.blog.ById(id));
+  const response = await axiosInstance.delete(urls.blog.ById(id));
   return response.data;
 };
 
-type editBlogType = (_: {
-  _id: string;
-  data: blogSchemaType;
-}) => Promise<IBlog>;
-export const editBlog: editBlogType = async ({ data, _id }) => {
-  const response = await axios.put(urls.blog.ById(_id), data);
+type editBlogType = (_: { id: string; data: FormData }) => Promise<IBlog>;
+export const editBlog: editBlogType = async ({ data, id }) => {
+  const response = await axiosInstance.put(urls.blog.ById(id), data);
   return response.data;
 };

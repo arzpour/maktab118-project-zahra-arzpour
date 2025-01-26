@@ -64,7 +64,6 @@ export const POST = async (req: Request) => {
   }
 
   const userId = parseCookies["user-id"];
-  console.log(userId);
 
   const addToDatabase = await addToShoppingCart({
     data: body,

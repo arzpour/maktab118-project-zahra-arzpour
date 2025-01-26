@@ -13,6 +13,7 @@ import {
   blogSchemaType,
 } from "@/server/validations/blog.validation";
 import { useEditBlog } from "@/apis/mutations/blog";
+import useGetBlogById from "@/hooks/useGetBlogById";
 
 interface IEditBlogForm {
   setShowEditBlogModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -28,21 +29,25 @@ const EditBlogForm: React.FC<IEditBlogForm> = ({
     resolver: zodResolver(blogSchema),
   });
 
+  const { data: blog, isSuccess } = useGetBlogById(id);
+
   const editBlog = useEditBlog();
 
   const onSubmit: SubmitHandler<blogSchemaType> = async (data) => {
-    const blogData = {
-      title: data.title,
-      description: data.description,
-      thumbnail: data.thumbnail,
-    };
-    try {
-      const response = await editBlog.mutateAsync({
-        data: blogData,
-        _id: id,
-      });
+    const formData = new FormData();
 
-      console.log(response, "response");
+    formData.append("title", data.title || "");
+    formData.append("description", data.description || "");
+
+    if (data.thumbnail instanceof File) {
+      formData.append("thumbnail", data.thumbnail);
+    }
+
+    try {
+      await editBlog.mutateAsync({
+        data: formData,
+        id,
+      });
 
       setShowEditBlogModal(false);
 
@@ -54,33 +59,54 @@ const EditBlogForm: React.FC<IEditBlogForm> = ({
     }
   };
 
+  React.useEffect(() => {
+    if (isSuccess && blog) {
+      reset({
+        title: blog.title,
+        description: blog.description,
+        thumbnail: blog.thumbnail,
+      });
+    }
+  }, [isSuccess, blog, reset]);
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="md:max-w-xl w-full mx-auto"
     >
+      <div className="mb-6">
+        <Controller
+          control={control}
+          name="title"
+          render={({ field, fieldState }) => (
+            <Input
+              type="text"
+              placeholder="عنوان وبلاگ"
+              error={fieldState.error?.message}
+              {...field}
+            />
+          )}
+        />
+      </div>
+
       <Controller
         control={control}
-        name="title"
+        name="description"
         render={({ field, fieldState }) => (
-          <Input
-            type="text"
-            placeholder="عنوان وبلاگ"
+          <TextEditor
+            defaultValue={blog?.description}
             error={fieldState.error?.message}
             {...field}
           />
         )}
       />
 
-      <Controller
+      <Thumbnail
+        name="thumbnail"
         control={control}
-        name="description"
-        render={({ field, fieldState }) => (
-          <TextEditor error={fieldState.error?.message} {...field} />
-        )}
+        defaultValue={blog?.thumbnail}
+        status="edit"
       />
-
-      <Thumbnail name="thumbnail" control={control} status="edit" />
 
       <div className="mt-2 mb-1 flex gap-4 justify-end">
         <button

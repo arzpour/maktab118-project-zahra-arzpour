@@ -73,7 +73,7 @@ export const POST = async (req: Request) => {
   if (!validationResult.success) {
     return NextResponse.json(
       { error: validationResult.error },
-      { status: 400 }
+      { status: 404 }
     );
   }
 
