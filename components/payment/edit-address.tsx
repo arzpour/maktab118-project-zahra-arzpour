@@ -24,7 +24,7 @@ const EditAddress: React.FC<IEditAddressModal> = ({
 
   const userId = getUserId();
 
-  const { control, handleSubmit, reset } = useForm<editUserSchemaType>({
+  const { control, handleSubmit } = useForm<editUserSchemaType>({
     mode: "all",
     resolver: zodResolver(editUserSchema),
   });

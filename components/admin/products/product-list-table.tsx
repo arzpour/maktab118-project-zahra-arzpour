@@ -16,7 +16,7 @@ const ProductListTable = () => {
 
   const { data: subCategories } = useSubCategoryList(Infinity);
 
-  const totalPages = Math.ceil(products?.total! / perPageLimit);
+  const totalPages = Math.ceil(products?.total || 0 / perPageLimit);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -106,7 +106,7 @@ const ProductListTable = () => {
           handlePageChange={handlePageChange}
         />
 
-        <TotalPageTable page={page} total={products?.total!} />
+        <TotalPageTable page={page} total={products?.total || 0} />
       </div>
     </>
   );

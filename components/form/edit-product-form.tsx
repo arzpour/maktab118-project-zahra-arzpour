@@ -120,7 +120,7 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       setSelectedCategory(categoryName);
       setSelectedSubCategory(subcategoryName);
     }
-  }, [isSuccess, data, reset]);
+  }, [isSuccess, data, reset, categoryName, subcategoryName]);
 
   return (
     <form

@@ -24,7 +24,7 @@ const InventoryAndPriceListTable: React.FC = () => {
   >({});
   const { data: products, setPage, page } = useProductList();
 
-  const totalPages = Math.ceil(products?.total! / perPageLimit);
+  const totalPages = Math.ceil(products?.total || 0 / perPageLimit);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
@@ -189,7 +189,7 @@ const InventoryAndPriceListTable: React.FC = () => {
           totalPages={totalPages}
           handlePageChange={handlePageChange}
         />
-        <TotalPageTable page={page} total={products?.total!} />
+        <TotalPageTable page={page} total={products?.total || 0} />
       </div>
     </div>
   );

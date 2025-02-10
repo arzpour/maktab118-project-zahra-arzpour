@@ -7,6 +7,7 @@ import { IoLocationSharp } from "react-icons/io5";
 import useUserById from "@/hooks/useUserById";
 import EditAddress from "./edit-address";
 import DatePickerDelivery from "../form/datepicker";
+import Image from "next/image";
 
 const PaymentProducts = () => {
   const [showEditAddressModal, setShowEditAddressModal] =
@@ -30,10 +31,12 @@ const PaymentProducts = () => {
               className="grid md:grid-cols-2 xl:grid-cols-3 items-center gap-4 mx-10 md:mx-0 border-b border-slate-700 pb-5 pt-7 rounded"
             >
               <div className="col-span-3 flex items-center gap-6">
-                <img
+                <Image
                   src={`http://localhost:8000/images/products/thumbnails/${el.thumbnail}`}
                   alt="product-image"
                   className="w-28 h-20 rounded"
+                  width={400}
+                  height={400}
                 />
 
                 <div className="flex flex-col gap-2 ml-auto">

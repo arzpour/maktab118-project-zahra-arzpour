@@ -112,6 +112,7 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
     } catch (error) {
       toast.error("اطلاعات وارد شده صحیح نیست");
       errorHandler(login.error as AxiosError<IError>);
+      console.log(error);
     }
   };
 
