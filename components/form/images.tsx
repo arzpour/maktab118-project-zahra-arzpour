@@ -7,11 +7,12 @@ import { Control, useController } from "react-hook-form";
 
 interface IImages {
   name: keyof productSchemaType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   defaultValue?: string[];
 }
 
-export const Images: React.FC<IImages> = ({ name, control, defaultValue }) => {
+export const Images: React.FC<IImages> = ({ name, control }) => {
   const [urls, setUrls] = React.useState<string[]>([]);
   const [files, setFiles] = React.useState<File[]>([]);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -61,12 +62,12 @@ export const Images: React.FC<IImages> = ({ name, control, defaultValue }) => {
                 key={index}
                 className="relative w-20 rounded-md overflow-hidden"
               >
-                <img
+                <Image
                   src={url}
-                  // width={500}
-                  // height={500}
                   alt={`Image ${index + 1}`}
                   className="object-center"
+                  width={400}
+                  height={400}
                 />
                 <button
                   onClick={(e) => {

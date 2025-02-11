@@ -26,6 +26,7 @@ import { logout } from "@/apis/client/auth";
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/redux/hook";
 import { productActions } from "@/redux/features/product.slice";
+import Image from "next/image";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -121,10 +122,12 @@ const HamburgerMenu = () => {
         </ul>
         <SearchInput />
         <div className="flex gap-4 items-center">
-          <img
+          <Image
             src="/90223181741.png"
             alt="logo-image"
             className="h-14 w-14 relative bottom-2"
+            width={400}
+            height={400}
           />
         </div>
       </div>

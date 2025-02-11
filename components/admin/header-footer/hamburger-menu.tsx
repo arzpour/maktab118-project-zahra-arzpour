@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa6";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaClipboardList } from "react-icons/fa6";
 import { AiFillProduct } from "react-icons/ai";
-import { IoPricetag, IoSearchOutline } from "react-icons/io5";
+import { IoPricetag } from "react-icons/io5";
 import SearchInput from "@/components/form/search";
 
 const HamburgerMenuAdmin = () => {

@@ -15,7 +15,7 @@ export const Textarea: React.FC<IInput> = ({
     <div className="flex flex-col gap-y-2 mt-8">
       <textarea
         type="text"
-        className={`border h-20 text-xs outline-none text-slate-700 rounded-md py-1 px-2 scrollbar hover:outline focus:outline placeholder:text-xs placeholder:font-medium ${
+        className={`border h-20 text-xs outline-none text-slate-700 rounded-md py-1 px-2 scrollbar hover:outline focus:outline placeholder:text-xs placeholder:font-medium ${className} ${
           !!error ? "border-red-400" : "border-slate-400"
         }
           `}

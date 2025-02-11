@@ -38,7 +38,7 @@ const OrderListTable = () => {
       : !item.deliveryStatus;
   });
 
-  const totalPages = Math.ceil(filteredData?.length! / perPageLimit);
+  const totalPages = Math.ceil(filteredData?.length || 0 / perPageLimit);
 
   const filteredItems = filteredData?.slice(
     (page - 1) * perPageLimit,
@@ -135,7 +135,7 @@ const OrderListTable = () => {
           page={page}
           totalPages={totalPages}
         />
-        <TotalPageTable page={page} total={filteredData?.length!} />
+        <TotalPageTable page={page} total={filteredData?.length || 0} />
       </div>
 
       {showOrderModal && (

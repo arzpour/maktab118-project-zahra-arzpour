@@ -3,6 +3,7 @@ import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch } from "@/redux/hook";
 import { editShoppingCartProductSchemaType } from "@/server/validations/shoppingCart.validation";
 import { getUserId } from "@/utils/session";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { FiMinus } from "react-icons/fi";
@@ -74,10 +75,12 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
   return (
     <>
       <div className="size-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
-        <img
+        <Image
           src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}
           alt="product-image"
           className="size-full object-cover"
+          width={400}
+          height={400}
         />
       </div>
 

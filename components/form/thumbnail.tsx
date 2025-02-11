@@ -7,6 +7,7 @@ import { Control, useController } from "react-hook-form";
 
 interface IThumbnail {
   name: keyof productSchemaType;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>;
   defaultValue?: string;
   status?: string;

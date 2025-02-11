@@ -45,7 +45,7 @@ const ProductFilterMobile: React.FC<IProductFilterMobile> = ({ setPage }) => {
       <div className="flex justify-center flex-wrap gap-6 mx-10">
         {findSubCategoryAndCategory?.map(
           ({ category, subcategories }) =>
-            subcategories?.length! >= 1 && (
+            (subcategories?.length || 0) >= 1 && (
               <div key={category._id} className="relative">
                 <p
                   onClick={() => isOpenCategoryHandler(category._id!)}

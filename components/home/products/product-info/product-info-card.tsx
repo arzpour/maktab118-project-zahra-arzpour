@@ -24,7 +24,7 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
               height={500}
               className="w-11/12 h-72 rounded-lg shadow-md mb-4"
             />
-            {images?.length! >= 1 && (
+            {(images?.length || 0) >= 1 && (
               <div className="flex gap-6 py-4 justify-center overflow-x-auto">
                 {images?.map((image, index) => (
                   <Image

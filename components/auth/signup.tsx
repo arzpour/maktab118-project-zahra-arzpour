@@ -101,6 +101,7 @@ const SignupUserForm: React.FC = () => {
       toast.error("اطلاعات اشتباه میباشند");
       errorHandler(signup.error as AxiosError<IError>);
       console.log(signup.error);
+      console.log(error);
     }
   };
 
