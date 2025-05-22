@@ -46,7 +46,6 @@ const InventoryAndPriceListTable: React.FC = () => {
         [field]: Number(value),
       },
     }));
-    console.log(editedProducts);
   };
 
   const editProduct = usePatchProducts();
@@ -56,9 +55,6 @@ const InventoryAndPriceListTable: React.FC = () => {
       id,
       ...changes,
     }));
-
-    console.log(updates);
-    console.log(editedProducts);
 
     try {
       const updateRequests = updates.map((update) => {

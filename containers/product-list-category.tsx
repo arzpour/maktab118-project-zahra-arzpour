@@ -8,9 +8,15 @@ import { perPageLimit } from "@/utils/config";
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/home/products/product-card";
-import { notFound, useParams } from "next/navigation";
+import { notFound } from "next/navigation";
 
-const ProductListByCategory: React.FC = () => {
+interface IProductListByCategory {
+  categoryId: string;
+}
+
+const ProductListByCategory: React.FC<IProductListByCategory> = ({
+  categoryId,
+}) => {
   const [selectedSubcategory, setSelectedSubcategory] = React.useState<
     string | null
   >(null);
@@ -20,14 +26,12 @@ const ProductListByCategory: React.FC = () => {
     useSubCategoryList(Infinity);
   const { data: products, isSuccess, isLoading } = useProductList(Infinity);
 
-  const { productId } = useParams();
-
   const getProductsByCategory = products?.data?.products.filter(
-    (el) => el.category === productId
+    (el) => el.category === categoryId
   );
 
   const getSubCategoryList = subCategories?.data?.subcategories.filter(
-    (el) => el.category === productId
+    (el) => el.category === categoryId
   );
 
   const filteredProducts = React.useMemo(() => {
@@ -43,14 +47,13 @@ const ProductListByCategory: React.FC = () => {
   if (isExist === false) {
     return notFound();
   }
+  const totalPages = Math.ceil((filteredProducts?.length || 0) / perPageLimit);
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
       setPage(newPage);
     }
   };
-
-  const totalPages = Math.ceil(filteredProducts?.length! / perPageLimit);
 
   const filteredItems = filteredProducts?.slice(
     (page - 1) * perPageLimit,
@@ -60,14 +63,14 @@ const ProductListByCategory: React.FC = () => {
   return (
     <div className="pt-20 px-5">
       <div className="flex gap-6 justify-center flex-wrap">
-        <p
+        <button
           onClick={() => setSelectedSubcategory("all")}
           className={`font-medium text-slate-100 px-4 py-2 rounded-lg cursor-pointer ${
             selectedSubcategory === "all" ? "bg-orange" : "bg-BlueDark"
           } ${loadingSubCategory ? "hidden" : "block"}`}
         >
           همه
-        </p>
+        </button>
         {loadingSubCategory &&
           [1, 2, 3, 4].map((el) => (
             <div
@@ -76,7 +79,7 @@ const ProductListByCategory: React.FC = () => {
             ></div>
           ))}
         {getSubCategoryList?.map((subcategory) => (
-          <p
+          <button
             key={subcategory._id}
             onClick={() => {
               setSelectedSubcategory(subcategory._id || null);
@@ -89,7 +92,7 @@ const ProductListByCategory: React.FC = () => {
             }`}
           >
             {subcategory.name}
-          </p>
+          </button>
         ))}
       </div>
 

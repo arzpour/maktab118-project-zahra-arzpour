@@ -32,7 +32,7 @@ const ProductList = () => {
     );
   }, [selectedFilters, products]);
 
-  const totalPages = Math.ceil(filteredProducts?.length! / perPageLimit);
+  const totalPages = Math.ceil((filteredProducts?.length || 0) / perPageLimit);
 
   const filteredItems = filteredProducts?.slice(
     (page - 1) * perPageLimit,
