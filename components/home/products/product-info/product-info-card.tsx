@@ -18,7 +18,7 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
         <div className="flex flex-wrap -mx-4">
           <div className="w-full md:w-1/2 px-4 mb-8">
             <Image
-              src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}
+              src={`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${thumbnail}`}
               alt="Thumbnail-image"
               width={500}
               height={500}
@@ -29,7 +29,7 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
                 {images?.map((image, index) => (
                   <Image
                     key={index}
-                    src={`http://localhost:8000/images/products/images/${image}`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${image}`}
                     alt="Thumbnail-image"
                     width={500}
                     height={500}

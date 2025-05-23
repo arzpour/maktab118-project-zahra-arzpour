@@ -32,7 +32,7 @@ const PaymentProducts = () => {
             >
               <div className="col-span-3 flex items-center gap-6">
                 <Image
-                  src={`http://localhost:8000/images/products/thumbnails/${el.thumbnail}`}
+                  src={`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${el.thumbnail}`}
                   alt="product-image"
                   className="w-28 h-20 rounded"
                   width={400}

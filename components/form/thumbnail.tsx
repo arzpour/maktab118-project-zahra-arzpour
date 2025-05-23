@@ -29,9 +29,7 @@ export const Thumbnail: React.FC<IThumbnail> = ({
 
   React.useEffect(() => {
     if (status === "edit" && defaultValue) {
-      setUrl(
-        `http://localhost:8000/images/products/thumbnails/${defaultValue}`
-      );
+      setUrl(`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${defaultValue}`);
     }
   }, [defaultValue, status]);
 
@@ -86,7 +84,7 @@ export const Thumbnail: React.FC<IThumbnail> = ({
           <p
             className={`
               text-xs font-medium
-              ${!!error ? "text-red-400" : "text-slate-500"}
+              ${error ? "text-red-400" : "text-slate-500"}
             `}
           >
             عکس اصلی را وارد کنید

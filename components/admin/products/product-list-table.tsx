@@ -80,7 +80,7 @@ const ProductListTable = () => {
                   <Image
                     width={800}
                     height={500}
-                    src={`http://localhost:8000/images/products/images/${el.images?.[0]}`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${el.images?.[0]}`}
                     alt="عکس محصول"
                     className="w-12 h-12 rounded"
                   />

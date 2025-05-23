@@ -73,7 +73,7 @@ const ProductShoppingCart: React.FC<IShoppingCartProductList> = ({
     <div className="flex flex-col min-[500px]:flex-row min-[500px]:items-center gap-5 py-6 border-b border-slate-800 rounded-sm">
       <div className="w-full md:max-w-[126px]">
         <Image
-          src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}
+          src={`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${thumbnail}`}
           alt="product-image"
           className="mx-auto rounded-xl object-cover h-28"
         />

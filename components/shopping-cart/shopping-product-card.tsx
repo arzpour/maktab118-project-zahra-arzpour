@@ -49,7 +49,7 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
       dispatch(productActions.increase({ _id: _id || "", quantity: 1 }));
       if (user) {
         await editShoppingCartHandler({
-          selectedQuantity: selectedQuantity! + 1,
+          selectedQuantity: selectedQuantity + 1,
           _id,
         });
       }
@@ -76,7 +76,7 @@ const ShoppingProductCard: React.FC<IShoppingCartProductList> = ({
     <>
       <div className="size-16 shrink-0 overflow-hidden rounded-md border border-gray-200">
         <Image
-          src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}
+          src={`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${thumbnail}`}
           alt="product-image"
           className="size-full object-cover"
           width={400}
