@@ -53,7 +53,7 @@ const Header = () => {
               <button>تماس با ما</button>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
-              <Link href={"/blog"}>وبلاگ</Link>
+              <Link href={"/blogs"}>وبلاگ</Link>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
               <AdminBtn />
