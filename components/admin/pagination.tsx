@@ -23,7 +23,7 @@ export const Pagination: React.FC<IPagination> = ({
     return pageNumbers;
   };
 
-  return (
+  return renderPageNumber().length > 0 ? (
     <div className="flex space-x-1 justify-center mt-5">
       <button
         onClick={() => handlePageChange(page > 1 ? page - 1 : page)}
@@ -53,7 +53,7 @@ export const Pagination: React.FC<IPagination> = ({
         بعدی
       </button>
     </div>
-  );
+  ) : null;
 };
 
 export default Pagination;

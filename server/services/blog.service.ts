@@ -1,4 +1,4 @@
-import { ObjectId, UpdateResult, WithId } from "mongodb";
+import { ObjectId, UpdateResult } from "mongodb";
 import connectMongoDB from "../database/connection";
 import { blogSchemaType } from "../validations/blog.validation";
 

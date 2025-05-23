@@ -41,6 +41,7 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
 
   return (
     <>
+      user && (
       <div className="text-BlueDark rtl:text-center space-y-4" dir="rtl">
         <div className="flex justify-center items-center gap-2">
           <FaUser className="w-4 h-4" />
@@ -81,6 +82,7 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           </p>
         </div>
       </div>
+      )
       <table className="w-full text-center table-auto min-w-max text-BackgroundColor mt-9">
         <thead>
           <tr>
@@ -99,21 +101,22 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           {getOrder?.products.map((el) => (
             <tr key={el._id} className="hover:bg-slate-100">
               <td className="p-4">
-                <p className="text-sm">{el.product.name}</p>
+                <p className="text-sm">
+                  {el.product?.name ?? "محصول موجود نیست"}
+                </p>
               </td>
               <td className="p-4">
-                <p className="text-sm">{el.product.price}</p>
+                <p className="text-sm">{el.product?.price ?? 0}</p>
               </td>
               <td className="p-4">
-                <p className="text-sm">{el.count}</p>
+                <p className="text-sm">{el.count ?? 0}</p>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-
       {getOrder?.deliveryStatus === true && (
-        <div className="flex justify-center items-center gap-2 text-BlueDark mt-9 mb-3">
+        <div className="flex justify-center items-center gap-2 text-BlueDark mt-7 mb-4">
           <FaCalendarCheck className="w-4 h-4" />
           <p>
             زمان تحویل:
@@ -125,7 +128,6 @@ const OrderForm: React.FC<IOrderForm> = ({ setShowOrderModal, id }) => {
           </p>
         </div>
       )}
-
       {getOrder?.deliveryStatus !== true && (
         <div className="text-center mt-5 mb-3">
           <button

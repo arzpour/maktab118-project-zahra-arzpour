@@ -6,6 +6,7 @@ import Image from "next/image";
 import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
 import ProductsDropdown from "./products-dropdown";
 import UserIcon from "./user-icon";
+import AdminBtn from "./adminBtn";
 
 const Header = () => {
   return (
@@ -55,7 +56,7 @@ const Header = () => {
               <Link href={"/blog"}>وبلاگ</Link>
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
-              <Link href={"/admin-login"}>ادمین</Link>
+              <AdminBtn />
             </li>
           </ul>
           <p className="text-orange hover:border-b hover:border-b-orange text-sm px-6 py-2.5 rounded-full cursor-pointer">

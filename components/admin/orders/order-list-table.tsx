@@ -38,7 +38,7 @@ const OrderListTable = () => {
       : !item.deliveryStatus;
   });
 
-  const totalPages = Math.ceil(filteredData?.length! / perPageLimit);
+  const totalPages = Math.ceil((filteredData?.length || 0) / perPageLimit);
 
   const filteredItems = filteredData?.slice(
     (page - 1) * perPageLimit,
@@ -90,7 +90,8 @@ const OrderListTable = () => {
                   className="bg-BlueD border-b border-CyanBlueDark odd:bg-BlueD even:bg-CyanBlueDark"
                 >
                   <td className="px-4 py-5">
-                    {users?.data.users.find((user) => user._id === el.user) ? (
+                    {users &&
+                    users?.data.users.find((user) => user._id === el.user) ? (
                       <p className="text-sm text-slate-400">
                         {`${
                           users?.data.users.find((user) => user._id === el.user)
@@ -135,7 +136,7 @@ const OrderListTable = () => {
           page={page}
           totalPages={totalPages}
         />
-        <TotalPageTable page={page} total={filteredData?.length!} />
+        <TotalPageTable page={page} total={filteredData?.length || 0} />
       </div>
 
       {showOrderModal && (
