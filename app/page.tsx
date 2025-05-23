@@ -1,4 +1,5 @@
 import AboutUs from "@/components/home/about-us";
+import BlogList from "@/components/home/blogs/blog-list";
 import Slider from "@/components/home/swiper/slider";
 import dataSlider from "@/components/home/swiper/swiper-data.json";
 import CategoriesList from "@/containers/categories-list";
@@ -13,6 +14,7 @@ export default function Home() {
           <CategoriesList numbers={{ start: 0, end: 2 }} />
           <AboutUs />
           <CategoriesList numbers={{ start: 2, end: 4 }} />
+          <BlogList status="group" />
         </div>
       </div>
     </HomeLayout>

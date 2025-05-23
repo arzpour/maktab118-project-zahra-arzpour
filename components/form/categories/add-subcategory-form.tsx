@@ -13,8 +13,8 @@ import {
   subcategorySchemaType,
 } from "@/server/validations/subcategory.validation";
 import { useAddSubCategory } from "@/apis/mutations/subcategory";
-import SelectBox from "./selectbox-categories";
-import { Input } from "./input";
+import SelectBox from "../selectbox-categories";
+import { Input } from "../input";
 
 interface IAddSubCategoryForm {
   setShowAddSubCategoryModal: React.Dispatch<React.SetStateAction<boolean>>;

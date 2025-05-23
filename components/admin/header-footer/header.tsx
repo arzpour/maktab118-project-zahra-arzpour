@@ -1,9 +1,9 @@
-import Link from "next/link";
 import React from "react";
 import { IoSearchOutline } from "react-icons/io5";
 import HamburgerMenuAdmin from "./hamburger-menu";
 import AdminLogoutBtn from "./logout-btn";
 import Image from "next/image";
+import MenuTitles from "./menu-titles";
 
 const AdminPageHeader = () => {
   return (
@@ -23,20 +23,7 @@ const AdminPageHeader = () => {
                 پنل مدیریت
               </h3>
             </div>
-            <ul className="hidden md:flex gap-4 xl:text-lg lg:gap-8 items-center relative top-2">
-              <li className="hover:text-orange">
-                <Link href={"/admin/categories"}>دسته بندی ها</Link>
-              </li>
-              <li className="hover:text-orange">
-                <Link href={"/admin/products"}>محصولات</Link>
-              </li>
-              <li className="hover:text-orange">
-                <Link href={"/admin/orders"}>سفارش ها</Link>
-              </li>
-              <li className="hover:text-orange">
-                <Link href={"/admin/InventoryAndPrice"}>موجودی و قیمت</Link>
-              </li>
-            </ul>
+            <MenuTitles />
           </div>
 
           <HamburgerMenuAdmin />

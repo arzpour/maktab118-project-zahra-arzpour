@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const validThumbnailTypes = ["image/png", "image/jpeg", "image/jpg"];
-const validSize = 9; // MB
+const validSize = 2; // MB
 
 export const productSchema = z.object({
   category: z.string({ message: "نام دسته بندی الزامی است" }).optional(),

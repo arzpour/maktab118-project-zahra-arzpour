@@ -18,8 +18,8 @@ const ActionCategoryBtn: React.FC<IActionCategoryBtn> = ({ id }) => {
   const deleteCategoryHandler = async () => {
     try {
       await deleteCategory.mutateAsync(id);
-
       toast.success("حذف شد");
+      setShowDeleteCategoryModal(false);
       queryClient.invalidateQueries({ queryKey: ["get-categories"] });
     } catch (error) {
       toast.error("حذف نشد");

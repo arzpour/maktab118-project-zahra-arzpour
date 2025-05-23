@@ -78,7 +78,9 @@ const HamburgerMenu = () => {
           </li>
           <li className="flex gap-2 items-center">
             <MdOutlineChatBubble className="w-5 h-5 cursor-pointer" />
-            <button className="hover:text-orange">وبلاگ</button>
+            <Link className="hover:text-orange" href={"/blog"}>
+              وبلاگ
+            </Link>
           </li>
           <li className="flex gap-2 items-center">
             <RiAdminFill className="w-5 h-5 cursor-pointer" />

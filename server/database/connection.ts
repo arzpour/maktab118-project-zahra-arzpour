@@ -1,5 +1,14 @@
 import mongoose from "mongoose";
 
-await mongoose.connect(process.env.NEXT_PUBLIC_MONGODB_URL as string);
+const connectMongoDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGODB_URL as string);
 
-export const db = mongoose.connection.db;
+    return mongoose.connection.db;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export default connectMongoDB;

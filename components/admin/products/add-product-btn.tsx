@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import AddProductModal from "../modals/add-product-modal";
+import CreateModal from "../modals/create-modal";
 
 const AddProductBtn = () => {
   const [showProductModal, setShowAddProductModal] =
@@ -16,7 +16,10 @@ const AddProductBtn = () => {
         اضافه کردن محصول
       </button>
       {showProductModal && (
-        <AddProductModal setShowAddProductModal={setShowAddProductModal} />
+        <CreateModal
+          setShowAddModal={setShowAddProductModal}
+          status="product"
+        />
       )}
     </div>
   );

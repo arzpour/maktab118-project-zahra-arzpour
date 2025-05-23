@@ -8,6 +8,7 @@ interface ITotalPage {
 
 const TotalPageTable: React.FC<ITotalPage> = ({ page, total }) => {
   return (
+    total !== 0 &&
     total && (
       <div className="text-sm text-slate-400">
         <b className="mx-1">

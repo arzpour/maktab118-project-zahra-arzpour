@@ -1,22 +1,13 @@
-import { getAllOrders } from "@/apis/client/order";
-import { perPageLimit } from "@/utils/config";
+import { getBlogById } from "@/apis/client/blog";
 import errorHandler from "@/utils/errorHandler";
 import { useQuery } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import React from "react";
 
-const useOrderList = (limitCus?: number, page?: number) => {
-  const limit = limitCus ?? perPageLimit;
-
+const useGetBlogById = (id: string) => {
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-orders", limit, page],
-    queryFn: async () => {
-      const res = await getAllOrders({
-        limit: limit,
-        page: page || 1,
-      });
-      return res;
-    },
+    queryKey: ["get-blog-by-id", id],
+    queryFn: async () => await getBlogById(id),
     refetchOnWindowFocus: false,
     retry: 1,
   });
@@ -28,4 +19,4 @@ const useOrderList = (limitCus?: number, page?: number) => {
   return { data, isLoading, isSuccess };
 };
 
-export default useOrderList;
+export default useGetBlogById;
