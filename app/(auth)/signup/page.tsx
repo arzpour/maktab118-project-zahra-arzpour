@@ -1,5 +1,5 @@
 import SignupUserForm from "@/components/auth/signup";
-import React, { Suspense } from "react";
+import React from "react";
 
 const SignupUserPage = () => {
   return (
@@ -8,9 +8,7 @@ const SignupUserPage = () => {
         <p className="text-center pb-12 font-bold text-lg sm:text-3xl">
           ایجاد حساب کاربری
         </p>
-        <Suspense fallback={<div>loading...</div>}>
-          <SignupUserForm />
-        </Suspense>
+        <SignupUserForm />
       </div>
     </div>
   );

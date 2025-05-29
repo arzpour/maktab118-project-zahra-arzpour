@@ -17,12 +17,12 @@ export const getUserById: getUserByIdType = async (userId) => {
 
 type editUserByIdType = (_: {
   userId: string;
-  address: string;
+  data: IEditUserReqDto;
 }) => Promise<IUser>;
-export const editUserById: editUserByIdType = async ({ address, userId }) => {
+export const editUserById: editUserByIdType = async ({ data, userId }) => {
   const response = await generateAxiosInstance.patch(
     urls.users.userById(userId),
-    address
+    data
   );
   return response.data;
 };

@@ -1,5 +1,5 @@
 import LoginForm from "@/components/auth/login";
-import React, { Suspense } from "react";
+import React from "react";
 
 const LoginUserPage = () => {
   return (
@@ -8,9 +8,7 @@ const LoginUserPage = () => {
         <p className="text-center pb-12 font-bold text-lg sm:text-3xl">
           ورود به حساب کاربری
         </p>
-        <Suspense fallback={<div>loading...</div>}>
-          <LoginForm user={true} />
-        </Suspense>
+        <LoginForm user={true} />
       </div>
     </div>
   );

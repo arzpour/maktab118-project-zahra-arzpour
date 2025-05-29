@@ -27,7 +27,7 @@ export const urls = {
     list: "/users",
     userById: (id: string) => `/users/${id}`,
   },
- cart: {
+  cart: {
     list: "/shopping-cart",
     ById: (id: string) => `/shopping-cart/${id}`,
   },

@@ -33,7 +33,9 @@ const EditAddress: React.FC<IEditAddressModal> = ({
     try {
       await editUser.mutateAsync({
         userId: userId || "",
-        address: data.address || "",
+        data: {
+          address: data.address || "",
+        },
       });
 
       toast.success("آدرس ویرایش شد");
