@@ -1,3 +1,4 @@
+import { getInitialProfileTab } from "@/utils/profileTab";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 type profileTabType = "userInfo" | "orders" | "";
@@ -7,7 +8,7 @@ interface ProductState {
 }
 
 const initialState: ProductState = {
-  profileTab: "userInfo",
+  profileTab: getInitialProfileTab(),
 };
 
 export const profileSlice = createSlice({

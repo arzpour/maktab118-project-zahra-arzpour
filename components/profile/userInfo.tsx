@@ -2,9 +2,11 @@
 import { useEditUserById } from "@/apis/mutations/user";
 import useUserById from "@/hooks/useUserById";
 import { queryClient } from "@/providers/tanstack.provider";
-import { useAppSelector } from "@/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { getUserId } from "@/utils/session";
+import { MdOutlineArrowBack } from "react-icons/md";
 import React, { ChangeEvent } from "react";
+import { profileActions } from "@/redux/features/profile.slice";
 
 interface IEditUserInfo {
   firstname: string;
@@ -23,6 +25,7 @@ const UserInfo = () => {
   });
 
   const { profileTab } = useAppSelector((state) => state.profile);
+  const dispatch = useAppDispatch();
 
   const { data: userInformation, isLoading } = useUserById();
 
@@ -61,9 +64,19 @@ const UserInfo = () => {
   return (
     profileTab === "userInfo" && (
       <>
-        <h3 className="text-orange mb-7 text-xl">اطلاعات کاربری</h3>
-        <div className="bg-BlueL text-white p-10 rounded-xl space-y-10">
-          <div className="grid grid-cols-2 justify-between items-center w-2/3">
+        <div className="flex justify-between items-start">
+          <h3 className="text-orange mb-7 text-md sm:text-xl">
+            اطلاعات کاربری
+          </h3>
+          <button
+            className="sm:hidden"
+            onClick={() => dispatch(profileActions.setProfileTab(""))}
+          >
+            <MdOutlineArrowBack className="text-slate-200 w-6 h-6" />
+          </button>
+        </div>
+        <div className="bg-BlueL text-white p-5 lg:p-10 rounded-xl space-y-6 sm:space-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full justify-between items-center lg:w-2/3">
             <div className="flex gap-3 items-center">
               <h5 className="text-orange opacity-90">نام:</h5>
               {isEditing ? (
@@ -84,7 +97,9 @@ const UserInfo = () => {
                   {isLoading && (
                     <div className="w-32 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
                   )}
-                  <span>{userInformation?.data?.user.firstname} </span>
+                  <span className="text-slate-200">
+                    {userInformation?.data?.user.firstname}{" "}
+                  </span>
                 </>
               )}
             </div>
@@ -107,12 +122,14 @@ const UserInfo = () => {
                   {isLoading && (
                     <div className="w-32 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
                   )}
-                  <span>{userInformation?.data?.user.lastname}</span>
+                  <span className="text-slate-200">
+                    {userInformation?.data?.user.lastname}
+                  </span>
                 </>
               )}
             </div>
           </div>
-          <div className="grid grid-cols-2 justify-between items-center w-2/3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full justify-between items-center lg:w-2/3">
             <div className="flex gap-3 items-center">
               <h5 className="text-orange opacity-90">تلفن همراه:</h5>
               {isEditing ? (
@@ -132,7 +149,9 @@ const UserInfo = () => {
                   {isLoading && (
                     <div className="w-40 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
                   )}
-                  <span>{userInformation?.data?.user.phoneNumber}</span>
+                  <span className="text-slate-200">
+                    {userInformation?.data?.user.phoneNumber}
+                  </span>
                 </>
               )}
             </div>
@@ -156,7 +175,9 @@ const UserInfo = () => {
                   {isLoading && (
                     <div className="w-56 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
                   )}
-                  <span>{userInformation?.data?.user.address}</span>
+                  <span className="text-slate-200">
+                    {userInformation?.data?.user.address}
+                  </span>
                 </>
               )}
             </div>

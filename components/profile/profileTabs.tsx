@@ -13,10 +13,10 @@ const ProfileTabs = () => {
   const { profileTab } = useAppSelector((state) => state.profile);
 
   return (
-    <ul className="space-y-5 font-medium mt-9">
+    <ul className="space-y-5 font-medium mt-1">
       <li className="flex items-end gap-3 p-2 pr-5 py-3">
         <IoHomeSharp className="w-6 h-6" />
-        <Link href="/" className="hover:text-orange">
+        <Link href="/" className="hover:text-orange hidden md:block">
           صفحه اصلی
         </Link>
       </li>
@@ -29,7 +29,7 @@ const ProfileTabs = () => {
         <FaUserAlt className="w-6 h-6" />
         <Link
           href="/profile"
-          className={`hover:text-orange ${
+          className={`hover:text-orange hidden md:block ${
             profileTab === "userInfo" ? "text-orange" : ""
           }`}
         >
@@ -45,7 +45,7 @@ const ProfileTabs = () => {
         <RiShoppingBag3Fill className="w-7 h-7" />
         <Link
           href="/profile"
-          className={`hover:text-orange ${
+          className={`hover:text-orange hidden md:block ${
             profileTab === "orders" ? "text-orange" : ""
           }`}
         >
@@ -54,13 +54,13 @@ const ProfileTabs = () => {
       </button>
       <li className="flex items-end gap-3 p-2 pr-5 py-3">
         <FaHeart className="w-6 h-6" />
-        <Link href="/profile" className="hover:text-orange">
+        <Link href="/profile" className="hover:text-orange hidden md:block">
           علاقه مندی ها
         </Link>
       </li>
       <li className="flex items-end gap-3 p-2 pr-5 py-3">
         <LuLogOut className="w-6 h-6" />
-        <Link href="/profile" className="hover:text-orange">
+        <Link href="/profile" className="hover:text-orange hidden md:block">
           خروج
         </Link>
       </li>

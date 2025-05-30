@@ -47,3 +47,5 @@ interface IEditUserReqDto {
   phoneNumber?: string;
   address?: string;
 }
+
+type profileTabType = "userInfo" | "orders" | "";

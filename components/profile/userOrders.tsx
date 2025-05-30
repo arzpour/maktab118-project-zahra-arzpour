@@ -1,5 +1,4 @@
 "use client";
-import { useAppSelector } from "@/redux/hook";
 import { TbTruckLoading } from "react-icons/tb";
 import { IoMdCheckboxOutline } from "react-icons/io";
 import React from "react";
@@ -9,6 +8,9 @@ import useOrderList from "@/hooks/useOrder";
 import { perPageLimit } from "@/utils/config";
 import Pagination from "../admin/pagination";
 import OrdersModal from "../admin/modals/orders-modal";
+import { useAppDispatch, useAppSelector } from "@/redux/hook";
+import { MdOutlineArrowBack } from "react-icons/md";
+import { profileActions } from "@/redux/features/profile.slice";
 
 type ordersStatusType = "active" | "done";
 
@@ -21,6 +23,7 @@ const UserOrders = () => {
 
   const userId = getUserId();
   const { profileTab } = useAppSelector((state) => state.profile);
+  const dispatch = useAppDispatch();
 
   const { data: orderList, isSuccess } = useOrderList(Infinity);
 
@@ -50,42 +53,53 @@ const UserOrders = () => {
       <>
         {orderListById ? (
           <>
-            <button
-              onClick={() => {
-                setOrdersStatus("active");
-                // setPage(1);
-              }}
-              className={`inline-flex items-center justify-center text-sm p-4 pb-3 rounded-t-lg outline-none ${
-                ordersStatus === "active"
-                  ? " border-b-2 border-orange text-orange"
-                  : "text-gray-300 hover:text-gray-300"
-              }`}
-            >
-              <IoMdCheckboxOutline
-                className={`w-5 h-5 me-2 ${
-                  ordersStatus === "active" ? "text-orange" : "text-gray-300"
-                }`}
-              />
-              در انتظار ارسال
-            </button>
-            <button
-              onClick={() => {
-                setOrdersStatus("done");
-                // setPage(1);
-              }}
-              className={`inline-flex items-center justify-center text-sm p-4 pb-3 rounded-t-lg outline-none ${
-                ordersStatus === "done"
-                  ? " border-b-2 border-orange text-orange"
-                  : "text-gray-300 hover:text-gray-300"
-              }`}
-            >
-              <TbTruckLoading
-                className={`w-5 h-5 me-2 ${
-                  ordersStatus === "done" ? "text-orange" : "text-gray-300"
-                }`}
-              />
-              تحویل داده شده
-            </button>
+            <div className="flex justify-between items-center">
+              <div className="flex">
+                <button
+                  onClick={() => {
+                    setOrdersStatus("active");
+                  }}
+                  className={`inline-flex items-center justify-center text-sm p-4 pb-3 rounded-t-lg outline-none ${
+                    ordersStatus === "active"
+                      ? " border-b-2 border-orange text-orange"
+                      : "text-gray-300 hover:text-gray-300"
+                  }`}
+                >
+                  <IoMdCheckboxOutline
+                    className={`w-5 h-5 me-2 ${
+                      ordersStatus === "active"
+                        ? "text-orange"
+                        : "text-gray-300"
+                    }`}
+                  />
+                  در انتظار ارسال
+                </button>
+                <button
+                  onClick={() => {
+                    setOrdersStatus("done");
+                  }}
+                  className={`inline-flex items-center justify-center text-sm p-4 pb-3 rounded-t-lg outline-none ${
+                    ordersStatus === "done"
+                      ? " border-b-2 border-orange text-orange"
+                      : "text-gray-300 hover:text-gray-300"
+                  }`}
+                >
+                  <TbTruckLoading
+                    className={`w-5 h-5 me-2 ${
+                      ordersStatus === "done" ? "text-orange" : "text-gray-300"
+                    }`}
+                  />
+                  تحویل داده شده
+                </button>
+              </div>
+
+              <button
+                className="sm:hidden"
+                onClick={() => dispatch(profileActions.setProfileTab(""))}
+              >
+                <MdOutlineArrowBack className="text-slate-200 w-6 h-6" />
+              </button>
+            </div>
 
             {filteredData && filteredData?.length > 0 ? (
               <>
