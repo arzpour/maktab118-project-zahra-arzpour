@@ -76,6 +76,8 @@ const ProductShoppingCart: React.FC<IShoppingCartProductList> = ({
           src={`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${thumbnail}`}
           alt="product-image"
           className="mx-auto rounded-xl object-cover h-28"
+          width={300}
+          height={300}
         />
       </div>
       <div className="grid grid-cols-1 md:grid-cols-5 w-full">

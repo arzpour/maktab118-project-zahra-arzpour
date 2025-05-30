@@ -187,7 +187,7 @@ const AddProductForm: React.FC<IAddProductForm> = ({
 
       <div className="flex gap-4 w-full mt-3">
         <Thumbnail name="thumbnail" control={control} />
-        <Images name="images" control={control} />
+        <Images name="images" control={control}  />
       </div>
 
       <div className="mt-4 mb-1">

@@ -24,7 +24,7 @@ const UserInfo = () => {
 
   const { profileTab } = useAppSelector((state) => state.profile);
 
-  const { data: userInformation } = useUserById();
+  const { data: userInformation, isLoading } = useUserById();
 
   const editUserInfo = useEditUserById();
   const userId = getUserId();
@@ -63,7 +63,7 @@ const UserInfo = () => {
       <>
         <h3 className="text-orange mb-7 text-xl">اطلاعات کاربری</h3>
         <div className="bg-BlueL text-white p-10 rounded-xl space-y-10">
-          <div className="flex justify-between items-center w-2/3">
+          <div className="grid grid-cols-2 justify-between items-center w-2/3">
             <div className="flex gap-3 items-center">
               <h5 className="text-orange opacity-90">نام:</h5>
               {isEditing ? (
@@ -80,7 +80,12 @@ const UserInfo = () => {
                   }
                 />
               ) : (
-                <span>{userInformation?.data?.user.firstname} </span>
+                <>
+                  {isLoading && (
+                    <div className="w-32 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
+                  )}
+                  <span>{userInformation?.data?.user.firstname} </span>
+                </>
               )}
             </div>
             <div className="flex gap-3 items-center">
@@ -98,11 +103,16 @@ const UserInfo = () => {
                   }
                 />
               ) : (
-                <span>{userInformation?.data?.user.lastname}</span>
+                <>
+                  {isLoading && (
+                    <div className="w-32 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
+                  )}
+                  <span>{userInformation?.data?.user.lastname}</span>
+                </>
               )}
             </div>
           </div>
-          <div className="flex justify-between items-center w-2/3">
+          <div className="grid grid-cols-2 justify-between items-center w-2/3">
             <div className="flex gap-3 items-center">
               <h5 className="text-orange opacity-90">تلفن همراه:</h5>
               {isEditing ? (
@@ -118,7 +128,12 @@ const UserInfo = () => {
                   }
                 />
               ) : (
-                <span>{userInformation?.data?.user.phoneNumber}</span>
+                <>
+                  {isLoading && (
+                    <div className="w-40 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
+                  )}
+                  <span>{userInformation?.data?.user.phoneNumber}</span>
+                </>
               )}
             </div>
             <div className="flex gap-3 items-center">
@@ -137,7 +152,12 @@ const UserInfo = () => {
                   }}
                 />
               ) : (
-                <span>{userInformation?.data?.user.address}</span>
+                <>
+                  {isLoading && (
+                    <div className="w-56 h-7 bg-BackgroundColor rounded-lg animate-pulse"></div>
+                  )}
+                  <span>{userInformation?.data?.user.address}</span>
+                </>
               )}
             </div>
           </div>
