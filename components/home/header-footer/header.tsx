@@ -1,5 +1,4 @@
 import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
 import Link from "next/link";
 import HamburgerMenu from "./hamburger-menu";
 import Image from "next/image";
@@ -7,6 +6,9 @@ import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
 import ProductsDropdown from "./products-dropdown";
 import UserIcon from "./user-icon";
 import AdminBtn from "./adminBtn";
+import SearchInput from "../../search/searchInput";
+import AboutUsBtn from "./aboutUsBtn";
+import ContactUsBtn from "./contactUsBtn";
 
 const Header = () => {
   return (
@@ -24,16 +26,7 @@ const Header = () => {
             <h3 className="sm:text-lg relative top-2">عطاری بوته</h3>
           </div>
           <div>
-            <div className="hidden sm:block relative w-44 sm:w-72">
-              <div className="absolute inset-y-0 start-1 flex items-center ps-3 pointer-events-none">
-                <IoSearchOutline className="w-5 h-5 relative bottom-0.5" />
-              </div>
-              <input
-                type="search"
-                className="block w-full placeholder:text-xs py-2 md:placeholder:text-base bg-BackgroundColor outline-none rounded-full px-8 md:py-2.5 pr-12 ps-10 text-sm text-gray-900 border border-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                placeholder="اینجا سرچ کنید..."
-              />
-            </div>
+            <SearchInput />
           </div>
           <div className="flex gap-5 items-center">
             <ShoppingCartIcon />
@@ -47,10 +40,10 @@ const Header = () => {
             </li>
             <ProductsDropdown />
             <li className="sm:text-base lg:text-lg hover:text-orange">
-              <button>درباره ما</button>
+              <AboutUsBtn />
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
-              <button>تماس با ما</button>
+              <ContactUsBtn />
             </li>
             <li className="sm:text-base lg:text-lg hover:text-orange">
               <Link href={"/blogs"}>وبلاگ</Link>

@@ -10,7 +10,6 @@ import {
   MdOutlineContactSupport,
 } from "react-icons/md";
 import { RiAdminFill } from "react-icons/ri";
-import SearchInput from "@/components/form/search";
 import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
 import {
   deleteAccessToken,
@@ -19,15 +18,15 @@ import {
   deleteUserId,
   getRole,
 } from "@/utils/session";
-
 import { CgProfile } from "react-icons/cg";
-
 import { logout } from "@/apis/client/auth";
-
 import { toast } from "react-toastify";
 import { useAppDispatch } from "@/redux/hook";
 import { productActions } from "@/redux/features/product.slice";
 import Image from "next/image";
+import SearchInput from "@/components/search/searchInput";
+import AboutUsBtn from "./aboutUsBtn";
+import ContactUsBtn from "./contactUsBtn";
 
 const HamburgerMenu = () => {
   const [isOpen, setIsOpen] = React.useState<boolean>(false);
@@ -70,11 +69,11 @@ const HamburgerMenu = () => {
         </li>
         <li className="flex gap-2 items-center">
           <MdOutlineContactSupport className="w-5 h-5 cursor-pointer" />
-          <button className="hover:text-orange">درباره ما</button>
+          <AboutUsBtn />
         </li>
         <li className="flex gap-2 items-center">
           <AiFillPhone className="w-5 h-5 cursor-pointer" />
-          <button className="hover:text-orange">تماس با ما</button>
+          <ContactUsBtn />
         </li>
         <li className="flex gap-2 items-center">
           <MdOutlineChatBubble className="w-5 h-5 cursor-pointer" />
@@ -127,7 +126,7 @@ const HamburgerMenu = () => {
           </div>
         )}
       </ul>
-      <SearchInput />
+      <SearchInput device="mobile" />
       <div className="flex gap-4 items-center">
         <Image
           src="/90223181741.png"

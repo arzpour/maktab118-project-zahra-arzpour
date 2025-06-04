@@ -3,7 +3,10 @@ import React from "react";
 
 const AboutUs = () => {
   return (
-    <div className="flex flex-wrap justify-center lg:flex-nowrap gap-8 items-center py-10 pt-6 lg:py-14">
+    <div
+      id="about-us-section"
+      className="flex flex-wrap justify-center lg:flex-nowrap gap-8 items-center py-10 pt-6 lg:py-14"
+    >
       <Image
         src="/43135240.png"
         alt="about-us-image"
