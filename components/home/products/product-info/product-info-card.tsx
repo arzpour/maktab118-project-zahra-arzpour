@@ -40,15 +40,17 @@ const ProductInfoCard: React.FC<IShoppingCartProductList> = ({
             )}
           </div>
 
-          <div className="w-full md:w-1/2 px-4">
+          <div className="w-full md:w-1/2 px-8 sm:px-4">
             <div className="flex justify-between items-start">
-              <h2 className="text-xl text-slate-50 font-bold mb-2">{name}</h2>
+              <h2 className="sm:text-xl text-slate-50 font-bold mb-2">
+                {name}
+              </h2>
               <span className="mr-2 text-sm font-bold text-slate-500">
                 {price} تومان
               </span>
             </div>
             <div
-              className="text-gray-400 font-semibold py-4 mb-6 lg:pl-10 overflow-auto"
+              className="yexy-sm sm:text-base text-gray-400 font-semibold py-4 mb-6 lg:pl-10 overflow-auto"
               dangerouslySetInnerHTML={{
                 __html: description as string | TrustedHTML,
               }}

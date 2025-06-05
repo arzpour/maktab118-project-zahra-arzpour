@@ -38,11 +38,11 @@ const ShoppingCart = () => {
   };
 
   return (
-    <div className="max-w-[1200px] lg:mx-auto p-4 pt-10 mb-8 mx-5">
+    <div className="max-w-[1200px] lg:mx-auto sm:p-4 pt-10 mb-8 sm:mx-5">
       {list.length === 0 ? (
         <p className="text-white font-medium">سبد خرید شما خالی است</p>
       ) : (
-        <section className="w-full relative z-10 after:contents-[''] after:absolute after:z-0 after:h-full xl:after:w-1/3 after:top-0 after:right-0 ">
+        <section className="w-full relative z-10 after:contents-[''] after:absolute after:z-0 after:h-full xl:after:w-1/3 after:top-0 after:right-0">
           <div className="w-full max-w-7xl px-4 md:px-5 lg-6 mx-auto relative z-10">
             <div className="grid grid-cols-14">
               <div className="col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
@@ -78,11 +78,11 @@ const ShoppingCart = () => {
                   <ProductShoppingCart key={el._id} {...el} />
                 ))}
               </div>
-              <div className="flex justify-between items-center pr-10 col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
-                <p className="text-slate-300">قیمت کل: {totalPrice} تومان</p>
+              <div className="flex justify-between items-center sm:pr-10 col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
+                <p className="text-slate-300 text-sm sm:text-base">قیمت کل: {totalPrice} تومان</p>
                 <Link
                   href={"/payment"}
-                  className="bg-green-600 rounded py-2 px-7 text-center text-sm"
+                  className="bg-green-600 rounded py-2 px-4 sm:px-7 text-center text-sm"
                 >
                   نهایی کردن سبد خرید
                 </Link>

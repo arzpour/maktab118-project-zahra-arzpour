@@ -43,8 +43,8 @@ const SearchList = () => {
     <div className="md:pt-10 mx-5">
       {products.length > 0 && (
         <>
-          <h4 className="text-orange text-xl">محصولات</h4>
-          <div className="flex gap-5 xl:gap-10 items-center flex-wrap px-5 lg:px-0 py-9">
+          <h4 className="text-orange sm:text-xl mr-5 sm:mr-0">محصولات</h4>
+          <div className="flex gap-5 justify-center sm:justify-normal xl:gap-10 items-center flex-wrap px-5 lg:px-0 py-9">
             {products?.map((el) => (
               <ProductCard key={el._id} {...el} />
             ))}
@@ -54,8 +54,8 @@ const SearchList = () => {
 
       {blogs.length > 0 && (
         <>
-          <h4 className="text-orange text-xl pt-3">وبلاگ</h4>
-          <div className="flex gap-5 xl:gap-10 items-center flex-wrap px-5 lg:px-0 pt-9">
+          <h4 className="text-orange sm:text-xl pt-3 mr-5 sm:mr-0">وبلاگ</h4>
+          <div className="flex gap-5 justify-center sm:justify-normal xl:gap-10 items-center flex-wrap px-5 lg:px-0 pt-9">
             {blogs?.map((el) => (
               <BlogCard key={el._id} {...el} />
             ))}
@@ -63,7 +63,7 @@ const SearchList = () => {
         </>
       )}
       {!products.length && !blogs.length && (
-        <p className="text-slate-200 pb-16">یافت نشد...</p>
+        <p className="text-slate-200 sm:pb-16 pt-8">یافت نشد...</p>
       )}
     </div>
   );

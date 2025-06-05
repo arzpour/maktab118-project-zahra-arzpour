@@ -58,6 +58,7 @@ const UserOrders = () => {
                 <button
                   onClick={() => {
                     setOrdersStatus("active");
+                    setPage(1);
                   }}
                   className={`inline-flex items-center justify-center text-sm p-4 pb-3 rounded-t-lg outline-none ${
                     ordersStatus === "active"
@@ -77,6 +78,7 @@ const UserOrders = () => {
                 <button
                   onClick={() => {
                     setOrdersStatus("done");
+                    setPage(1);
                   }}
                   className={`inline-flex items-center justify-center text-sm p-4 pb-3 rounded-t-lg outline-none ${
                     ordersStatus === "done"

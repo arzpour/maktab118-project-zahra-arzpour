@@ -1,42 +1,34 @@
 "use client";
 
-import {
-  deleteAccessToken,
-  deleteRefreshToken,
-  deleteRole,
-  deleteUserId,
-  getAccessToken,
-  getRole,
-} from "@/utils/session";
+import { getAccessToken, getRole } from "@/utils/session";
 import Link from "next/link";
 import React from "react";
 import { CgProfile } from "react-icons/cg";
 import { MdLogout } from "react-icons/md";
-import { logout } from "@/apis/client/auth";
-import { toast } from "react-toastify";
 import { FaLock, FaUserLarge } from "react-icons/fa6";
 import { FaUserPlus } from "react-icons/fa";
-import { useAppDispatch } from "@/redux/hook";
-import { productActions } from "@/redux/features/product.slice";
+import useLogout from "@/hooks/useLogout";
 
 const UserIcon = () => {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
+  // const [isOpen, setIsOpen] = React.useState<boolean>(false);
 
   const userExist = getAccessToken();
 
   const role = getRole();
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
-  const logOutHandler = async () => {
-    await logout();
-    deleteAccessToken();
-    deleteRefreshToken();
-    deleteRole();
-    toast.success("خارج شدید");
-    setIsOpen(false);
-    deleteUserId();
-    dispatch(productActions.removeAll());
-  };
+  // const logOutHandler = async () => {
+  //   await logout();
+  //   deleteAccessToken();
+  //   deleteRefreshToken();
+  //   deleteRole();
+  //   toast.success("خارج شدید");
+  //   setIsOpen(false);
+  //   deleteUserId();
+  //   dispatch(productActions.removeAll());
+  // };
+
+  const { isOpen, setIsOpen, logOutHandler } = useLogout();
 
   return (
     <>

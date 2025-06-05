@@ -11,34 +11,6 @@ export const GET = async (
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) => {
-  const cookies = req.headers.get("cookie");
-
-  if (!cookies) {
-    return NextResponse.json(
-      {
-        error: "Unauthorized",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
-
-  const parseCookies = parse(cookies);
-
-  const token = parseCookies["accsess-token-store"];
-
-  if (!token) {
-    return NextResponse.json(
-      {
-        error: "Unauthorized",
-      },
-      {
-        status: 401,
-      }
-    );
-  }
-
   const id = (await params).id;
 
   const getBlog = await getBlogById(id);

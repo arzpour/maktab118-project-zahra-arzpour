@@ -7,10 +7,15 @@ import { FaHeart, FaUserAlt } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { profileActions } from "@/redux/features/profile.slice";
+import useLogout from "@/hooks/useLogout";
+import { useRouter } from "next/navigation";
 
 const ProfileTabs = () => {
   const dispatch = useAppDispatch();
   const { profileTab } = useAppSelector((state) => state.profile);
+
+  const { logOutHandler } = useLogout();
+  const router = useRouter();
 
   return (
     <ul className="space-y-5 font-medium mt-1">
@@ -60,9 +65,15 @@ const ProfileTabs = () => {
       </li>
       <li className="flex items-end gap-3 p-2 pr-5 py-3">
         <LuLogOut className="w-6 h-6" />
-        <Link href="/profile" className="hover:text-orange hidden md:block">
+        <button
+          onClick={() => {
+            logOutHandler();
+            router.push("/");
+          }}
+          className="hover:text-orange hidden md:block"
+        >
           خروج
-        </Link>
+        </button>
       </li>
     </ul>
   );

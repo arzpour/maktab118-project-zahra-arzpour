@@ -3,9 +3,9 @@ import React from "react";
 
 const NotFound = () => {
   return (
-    <div className="bg-BackgroundColor text-white min-h-screen flex justify-center items-center pt-56">
+    <div className="bg-BackgroundColor text-white min-h-screen flex justify-center items-center">
       <div>
-        <h2 className="font-extrabold text-center text-9xl text-orange dark:text-gray-100">
+        <h2 className="font-extrabold text-center text-7xl sm:text-9xl text-orange dark:text-gray-100">
           <span className="sr-only">Error</span>404
         </h2>
         <h3 className="my-2">صفحه‌ای که دنبال آن بودید پیدا نشد!</h3>

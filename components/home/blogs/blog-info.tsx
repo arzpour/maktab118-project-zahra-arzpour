@@ -10,12 +10,11 @@ const BlogInfoById = () => {
   const { blogId } = useParams();
 
   const { data: blog } = useGetBlogById(blogId as string);
-  console.log("🚀 ~ BlogInfoById ~ data:", blog);
 
   return (
     <>
       {blog && (
-        <div className="">
+        <div className="mx-10 lg:mx-0">
           <Image
             width={500}
             height={500}

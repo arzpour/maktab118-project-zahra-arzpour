@@ -6,9 +6,10 @@ import { IoSearchOutline } from "react-icons/io5";
 
 interface ISearchInput {
   device?: "mobile" | "desktop";
+  className?: string;
 }
 
-const SearchInput: React.FC<ISearchInput> = ({ device }) => {
+const SearchInput: React.FC<ISearchInput> = ({ device, className }) => {
   const [value, setValue] = React.useState<string>("");
   const router = useRouter();
 
@@ -23,7 +24,7 @@ const SearchInput: React.FC<ISearchInput> = ({ device }) => {
 
   return (
     <div
-      className={`relative w-44 ${
+      className={`relative w-44 ${className} ${
         device === "mobile" ? "sm:w-60 md:w-72" : "sm:w-72"
       }`}
     >
@@ -34,7 +35,7 @@ const SearchInput: React.FC<ISearchInput> = ({ device }) => {
         type="search"
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        className="block w-full text-slate-200 placeholder:text-xs py-2 md:placeholder:text-base bg-BackgroundColor outline-none rounded-full px-8 md:py-2.5 pr-12 ps-10 text-sm text-gray-900 border border-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
+        className="block w-full text-slate-200 placeholder:text-xs py-2 md:placeholder:text-base bg-BackgroundColor outline-none rounded-full px-8 md:py-2.5 pr-12 ps-10 text-sm border border-gray-400 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
         placeholder="اینجا سرچ کنید..."
       />
     </div>
