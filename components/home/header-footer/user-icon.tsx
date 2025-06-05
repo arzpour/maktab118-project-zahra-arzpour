@@ -10,23 +10,9 @@ import { FaUserPlus } from "react-icons/fa";
 import useLogout from "@/hooks/useLogout";
 
 const UserIcon = () => {
-  // const [isOpen, setIsOpen] = React.useState<boolean>(false);
-
   const userExist = getAccessToken();
 
   const role = getRole();
-  // const dispatch = useAppDispatch();
-
-  // const logOutHandler = async () => {
-  //   await logout();
-  //   deleteAccessToken();
-  //   deleteRefreshToken();
-  //   deleteRole();
-  //   toast.success("خارج شدید");
-  //   setIsOpen(false);
-  //   deleteUserId();
-  //   dispatch(productActions.removeAll());
-  // };
 
   const { isOpen, setIsOpen, logOutHandler } = useLogout();
 

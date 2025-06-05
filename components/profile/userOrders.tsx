@@ -11,6 +11,7 @@ import OrdersModal from "../admin/modals/orders-modal";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { MdOutlineArrowBack } from "react-icons/md";
 import { profileActions } from "@/redux/features/profile.slice";
+import usePagination from "@/hooks/usePagination";
 
 type ordersStatusType = "active" | "done";
 
@@ -35,18 +36,12 @@ const UserOrders = () => {
     return ordersStatus === "done" ? item.deliveryStatus : !item.deliveryStatus;
   });
 
-  const totalPages = Math.ceil((filteredData?.length || 0) / perPageLimit);
-
-  const filteredItems = filteredData?.slice(
-    (page - 1) * perPageLimit,
-    page * perPageLimit
-  );
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
+  const { handlePageChange, totalPages, filteredItems } = usePagination({
+    setPage,
+    totalItems: filteredData?.length || 0,
+    data: filteredData || [],
+    page,
+  });
 
   return (
     profileTab === "orders" && (

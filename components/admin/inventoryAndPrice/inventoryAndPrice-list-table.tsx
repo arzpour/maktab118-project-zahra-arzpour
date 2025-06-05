@@ -1,7 +1,6 @@
 "use client";
 
 import useProductList from "@/hooks/useProduct";
-import { perPageLimit } from "@/utils/config";
 import React from "react";
 import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
@@ -10,6 +9,7 @@ import { AxiosError } from "axios";
 import { queryClient } from "@/providers/tanstack.provider";
 import { toast } from "react-toastify";
 import { usePatchProducts } from "@/apis/mutations/product";
+import usePagination from "@/hooks/usePagination";
 
 interface Product {
   _id: string;
@@ -24,13 +24,10 @@ const InventoryAndPriceListTable: React.FC = () => {
   >({});
   const { data: products, setPage, page } = useProductList();
 
-  const totalPages = Math.ceil(products?.total || 0 / perPageLimit);
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
+  const { handlePageChange, totalPages } = usePagination({
+    setPage,
+    totalItems: products?.total || 0,
+  });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,

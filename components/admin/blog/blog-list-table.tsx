@@ -7,15 +7,15 @@ import TotalPageTable from "../total-page-table";
 import Image from "next/image";
 import useGetBlogs from "@/hooks/useGetBlogs";
 import ActionBlogBtn from "./action-blog-btn";
+import usePagination from "@/hooks/usePagination";
 
 const BlogListTable = () => {
   const { data: blogs, page, setPage } = useGetBlogs(perPageLimit);
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= (blogs?.totalPages || 0)) {
-      setPage(newPage);
-    }
-  };
+  const { handlePageChange, totalPages } = usePagination({
+    setPage,
+    totalItems: blogs?.totalPages || 0,
+  });
 
   return (
     <>
@@ -69,7 +69,7 @@ const BlogListTable = () => {
       <div className="flex flex-wrap justify-between items-center gap-y-6 sm:px-10 py-3 mt-5">
         <Pagination
           page={blogs?.page || 0}
-          totalPages={blogs?.totalPages || 0}
+          totalPages={totalPages || 0}
           handlePageChange={handlePageChange}
         />
         <TotalPageTable page={page} total={blogs?.total ?? 0} />

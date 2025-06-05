@@ -4,11 +4,11 @@ import React from "react";
 import useSubCategoryList from "@/hooks/useSubcategory";
 import useProductList from "@/hooks/useProduct";
 import Pagination from "@/components/admin/pagination";
-import { perPageLimit } from "@/utils/config";
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/home/products/product-card";
 import { notFound } from "next/navigation";
+import usePagination from "@/hooks/usePagination";
 
 interface IProductListByCategory {
   categoryId: string;
@@ -42,23 +42,18 @@ const ProductListByCategory: React.FC<IProductListByCategory> = ({
     );
   }, [selectedSubcategory, getProductsByCategory]);
 
+  const { handlePageChange, totalPages, filteredItems } = usePagination({
+    setPage,
+    totalItems: filteredProducts?.length || 0,
+    data: filteredProducts || [],
+    page,
+  });
+
   const isExist = getSubCategoryList?.some((el) => el);
 
   if (isExist === false) {
     return notFound();
   }
-  const totalPages = Math.ceil((filteredProducts?.length || 0) / perPageLimit);
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
-
-  const filteredItems = filteredProducts?.slice(
-    (page - 1) * perPageLimit,
-    page * perPageLimit
-  );
 
   return (
     <div className="pt-20 px-5">
