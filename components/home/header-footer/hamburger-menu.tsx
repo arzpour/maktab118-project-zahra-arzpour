@@ -11,40 +11,20 @@ import {
 } from "react-icons/md";
 import { RiAdminFill } from "react-icons/ri";
 import ShoppingCartIcon from "@/components/shopping-cart/shopping-cart-icon";
-import {
-  deleteAccessToken,
-  deleteRefreshToken,
-  deleteRole,
-  deleteUserId,
-  getRole,
-} from "@/utils/session";
+import { getRole } from "@/utils/session";
 import { CgProfile } from "react-icons/cg";
-import { logout } from "@/apis/client/auth";
-import { toast } from "react-toastify";
-import { useAppDispatch } from "@/redux/hook";
-import { productActions } from "@/redux/features/product.slice";
+
 import Image from "next/image";
 import SearchInput from "@/components/search/searchInput";
 import AboutUsBtn from "./aboutUsBtn";
 import ContactUsBtn from "./contactUsBtn";
+import useLogout from "@/hooks/useLogout";
 
 const HamburgerMenu = () => {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
-
-  const dispatch = useAppDispatch();
-
   const role = getRole();
 
-  const logOutHandler = async () => {
-    await logout();
-    deleteAccessToken();
-    deleteRefreshToken();
-    deleteRole();
-    toast.success("خارج شدید");
-    setIsOpen(false);
-    deleteUserId();
-    dispatch(productActions.removeAll());
-  };
+  const { isOpen, setIsOpen, logoutHandler } = useLogout();
+
   return (
     <div className="flex sm:hidden justify-between items-center">
       <button onClick={() => setIsOpen((prev) => !prev)} className="">
@@ -104,7 +84,7 @@ const HamburgerMenu = () => {
               <MdLogout className="w-5 h-5" />
               <button
                 className="cursor-pointer hover:text-orange"
-                onClick={logOutHandler}
+                onClick={logoutHandler}
               >
                 خروج
               </button>

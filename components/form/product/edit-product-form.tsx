@@ -97,13 +97,19 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       setShowEditProductModal(false);
 
       if (response.status !== "success") {
-        toast.error("اطلاعات اشتباه میباشد");
+        toast.error("اطلاعات اشتباه میباشد", {
+          className: "custom-toast",
+        });
       } else {
-        toast.success("ویرایش شد");
+        toast.success("ویرایش شد", {
+          className: "custom-toast",
+        });
         queryClient.invalidateQueries({ queryKey: ["get-products"] });
       }
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

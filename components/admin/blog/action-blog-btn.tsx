@@ -25,11 +25,15 @@ const ActionBlogBtn: React.FC<IActionBlogBtn> = ({ id }) => {
     try {
       await deleteBlog.mutateAsync(id);
 
-      toast.success("حذف شد");
+      toast.success("حذف شد", {
+        className: "custom-toast",
+      });
       setShowDeleteBlogModal(false);
       queryClient.invalidateQueries({ queryKey: ["get-blogs"] });
     } catch (error) {
-      toast.error("حذف نشد");
+      toast.error("حذف نشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

@@ -29,15 +29,25 @@ const OrderForm: React.FC<IOrderForm> = ({
 
   const editHandler = async () => {
     try {
-      await editOrder.mutateAsync(id);
+      const res = await editOrder.mutateAsync(id);
 
-      toast.success("سفارش به تحویل داده شده تغییر یافت");
+      if (res.message === "Cannot read properties of null (reading 'price')") {
+        toast.error(".محصول موجود نمی باشد", {
+          className: "custom-toast",
+        });
+      } else if (res.data) {
+        toast.success("سفارش به تحویل داده شده تغییر یافت", {
+          className: "custom-toast",
+        });
+      }
 
       setShowOrderModal(false);
 
       queryClient.invalidateQueries({ queryKey: ["get-orders"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
       console.log(error);
     }
@@ -82,9 +92,9 @@ const OrderForm: React.FC<IOrderForm> = ({
             <p>
               زمان سفارش:
               <span className="mr-2 text-slate-600 text-sm">
-                {moment(user?.createdAt)
+                {moment(getOrder?.createdAt)
                   .locale("fa")
-                  .format("hh:mm:ss ___ jYYYY/jMM/jDD")}
+                  .format("HH:mm:ss ___ jYYYY/jMM/jDD")}
               </span>
             </p>
           </div>
@@ -130,12 +140,12 @@ const OrderForm: React.FC<IOrderForm> = ({
       {getOrder?.deliveryStatus === true && (
         <div className="flex justify-center items-center gap-2 text-BlueDark mt-7 mb-4">
           <FaCalendarCheck className="w-4 h-4" />
-          <p>
+          <p onClick={() => console.log(getOrder?.deliveryDate)}>
             زمان تحویل:
             <span className="mr-2 text-slate-600 text-sm">
               {moment(getOrder?.deliveryDate)
                 .locale("fa")
-                .format("hh:mm:ss ___ jYYYY/jMM/jDD")}
+                .format("HH:mm:ss ___ jYYYY/jMM/jDD")}
             </span>
           </p>
         </div>

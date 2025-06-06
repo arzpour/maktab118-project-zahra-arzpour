@@ -42,10 +42,14 @@ const AddBlogForm: React.FC<IAddBlogForm> = ({ setShowAddBlogModal }) => {
       await addBlog.mutateAsync(formData);
 
       setShowAddBlogModal(false);
-      toast.success("ایجاد شد");
+      toast.success("ایجاد شد", {
+        className: "custom-toast",
+      });
       queryClient.invalidateQueries({ queryKey: ["get-blogs"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
 
       errorHandler(error as AxiosError<IError>);
     }

@@ -68,14 +68,32 @@ const InventoryAndPriceListTable: React.FC = () => {
         return editProduct.mutateAsync({ data, id: update.id });
       });
 
-      await Promise.all(updateRequests);
+      const res = await Promise.all(updateRequests);
 
-      toast.success("ویرایش شد");
+      if (Array.isArray(res)) {
+        res.forEach((item) => {
+          if (
+            item.message === "subcategory not provided or found" ||
+            item.message === "category not provided or found"
+          ) {
+            toast.error("برای ویرایش، یک دسته بندی برای محصول انتخاب کنید", {
+              className: "custom-toast",
+            });
+          } else {
+            toast.success("ویرایش شد", {
+              className: "custom-toast",
+            });
+          }
+        });
+      }
+
       setEditedProducts({});
       setEdit(false);
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

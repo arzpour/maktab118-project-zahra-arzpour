@@ -50,10 +50,14 @@ const AddSubCategoryForm: React.FC<IAddSubCategoryForm> = ({
       await createSubCategory.mutateAsync(newData);
       setShowAddSubCategoryModal(false);
 
-      toast.success("ایجاد شد");
+      toast.success("ایجاد شد", {
+        className: "custom-toast",
+      });
       queryClient.invalidateQueries({ queryKey: ["get-subcategories"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

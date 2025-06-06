@@ -121,8 +121,6 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
       ];
 
       await add.mutateAsync(data);
-
-      // toast.success("به دیتابیس اضافه شد");
     } catch (error) {
       console.log(error);
     }
@@ -133,16 +131,22 @@ const AddToCartBtn: React.FC<IAddToCart> = ({
       addToCart(getSelectedQuantity);
 
       if (productItem) {
-        toast.error("محصول شما در سبد خرید موجود میباشد.");
+        toast.error("محصول شما در سبد خرید موجود میباشد.", {
+          className: "custom-toast",
+        });
       } else {
-        toast.success("محصول شما به سبد خرید اضافه شد");
+        toast.success("محصول شما به سبد خرید اضافه شد", {
+          className: "custom-toast",
+        });
 
         if (user) {
           await addToDataBaseHandler();
         }
       }
     } else {
-      toast.error("مجصول در انبار موجود نیست");
+      toast.error("مجصول در انبار موجود نیست", {
+        className: "custom-toast",
+      });
     }
   };
 

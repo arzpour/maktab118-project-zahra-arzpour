@@ -51,10 +51,14 @@ const EditBlogForm: React.FC<IEditBlogForm> = ({
 
       setShowEditBlogModal(false);
 
-      toast.success("ویرایش شد");
+      toast.success("ویرایش شد", {
+        className: "custom-toast",
+      });
       queryClient.invalidateQueries({ queryKey: ["get-blog"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

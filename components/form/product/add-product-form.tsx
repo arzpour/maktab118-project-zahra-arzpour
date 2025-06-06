@@ -81,10 +81,14 @@ const AddProductForm: React.FC<IAddProductForm> = ({
       await createProduct.mutateAsync(formData);
       setShowAddProductModal(false);
 
-      toast.success("محصول ایجاد شد");
+      toast.success("محصول ایجاد شد", {
+        className: "custom-toast",
+      });
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };
@@ -187,7 +191,7 @@ const AddProductForm: React.FC<IAddProductForm> = ({
 
       <div className="flex gap-4 w-full mt-3">
         <Thumbnail name="thumbnail" control={control} />
-        <Images name="images" control={control}  />
+        <Images name="images" control={control} />
       </div>
 
       <div className="mt-4 mb-1">

@@ -87,7 +87,9 @@ const SignupUserForm: React.FC = () => {
         setRefreshToken(response.token.refreshToken);
       }
       if (response.status === "success") {
-        toast.success("حساب کاربری ایجاد شد");
+        toast.success("حساب کاربری ایجاد شد", {
+          className: "custom-toast",
+        });
 
         if (from === "payment") {
           push("/payment");
@@ -97,7 +99,9 @@ const SignupUserForm: React.FC = () => {
         await addToDataBaseHandler();
       }
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشند");
+      toast.error("اطلاعات اشتباه میباشند", {
+        className: "custom-toast",
+      });
       errorHandler(signup.error as AxiosError<IError>);
       console.log(error);
     }

@@ -56,7 +56,9 @@ generateAxiosInstance.interceptors.response.use(
           return generateAxiosInstance(req);
         } catch (err) {
           console.log("🚀 ~ err:", err);
-          toast.error("دوباره وارد شوید");
+          toast.error("دوباره وارد شوید", {
+            className: "custom-toast",
+          });
           deleteAccessToken();
           deleteRefreshToken();
           deleteUserId();

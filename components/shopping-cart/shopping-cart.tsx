@@ -23,12 +23,9 @@ const ShoppingCart = () => {
     try {
       await deleteShoppingCart.mutateAsync(userId || "");
 
-      // toast.success("از دیتا بیس حذف شد");
-
       dispatch(productActions.removeAll());
     } catch (error) {
       console.log(error);
-      // errorHandler(error as AxiosError<IError>);
     }
   };
 
@@ -79,7 +76,9 @@ const ShoppingCart = () => {
                 ))}
               </div>
               <div className="flex justify-between items-center sm:pr-10 col-span-12 lg:pr-8 pb-8 w-full max-xl:max-w-3xl max-xl:mx-auto">
-                <p className="text-slate-300 text-sm sm:text-base">قیمت کل: {totalPrice} تومان</p>
+                <p className="text-slate-300 text-sm sm:text-base">
+                  قیمت کل: {totalPrice} تومان
+                </p>
                 <Link
                   href={"/payment"}
                   className="bg-green-600 rounded py-2 px-4 sm:px-7 text-center text-sm"

@@ -98,19 +98,25 @@ const LoginForm: React.FC<ILoginForm> = ({ user }) => {
 
       if (response.data.user.role === "ADMIN") {
         push("/admin/products");
-        toast.success("وارد شدید");
+        toast.success("وارد شدید", {
+          className: "custom-toast",
+        });
       } else if (response.data.user.role === "USER") {
         if (from === "payment") {
           push("/payment");
         } else {
           push("/");
         }
-        toast.success("وارد شدید");
+        toast.success("وارد شدید", {
+          className: "custom-toast",
+        });
       }
 
       await addToDataBaseHandler();
     } catch (error) {
-      toast.error("اطلاعات وارد شده صحیح نیست");
+      toast.error("اطلاعات وارد شده صحیح نیست", {
+        className: "custom-toast",
+      });
       errorHandler(login.error as AxiosError<IError>);
       console.log(error);
     }

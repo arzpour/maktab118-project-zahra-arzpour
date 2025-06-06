@@ -8,14 +8,12 @@ import { LuLogOut } from "react-icons/lu";
 import { useAppDispatch, useAppSelector } from "@/redux/hook";
 import { profileActions } from "@/redux/features/profile.slice";
 import useLogout from "@/hooks/useLogout";
-import { useRouter } from "next/navigation";
 
 const ProfileTabsMobile = () => {
   const dispatch = useAppDispatch();
   const { profileTab } = useAppSelector((state) => state.profile);
 
-  const { logOutHandler } = useLogout();
-  const router = useRouter();
+  const { logoutHandler } = useLogout();
 
   return (
     profileTab === "" && (
@@ -52,10 +50,7 @@ const ProfileTabsMobile = () => {
         </li>
         <button
           className="flex items-end gap-3 p-2 pr-5 py-3"
-          onClick={() => {
-            logOutHandler();
-            router.push("/");
-          }}
+          onClick={logoutHandler}
         >
           <LuLogOut className="w-6 h-6 text-slate-200" />
           <span className="hover:text-orange text-slate-200">خروج</span>

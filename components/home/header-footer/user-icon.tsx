@@ -14,7 +14,7 @@ const UserIcon = () => {
 
   const role = getRole();
 
-  const { isOpen, setIsOpen, logOutHandler } = useLogout();
+  const { isOpen, setIsOpen, logoutHandler } = useLogout();
 
   return (
     <>
@@ -59,7 +59,7 @@ const UserIcon = () => {
               </div>
               <div className="flex gap-2 items-center cursor-pointer">
                 <MdLogout className="w-4 h-4" />
-                <button className="text-sm" onClick={logOutHandler}>
+                <button className="text-sm" onClick={logoutHandler}>
                   خروج
                 </button>
               </div>

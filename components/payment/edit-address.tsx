@@ -38,7 +38,9 @@ const EditAddress: React.FC<IEditAddressModal> = ({
         },
       });
 
-      toast.success("آدرس ویرایش شد");
+      toast.success("آدرس ویرایش شد", {
+        className: "custom-toast",
+      });
       setShowEditAddressModal(false);
 
       queryClient.invalidateQueries({ queryKey: ["get-user-by-id"] });

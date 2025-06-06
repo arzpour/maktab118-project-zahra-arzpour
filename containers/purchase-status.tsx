@@ -15,12 +15,11 @@ import { toast } from "react-toastify";
 
 const PurchaseStatus = () => {
   const [isProcessing, setIsProcessing] = React.useState(false);
-  
+
   const didProcess = React.useRef(false);
-  
+
   const searchParams = useSearchParams();
   const isSuccess = searchParams.get("success");
-
 
   const { data } = useGetShoppingCartByUserId();
   const { data: allProducts } = useProductList(Infinity);
@@ -43,9 +42,12 @@ const PurchaseStatus = () => {
           count: el.selectedQuantity,
         })),
         deliveryStatus: false,
+        deliveryDate: new Date(),
       };
       await addOrder.mutateAsync(orderData);
-      toast.success("سفارش ایجاد شد");
+      toast.success("سفارش ایجاد شد", {
+        className: "custom-toast",
+      });
     } catch (error) {
       console.log("🚀 ~ addOrderForUser ~ error:", error);
     }
@@ -89,7 +91,9 @@ const PurchaseStatus = () => {
   const deleteShoppingCartHandler = async () => {
     try {
       await deleteShoppingCart.mutateAsync(userId || "");
-      toast.success("از دیتا بیس حذف شد");
+      toast.success("از دیتا بیس حذف شد", {
+        className: "custom-toast",
+      });
       dispatch(productActions.removeAll());
     } catch (error) {
       console.log("🚀 ~ deleteShoppingCartHandler ~ error:", error);
@@ -116,7 +120,9 @@ const PurchaseStatus = () => {
         await editProductsHandler();
         await deleteShoppingCartHandler();
       } catch (error) {
-        toast.error("خطا در انجام عملیات");
+        toast.error("خطا در انجام عملیات", {
+          className: "custom-toast",
+        });
         console.error(error);
       } finally {
         setIsProcessing(false);
