@@ -3,7 +3,7 @@ import React from "react";
 interface IConfirmModal {
   onSubmitHandler?: () => void;
   setShowConfirmModal: React.Dispatch<React.SetStateAction<boolean>>;
-  status: "logout" | "delete-category" | "delete-product";
+  status: "logout" | "delete-category" | "delete-product" | "delete-blog";
 }
 
 const ConfirmModal: React.FC<IConfirmModal> = ({
@@ -59,6 +59,8 @@ const ConfirmModal: React.FC<IConfirmModal> = ({
                       ? "مطمئنید که میخواهید این دسته بندی را حذف کنید؟"
                       : status === "delete-product"
                       ? "مطمئنید که میخواهید این محصول را حذف کنید؟"
+                      : status === "delete-blog"
+                      ? "مطمئنید که میخواهید این بلاگ را حذف کنید؟"
                       : ""}
                   </p>
                 </div>

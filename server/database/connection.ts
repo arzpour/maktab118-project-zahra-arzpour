@@ -18,3 +18,11 @@ const connectMongoDB = async () => {
 };
 
 export default connectMongoDB;
+    return mongoose.connection.db;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+export default connectMongoDB;

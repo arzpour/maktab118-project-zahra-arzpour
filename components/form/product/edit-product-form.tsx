@@ -10,14 +10,14 @@ import { AxiosError } from "axios";
 import React from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { Images } from "./images";
+import { Images } from "../images";
 import {
   editProductSchema,
   editProductSchemaType,
 } from "@/server/validations/product.validation";
 import useGetProductById from "@/hooks/useGetProductById";
 import { useEditProducts } from "@/apis/mutations/product";
-import { TextEditor } from "./text-editor";
+import { TextEditor } from "../text-editor";
 
 interface IEditProductForm {
   setShowEditProductModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -97,13 +97,19 @@ const EditProductForm: React.FC<IEditProductForm> = ({
       setShowEditProductModal(false);
 
       if (response.status !== "success") {
-        toast.error("اطلاعات اشتباه میباشد");
+        toast.error("اطلاعات اشتباه میباشد", {
+          className: "custom-toast",
+        });
       } else {
-        toast.success("ویرایش شد");
+        toast.success("ویرایش شد", {
+          className: "custom-toast",
+        });
         queryClient.invalidateQueries({ queryKey: ["get-products"] });
       }
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

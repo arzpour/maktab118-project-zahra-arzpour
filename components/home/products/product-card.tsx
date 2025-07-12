@@ -17,7 +17,7 @@ const ProductCard: React.FC<IProducts> = ({
           width={500}
           height={500}
           className="rounded-t-lg h-12.5"
-          src={`http://localhost:8000/images/products/thumbnails/${thumbnail}`}
+          src={`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${thumbnail}`}
           alt="product-image"
         />
         <div className="p-5">

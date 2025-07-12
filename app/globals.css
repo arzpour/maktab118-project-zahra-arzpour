@@ -42,3 +42,18 @@ body .jodit-status-bar {
   position: relative;
   bottom: 2px;
 }
+
+.custom-toast {
+  max-width: 90vw;
+  font-size: 0.9rem;
+  margin-top: 20px;
+  border-radius: 15px;
+}
+
+@media (min-width: 640px) {
+  .custom-toast {
+    max-width: 400px;
+    font-size: 1rem;
+    border-radius: 15px;
+  }
+}

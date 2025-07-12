@@ -15,12 +15,16 @@ const errorHandler = (error: AxiosError<IError>) => {
 
   const token = getRefreshToken();
   if (!token) {
-    toast.error("توکن موجود نیست دوباره وارد شوید.");
+    toast.error("توکن موجود نیست دوباره وارد شوید.", {
+      className: "custom-toast",
+    });
     redirect("/login");
   }
 
   if (error.status === 409) {
-    toast.error("اطلاعات اشتباه میباشد");
+    toast.error("اطلاعات اشتباه میباشد", {
+      className: "custom-toast",
+    });
   }
 };
 

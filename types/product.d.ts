@@ -104,6 +104,7 @@ interface IEditProductReqDto {
 
 interface IEditProductsResDto {
   status: string;
+  message: string;
   data: {
     product: {
       rating: {

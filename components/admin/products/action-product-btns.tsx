@@ -6,8 +6,8 @@ import React from "react";
 import { toast } from "react-toastify";
 import errorHandler from "@/utils/errorHandler";
 import { AxiosError } from "axios";
-import EditProductModal from "@/components/admin/modals/edit-product-modal";
 import ConfirmModal from "../modals/confirm-modal";
+import EditModal from "../modals/edit-product-modal";
 
 interface IActionBtns {
   id: string;
@@ -24,12 +24,17 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
   const deleteOnclickHandler = async () => {
     try {
       await deleteProduct.mutateAsync(id);
-      toast.success("حذف شد");
+      toast.success("حذف شد", {
+          className: "custom-toast",
+        });
+      setShowDeleteProductModal(false);
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
       console.log(error);
       errorHandler(error as AxiosError<IError>);
-      toast.success("حذف نشد");
+      toast.success("حذف نشد", {
+          className: "custom-toast",
+        });
     }
   };
 
@@ -56,9 +61,10 @@ const ActionBtns: React.FC<IActionBtns> = ({ id }) => {
         />
       )}
       {showEditProductModal && (
-        <EditProductModal
-          setShowEditProductModal={setShowEditProductModal}
+        <EditModal
+          setShowEditModal={setShowEditProductModal}
           id={id}
+          status="product"
         />
       )}
     </>

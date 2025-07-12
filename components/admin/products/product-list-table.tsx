@@ -3,12 +3,12 @@
 import useCategoryList from "@/hooks/useCategory";
 import useProductList from "@/hooks/useProduct";
 import useSubCategoryList from "@/hooks/useSubcategory";
-import { perPageLimit } from "@/utils/config";
 import React from "react";
 import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
 import ActionBtns from "./action-product-btns";
 import Image from "next/image";
+import usePagination from "@/hooks/usePagination";
 
 const ProductListTable = () => {
   const { data: products, setPage, page } = useProductList();
@@ -16,13 +16,10 @@ const ProductListTable = () => {
 
   const { data: subCategories } = useSubCategoryList(Infinity);
 
-  const totalPages = Math.ceil(products?.total || 0 / perPageLimit);
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
+  const { handlePageChange, totalPages } = usePagination({
+    setPage,
+    totalItems: products?.total || 0,
+  });
 
   const getCategoryAndSubCategory = (
     categoryId: string,
@@ -80,7 +77,7 @@ const ProductListTable = () => {
                   <Image
                     width={800}
                     height={500}
-                    src={`http://localhost:8000/images/products/images/${el.images?.[0]}`}
+                    src={`${process.env.NEXT_PUBLIC_IMAGE_URL}/${el.images?.[0]}`}
                     alt="عکس محصول"
                     className="w-12 h-12 rounded"
                   />

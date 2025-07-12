@@ -31,15 +31,18 @@ const EditAddress: React.FC<IEditAddressModal> = ({
 
   const onSubmit: SubmitHandler<editUserSchemaType> = async (data) => {
     try {
-      const response = await editUser.mutateAsync({
+      await editUser.mutateAsync({
         userId: userId || "",
-        address: data.address || "",
+        data: {
+          address: data.address || "",
+        },
       });
 
-      toast.success("آدرس ویرایش شد");
+      toast.success("آدرس ویرایش شد", {
+        className: "custom-toast",
+      });
       setShowEditAddressModal(false);
 
-      console.log(response, "response");
       queryClient.invalidateQueries({ queryKey: ["get-user-by-id"] });
     } catch (error) {
       console.log(error);

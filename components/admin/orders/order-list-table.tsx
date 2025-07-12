@@ -1,6 +1,5 @@
 "use client";
 
-import { perPageLimit } from "@/utils/config";
 import React from "react";
 import moment from "moment-jalaali";
 import useOrderList from "@/hooks/useOrder";
@@ -9,6 +8,7 @@ import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
 import OrdersBtn from "./order-filter-btn";
 import OrdersModal from "../modals/orders-modal";
+import usePagination from "@/hooks/usePagination";
 
 export enum Tab {
   All = "all",
@@ -25,12 +25,6 @@ const OrderListTable = () => {
   const { data: allOrders } = useOrderList(Infinity);
   const { data: users } = useUsersList();
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
-
   const filteredData = allOrders?.data.orders.filter((item) => {
     if (selectedTab === Tab.All) return true;
     return selectedTab === Tab.Delivered
@@ -38,12 +32,12 @@ const OrderListTable = () => {
       : !item.deliveryStatus;
   });
 
-  const totalPages = Math.ceil(filteredData?.length || 0 / perPageLimit);
-
-  const filteredItems = filteredData?.slice(
-    (page - 1) * perPageLimit,
-    page * perPageLimit
-  );
+  const { handlePageChange, totalPages, filteredItems } = usePagination({
+    setPage,
+    totalItems: filteredData?.length || 0,
+    data: filteredData || [],
+    page,
+  });
 
   return (
     <>

@@ -26,7 +26,6 @@ export const CategoryFilterItem: React.FC<IProductFilterItem> = ({
       onChange(event.target.checked);
       setPage(1);
     }
-    console.log(event.target.checked);
   };
 
   return (

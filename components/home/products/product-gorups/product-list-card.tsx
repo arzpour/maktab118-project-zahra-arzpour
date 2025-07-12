@@ -32,8 +32,10 @@ const OtherProductsCards: React.FC<IProductsCards> = ({
 
   return (
     <div className={`pt-14 xl:mx-10 ${className}`}>
-      <div className="flex justify-between items-center mx-10 lg:mx-0 mb-7">
-        <h4 className="text-lg text-slate-100 pr-4">{categoryName}</h4>
+      <div className="flex justify-between items-center mx-8 sm:mx-8 md:mx-10 xl:mx-0 mb-7">
+        <h4 className="text-sm sm:text-lg text-slate-100 pr-4">
+          {categoryName}
+        </h4>
         <Link href={`/products/${categoryId}`}>
           <p className="text-orange hover:border-b hover:border-b-orange text-sm px-6 py-2.5 rounded-full cursor-pointer">
             مشاهده همه

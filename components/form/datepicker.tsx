@@ -39,10 +39,13 @@ const DatePickerDelivery = () => {
               <DatePicker
                 value={selectedDate}
                 onChange={(date) => {
-                  const formatDate = date?.format("YYYY/MM/DD") || "";
+                  let formatDate = "";
+
+                  if (date && !Array.isArray(date)) {
+                    formatDate = date.format("YYYY/MM/DD");
+                  }
                   setSelectedDate(formatDate);
                   field.onChange(formatDate);
-                  console.log(formatDate, "formatDate");
                 }}
                 calendar={persian}
                 locale={persian_fa}

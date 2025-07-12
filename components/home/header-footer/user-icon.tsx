@@ -1,43 +1,20 @@
 "use client";
 
-import {
-  deleteAccessToken,
-  deleteRefreshToken,
-  deleteRole,
-  deleteUserId,
-  getAccessToken,
-  getRole,
-} from "@/utils/session";
+import { getAccessToken, getRole } from "@/utils/session";
 import Link from "next/link";
 import React from "react";
-import { FaUserLarge } from "react-icons/fa6";
 import { CgProfile } from "react-icons/cg";
 import { MdLogout } from "react-icons/md";
-import { logout } from "@/apis/client/auth";
-import { toast } from "react-toastify";
-import { FaLock } from "react-icons/fa6";
+import { FaLock, FaUserLarge } from "react-icons/fa6";
 import { FaUserPlus } from "react-icons/fa";
-import { useAppDispatch } from "@/redux/hook";
-import { productActions } from "@/redux/features/product.slice";
+import useLogout from "@/hooks/useLogout";
 
 const UserIcon = () => {
-  const [isOpen, setIsOpen] = React.useState<boolean>(false);
-
   const userExist = getAccessToken();
 
   const role = getRole();
-  const dispatch = useAppDispatch();
 
-  const logOutHandler = async () => {
-    await logout();
-    deleteAccessToken();
-    deleteRefreshToken();
-    deleteRole();
-    toast.success("خارج شدید");
-    setIsOpen(false);
-    deleteUserId();
-    dispatch(productActions.removeAll());
-  };
+  const { isOpen, setIsOpen, logoutHandler } = useLogout();
 
   return (
     <>
@@ -76,13 +53,15 @@ const UserIcon = () => {
             <div className="bg-slate-200 p-4 z-50 absolute left-0 top-6 rounded text-BackgroundColor w-40 space-y-4">
               <div className="flex gap-2 items-center cursor-pointer">
                 <CgProfile className="w-4 h-4" />
-                <p className="text-sm">پروفایل</p>
+                <Link href={"/profile"} className="text-sm">
+                  پروفایل
+                </Link>
               </div>
               <div className="flex gap-2 items-center cursor-pointer">
                 <MdLogout className="w-4 h-4" />
-                <p className="text-sm" onClick={logOutHandler}>
+                <button className="text-sm" onClick={logoutHandler}>
                   خروج
-                </p>
+                </button>
               </div>
             </div>
           )}

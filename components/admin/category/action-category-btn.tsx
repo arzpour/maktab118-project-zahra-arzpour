@@ -18,11 +18,15 @@ const ActionCategoryBtn: React.FC<IActionCategoryBtn> = ({ id }) => {
   const deleteCategoryHandler = async () => {
     try {
       await deleteCategory.mutateAsync(id);
-
-      toast.success("حذف شد");
+      toast.success("حذف شد", {
+        className: "custom-toast",
+      });
+      setShowDeleteCategoryModal(false);
       queryClient.invalidateQueries({ queryKey: ["get-categories"] });
     } catch (error) {
-      toast.error("حذف نشد");
+      toast.error("حذف نشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

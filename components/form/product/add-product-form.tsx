@@ -14,11 +14,11 @@ import {
   productSchemaType,
 } from "@/server/validations/product.validation";
 import { useAddProducts } from "@/apis/mutations/product";
-import SelectBox from "./selectbox-categories";
-import { Input } from "./input";
-import { Thumbnail } from "./thumbnail";
-import { Images } from "./images";
-import { TextEditor } from "./text-editor";
+import SelectBox from "../selectbox-categories";
+import { Input } from "../input";
+import { TextEditor } from "../text-editor";
+import { Thumbnail } from "../thumbnail";
+import { Images } from "../images";
 
 interface IAddProductForm {
   setShowAddProductModal: React.Dispatch<React.SetStateAction<boolean>>;
@@ -81,10 +81,14 @@ const AddProductForm: React.FC<IAddProductForm> = ({
       await createProduct.mutateAsync(formData);
       setShowAddProductModal(false);
 
-      toast.success("محصول ایجاد شد");
+      toast.success("محصول ایجاد شد", {
+        className: "custom-toast",
+      });
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

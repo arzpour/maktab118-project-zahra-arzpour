@@ -38,3 +38,14 @@ interface IUser {
     };
   };
 }
+
+interface IEditUserReqDto {
+  firstname?: string;
+  lastname?: string;
+  username?: string;
+  password?: string;
+  phoneNumber?: string;
+  address?: string;
+}
+
+type profileTabType = "userInfo" | "orders" | "";

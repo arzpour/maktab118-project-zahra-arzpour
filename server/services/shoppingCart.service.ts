@@ -7,7 +7,6 @@ import {
 type getShoppingCartType = () => Promise<IShoppingCart[]>;
 export const getShoppingCart: getShoppingCartType = async () => {
   const db = await connectMongoDB();
-
   try {
     const response = await db
       ?.collection<IShoppingCart>("cart")

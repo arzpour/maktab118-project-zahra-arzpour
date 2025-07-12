@@ -17,12 +17,14 @@ const PaymentProducts = () => {
 
   const totalPrice = useAppSelector((state) => state.product.totalPrice);
 
-  const tax = totalPrice * 0.1;
+  const totalPriceNumber = Number(totalPrice);
+  const tax = Math.round(totalPriceNumber * 0.1);
+  const total = totalPriceNumber + tax;
 
   const { data: user, isSuccess } = useUserById();
 
   return (
-    <div className="mb-20 mx-10">
+    <div className="mb-8 sm:mb-20 mx-1 sm:mx-10">
       <div className="grid lg:grid-cols-5 gap-7 xl:gap-10 max-lg:max-w-1500 lg:w-11/12 mx-auto">
         <div className="lg:col-span-3 bg-BackgroundColor px-4">
           {list.map((el) => (
@@ -32,7 +34,7 @@ const PaymentProducts = () => {
             >
               <div className="col-span-3 flex items-center gap-6">
                 <Image
-                  src={`http://localhost:8000/images/products/thumbnails/${el.thumbnail}`}
+                  src={`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${el.thumbnail}`}
                   alt="product-image"
                   className="w-28 h-20 rounded"
                   width={400}
@@ -63,16 +65,20 @@ const PaymentProducts = () => {
           <ul className="text-slate-300 space-y-5">
             <li className="flex flex-wrap gap-4 text-sm">
               قیمت کالاها
-              <span className="mr-auto font-bold">{totalPrice} تومان</span>
+              <span className="mr-auto font-bold">
+                {totalPriceNumber.toLocaleString()} تومان
+              </span>
             </li>
             <li className="flex flex-wrap gap-4 text-sm">
               مالیات
-              <span className="mr-auto font-bold">{tax} تومان</span>
+              <span className="mr-auto font-bold">
+                {tax.toLocaleString()} تومان
+              </span>
             </li>
             <hr className="border-slate-600" />
             <li className="flex flex-wrap gap-4 text-sm font-bold">
               قیمت کل
-              <span className="mr-auto">{totalPrice + tax} تومان</span>
+              <span className="mr-auto">{total.toLocaleString()} تومان</span>
             </li>
           </ul>
 

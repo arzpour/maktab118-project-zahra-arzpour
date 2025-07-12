@@ -2,7 +2,6 @@
 
 import Pagination from "@/components/admin/pagination";
 import useProductList from "@/hooks/useProduct";
-import { perPageLimit } from "@/utils/config";
 import React from "react";
 import { useAppSelector } from "@/redux/hook";
 import FilterProducts from "@/components/home/products/product-list/product-filter";
@@ -10,6 +9,7 @@ import ProductFilterMobile from "@/components/home/products/product-list/product
 import ProductCard, {
   ProductCardSkeleton,
 } from "@/components/home/products/product-card";
+import usePagination from "@/hooks/usePagination";
 
 const ProductList = () => {
   const [page, setPage] = React.useState<number>(1);
@@ -19,12 +19,6 @@ const ProductList = () => {
     (state) => state.filter.selectedFilters
   );
 
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
-
   const filteredProducts = React.useMemo(() => {
     if (!selectedFilters.length) return products?.data?.products || [];
     return products?.data?.products.filter((product) =>
@@ -32,12 +26,12 @@ const ProductList = () => {
     );
   }, [selectedFilters, products]);
 
-  const totalPages = Math.ceil(filteredProducts?.length! / perPageLimit);
-
-  const filteredItems = filteredProducts?.slice(
-    (page - 1) * perPageLimit,
-    page * perPageLimit
-  );
+  const { handlePageChange, totalPages, filteredItems } = usePagination({
+    setPage,
+    totalItems: filteredProducts?.length || 0,
+    data: filteredProducts || [],
+    page,
+  });
 
   return (
     <div className="pt-10 xl:pt-20 flex gap-10 mx-10 flex-col lg:flex-row">

@@ -28,8 +28,11 @@ export const urls = {
     userById: (id: string) => `/users/${id}`,
   },
   cart: {
-    list: `${process.env.NEXT_PUBLIC_DATABASE_URL}/shopping-cart`,
-    ById: (id: string) =>
-      `${process.env.NEXT_PUBLIC_DATABASE_URL}/shopping-cart/${id}`,
+    list: "/shopping-cart",
+    ById: (id: string) => `/shopping-cart/${id}`,
+  },
+  blog: {
+    list: "/blogs",
+    ById: (id: string) => `/blogs/${id}`,
   },
 };

@@ -1,9 +1,9 @@
-import Link from "next/link";
 import React from "react";
-import { IoSearchOutline } from "react-icons/io5";
 import HamburgerMenuAdmin from "./hamburger-menu";
 import AdminLogoutBtn from "./logout-btn";
 import Image from "next/image";
+import MenuTitles from "./menu-titles";
+import SearchInput from "@/components/search/searchInput";
 
 const AdminPageHeader = () => {
   return (
@@ -23,35 +23,13 @@ const AdminPageHeader = () => {
                 پنل مدیریت
               </h3>
             </div>
-            <ul className="hidden md:flex gap-4 xl:text-lg lg:gap-8 items-center relative top-2">
-              <li className="hover:text-orange">
-                <Link href={"/admin/categories"}>دسته بندی ها</Link>
-              </li>
-              <li className="hover:text-orange">
-                <Link href={"/admin/products"}>محصولات</Link>
-              </li>
-              <li className="hover:text-orange">
-                <Link href={"/admin/orders"}>سفارش ها</Link>
-              </li>
-              <li className="hover:text-orange">
-                <Link href={"/admin/InventoryAndPrice"}>موجودی و قیمت</Link>
-              </li>
-            </ul>
+            <MenuTitles />
           </div>
 
           <HamburgerMenuAdmin />
 
           <div className="flex gap-5 md:gap-3 lg:gap-5 items-center">
-            <div className="hidden sm:block relative w-44 lg:w-60">
-              <div className="absolute inset-y-0 start-1 flex items-center ps-3 pointer-events-none">
-                <IoSearchOutline className="w-5 h-5 relative bottom-0.5" />
-              </div>
-              <input
-                type="search"
-                className="block w-full outline-none py-2 placeholder:text-sm bg-BackgroundColor rounded-lg px-8 md:py-3 pr-12 ps-10 text-sm text-gray-900 border border-gray-700 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
-                placeholder="اینجا سرچ کنید..."
-              />
-            </div>
+            <SearchInput className="!w-44" />
             <AdminLogoutBtn />
           </div>
         </div>

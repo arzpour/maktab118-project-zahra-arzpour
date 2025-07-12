@@ -3,7 +3,10 @@ import React from "react";
 
 const AboutUs = () => {
   return (
-    <div className="flex flex-wrap justify-center lg:flex-nowrap gap-8 items-center my-10 lg:my-14 pt-6">
+    <div
+      id="about-us-section"
+      className="flex flex-wrap justify-center lg:flex-nowrap gap-8 items-center py-10 pt-12 lg:py-14"
+    >
       <Image
         src="/43135240.png"
         alt="about-us-image"
@@ -12,8 +15,10 @@ const AboutUs = () => {
         className="w-1/2 h-2/5 xl:w-36 lg:h-1/2"
       />
       <div className="mx-10 lg:mx-5">
-        <h5 className="pb-6 text-xl text-orange hidden lg:block">درباره ما</h5>
-        <p className="text-sm lg:text-base pl-20 leading-8">
+        <h5 className="pb-6 text-xl text-orange hidden lg:block pr-8">
+          درباره ما
+        </h5>
+        <p className="text-sm lg:text-base md:pl-20 px-2 sm:pr-8 leading-8">
           لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده
           از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و
           سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای

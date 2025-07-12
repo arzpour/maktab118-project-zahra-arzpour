@@ -7,9 +7,7 @@ import useGetShoppingCartByUserId from "@/hooks/useCartByUserId";
 import useProductList from "@/hooks/useProduct";
 import { productActions } from "@/redux/features/product.slice";
 import { useAppDispatch } from "@/redux/hook";
-import errorHandler from "@/utils/errorHandler";
 import { getUserId } from "@/utils/session";
-import { AxiosError } from "axios";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React from "react";
@@ -18,113 +16,122 @@ import { toast } from "react-toastify";
 const PurchaseStatus = () => {
   const [isProcessing, setIsProcessing] = React.useState(false);
 
+  const didProcess = React.useRef(false);
+
   const searchParams = useSearchParams();
   const isSuccess = searchParams.get("success");
 
   const { data } = useGetShoppingCartByUserId();
-
-  const deleteShoppingCart = useDeleteShoppingCart();
-
-  const userId = getUserId();
-  const addOrder = useAddOrder();
-
-  const dispatch = useAppDispatch();
-
-  const editProducts = useEditProducts();
-
   const { data: allProducts } = useProductList(Infinity);
 
+  const addOrder = useAddOrder();
+  const editProducts = useEditProducts();
+  const deleteShoppingCart = useDeleteShoppingCart();
+
+  const dispatch = useAppDispatch();
+  const userId = getUserId();
+
   const addOrderForUser = async () => {
-    const orderData = {
-      user: userId || "",
-      products:
-        data?.products.map((el) => ({
-          product: el._id,
-          count: el.selectedQuantity,
-        })) || [],
-      deliveryStatus: false,
-    };
-    if (!orderData?.products || orderData.products.length === 0) return;
+    if (!data?.products.length) return;
 
     try {
+      const orderData = {
+        user: userId || "",
+        products: data.products.map((el) => ({
+          product: el._id,
+          count: el.selectedQuantity,
+        })),
+        deliveryStatus: false,
+        deliveryDate: new Date(),
+      };
       await addOrder.mutateAsync(orderData);
-
-      toast.success("سفارش ایجاد شد");
+      toast.success("سفارش ایجاد شد", {
+        className: "custom-toast",
+      });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
-      errorHandler(error as AxiosError<IError>);
-      console.log(error);
+      console.log("🚀 ~ addOrderForUser ~ error:", error);
     }
   };
 
   const editProductsHandler = async () => {
-    const newData =
-      allProducts?.data?.products.filter((el) => {
-        const productItem = data?.products.find(
-          (product) => product._id === el._id
-        );
-
-        if (productItem) {
-          const updateQty =
-            Number(el.quantity!) - Number(productItem.selectedQuantity);
-
-          if (updateQty >= 0) {
-            el.quantity = updateQty;
-          }
-
-          return el;
+    if (!data?.products.length || !allProducts?.data?.products.length) return;
+    const newData = allProducts.data.products.filter((el) => {
+      const productItem = data.products.find(
+        (product) => product._id === el._id
+      );
+      if (productItem) {
+        const updateQty =
+          Number(el.quantity) - Number(productItem.selectedQuantity);
+        if (updateQty >= 0) {
+          el.quantity = updateQty;
         }
+        return true;
+      }
+      return false;
+    });
 
-        return productItem;
-      }) || [];
+    const updatePromises = newData.map((product) => {
+      const formData = new FormData();
+      if (product?.quantity !== undefined) {
+        formData.append("quantity", product.quantity.toString());
+      }
+      return editProducts.mutateAsync({
+        data: formData,
+        id: product._id ?? "",
+      });
+    });
 
     try {
-      const updateData = newData.map((product) => {
-        const formData = new FormData();
-        formData.append("quantity", product.quantity?.toString() || "");
-        return editProducts.mutateAsync({
-          data: formData,
-          id: product._id!,
-        });
-      });
-
-      await Promise.all(updateData);
+      await Promise.all(updatePromises);
     } catch (error) {
-      console.log(error);
+      console.log("🚀 ~ editProductsHandler ~ error:", error);
     }
   };
 
   const deleteShoppingCartHandler = async () => {
     try {
       await deleteShoppingCart.mutateAsync(userId || "");
-
-      toast.success("از دیتا بیس حذف شد");
-
+      toast.success("از دیتا بیس حذف شد", {
+        className: "custom-toast",
+      });
       dispatch(productActions.removeAll());
     } catch (error) {
-      console.log(error);
+      console.log("🚀 ~ deleteShoppingCartHandler ~ error:", error);
     }
   };
 
   React.useEffect(() => {
-    if (isSuccess !== "true" || !data || !userId || isProcessing) return;
+    if (
+      isSuccess !== "true" ||
+      !data?.products?.length ||
+      !allProducts?.data?.products?.length ||
+      !userId ||
+      isProcessing ||
+      didProcess.current
+    )
+      return;
 
-    const reqProcess = async () => {
+    didProcess.current = true;
+
+    const processOrder = async () => {
       setIsProcessing(true);
       try {
         await addOrderForUser();
         await editProductsHandler();
         await deleteShoppingCartHandler();
       } catch (error) {
-        console.log(error);
+        toast.error("خطا در انجام عملیات", {
+          className: "custom-toast",
+        });
+        console.error(error);
       } finally {
         setIsProcessing(false);
       }
     };
 
-    reqProcess();
+    processOrder();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSuccess, data, userId, addOrderForUser, isProcessing]);
+  }, [isSuccess, data, allProducts, userId]);
 
   return (
     <div className="h-screen flex items-center justify-center bg-gray-100">

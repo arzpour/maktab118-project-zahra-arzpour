@@ -1,6 +1,5 @@
 "use client";
 
-import { perPageLimit } from "@/utils/config";
 import React from "react";
 import useCategoryList from "@/hooks/useCategory";
 import Pagination from "../pagination";
@@ -8,19 +7,17 @@ import useSubCategoryList from "@/hooks/useSubcategory";
 import TotalPageTable from "../total-page-table";
 import Image from "next/image";
 import ActionCategoryBtn from "./action-category-btn";
+import usePagination from "@/hooks/usePagination";
 
 const CategoryListTable = () => {
   const { page, setPage, data: categories } = useCategoryList();
 
   const { data: subCategories } = useSubCategoryList(Infinity);
 
-  const totalPages = Math.ceil(categories?.total || 0 / perPageLimit);
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
+  const { handlePageChange, totalPages } = usePagination({
+    setPage,
+    totalItems: categories?.total || 0,
+  });
 
   const getSubCategories = (categoryName: string) => {
     const categoryId = categories?.data?.categories.find(

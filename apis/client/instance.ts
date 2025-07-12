@@ -12,6 +12,10 @@ import { getToken } from "./auth";
 import { redirect } from "next/navigation";
 import { toast } from "react-toastify";
 
+export const axiosInstance = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_DATABASE_URL,
+});
+
 export const generateAxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
 });
@@ -51,7 +55,10 @@ generateAxiosInstance.interceptors.response.use(
 
           return generateAxiosInstance(req);
         } catch (err) {
-          toast.error("دوباره وارد شوید");
+          console.log("🚀 ~ err:", err);
+          toast.error("دوباره وارد شوید", {
+            className: "custom-toast",
+          });
           deleteAccessToken();
           deleteRefreshToken();
           deleteUserId();

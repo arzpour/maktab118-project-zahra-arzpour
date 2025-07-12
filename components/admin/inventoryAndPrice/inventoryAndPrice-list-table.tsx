@@ -1,7 +1,6 @@
 "use client";
 
 import useProductList from "@/hooks/useProduct";
-import { perPageLimit } from "@/utils/config";
 import React from "react";
 import Pagination from "../pagination";
 import TotalPageTable from "../total-page-table";
@@ -10,6 +9,7 @@ import { AxiosError } from "axios";
 import { queryClient } from "@/providers/tanstack.provider";
 import { toast } from "react-toastify";
 import { usePatchProducts } from "@/apis/mutations/product";
+import usePagination from "@/hooks/usePagination";
 
 interface Product {
   _id: string;
@@ -24,13 +24,10 @@ const InventoryAndPriceListTable: React.FC = () => {
   >({});
   const { data: products, setPage, page } = useProductList();
 
-  const totalPages = Math.ceil(products?.total || 0 / perPageLimit);
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage > 0 && newPage <= totalPages) {
-      setPage(newPage);
-    }
-  };
+  const { handlePageChange, totalPages } = usePagination({
+    setPage,
+    totalItems: products?.total || 0,
+  });
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -46,7 +43,6 @@ const InventoryAndPriceListTable: React.FC = () => {
         [field]: Number(value),
       },
     }));
-    console.log(editedProducts);
   };
 
   const editProduct = usePatchProducts();
@@ -56,9 +52,6 @@ const InventoryAndPriceListTable: React.FC = () => {
       id,
       ...changes,
     }));
-
-    console.log(updates);
-    console.log(editedProducts);
 
     try {
       const updateRequests = updates.map((update) => {
@@ -75,14 +68,32 @@ const InventoryAndPriceListTable: React.FC = () => {
         return editProduct.mutateAsync({ data, id: update.id });
       });
 
-      await Promise.all(updateRequests);
+      const res = await Promise.all(updateRequests);
 
-      toast.success("ویرایش شد");
+      if (Array.isArray(res)) {
+        res.forEach((item) => {
+          if (
+            item.message === "subcategory not provided or found" ||
+            item.message === "category not provided or found"
+          ) {
+            toast.error("برای ویرایش، یک دسته بندی برای محصول انتخاب کنید", {
+              className: "custom-toast",
+            });
+          } else {
+            toast.success("ویرایش شد", {
+              className: "custom-toast",
+            });
+          }
+        });
+      }
+
       setEditedProducts({});
       setEdit(false);
       queryClient.invalidateQueries({ queryKey: ["get-products"] });
     } catch (error) {
-      toast.error("اطلاعات اشتباه میباشد");
+      toast.error("اطلاعات اشتباه میباشد", {
+        className: "custom-toast",
+      });
       errorHandler(error as AxiosError<IError>);
     }
   };

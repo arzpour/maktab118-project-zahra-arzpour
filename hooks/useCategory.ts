@@ -11,7 +11,7 @@ const useCategoryList = (limitCus?: number) => {
   const limit = limitCus ?? perPageLimit;
 
   const { data, isSuccess, isLoading, isError, error } = useQuery({
-    queryKey: ["get-categories", page],
+    queryKey: ["get-categories", page, limit],
     queryFn: async () => {
       const res = await getAllCategories({
         limit: limit,

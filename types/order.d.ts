@@ -31,10 +31,12 @@ interface IAddOrderReqDto {
     count: number;
   }[];
   deliveryStatus: boolean;
+  deliveryDate: Date;
 }
 
 interface IAddOrderResDto {
   status: string;
+  message: string;
   data: {
     order: {
       user: string;
