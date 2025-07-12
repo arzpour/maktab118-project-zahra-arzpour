@@ -7,7 +7,10 @@ import React from "react";
 const useGetBlogById = (id: string) => {
   const { data, isSuccess, isLoading, isError, error } = useQuery({
     queryKey: ["get-blog-by-id", id],
-    queryFn: async () => await getBlogById(id),
+    queryFn: async () => {
+      const res = await getBlogById(id);
+      return res.data.blog;
+    },
     refetchOnWindowFocus: false,
     retry: 1,
   });

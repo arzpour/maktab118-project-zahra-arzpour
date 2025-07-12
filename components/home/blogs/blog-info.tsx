@@ -19,7 +19,7 @@ const BlogInfoById = () => {
             width={500}
             height={500}
             className="rounded-t-lg h-12.5"
-            src={`http://localhost:8000/images/blogs/${blog?.thumbnail}`}
+            src={`http://localhost:8000/images/blogs/thumbnails/${blog?.thumbnail}`}
             alt="blog-image"
           />
           <h3 className="text-orange py-3 pb-5">{blog?.title}</h3>
