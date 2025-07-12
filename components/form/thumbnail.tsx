@@ -11,6 +11,7 @@ interface IThumbnail {
   control: Control<any>;
   defaultValue?: string;
   status?: string;
+  thumbnailStatus?: "product" | "blog";
 }
 
 export const Thumbnail: React.FC<IThumbnail> = ({
@@ -18,6 +19,7 @@ export const Thumbnail: React.FC<IThumbnail> = ({
   control,
   defaultValue,
   status,
+  thumbnailStatus,
 }) => {
   const [url, setUrl] = React.useState<string | undefined>(undefined);
   const inputRef = React.useRef<HTMLInputElement | null>(null);
@@ -28,10 +30,14 @@ export const Thumbnail: React.FC<IThumbnail> = ({
   } = useController({ name, control });
 
   React.useEffect(() => {
+    const thumbnailUrl =
+      thumbnailStatus === "blog"
+        ? process.env.NEXT_PUBLIC_BLOG_THUMBNAIL_URL
+        : process.env.NEXT_PUBLIC_THUMBNAIL_URL;
     if (status === "edit" && defaultValue) {
-      setUrl(`${process.env.NEXT_PUBLIC_THUMBNAIL_URL}/${defaultValue}`);
+      setUrl(`${thumbnailUrl}/${defaultValue}`);
     }
-  }, [defaultValue, status]);
+  }, [defaultValue, status, thumbnailStatus]);
 
   const onClick = () => {
     inputRef.current?.click();

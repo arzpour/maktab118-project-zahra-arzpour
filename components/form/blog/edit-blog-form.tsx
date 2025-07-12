@@ -29,14 +29,16 @@ const EditBlogForm: React.FC<IEditBlogForm> = ({
     resolver: zodResolver(blogSchema),
   });
 
-  const { data: blog, isSuccess } = useGetBlogById(id);
+  const { data: blogs, isSuccess } = useGetBlogById(id);
+
+  const blog = blogs?.data.blog;
 
   const editBlog = useEditBlog();
 
   const onSubmit: SubmitHandler<blogSchemaType> = async (data) => {
     const formData = new FormData();
 
-    formData.append("title", data.title || "");
+    formData.append("title", data.title || blog?.title || "");
     formData.append("description", data.description || "");
 
     if (data.thumbnail instanceof File) {
@@ -110,6 +112,7 @@ const EditBlogForm: React.FC<IEditBlogForm> = ({
         control={control}
         defaultValue={blog?.thumbnail}
         status="edit"
+        thumbnailStatus="blog"
       />
 
       <div className="mt-2 mb-1 flex gap-4 justify-end">

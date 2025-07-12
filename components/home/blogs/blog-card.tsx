@@ -28,7 +28,7 @@ const BlogCard: React.FC<IBlogCard> = ({
           width={500}
           height={500}
           className="rounded-t-lg h-12.5"
-          src={`http://localhost:8000/images/blogs/${thumbnail}`}
+          src={`http://localhost:8000/images/blogs/thumbnails/${thumbnail}`}
           alt="product-image"
         />
         <div className="p-5">

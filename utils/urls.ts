@@ -32,7 +32,7 @@ export const urls = {
     ById: (id: string) => `/shopping-cart/${id}`,
   },
   blog: {
-    list: "/blog",
-    ById: (id: string) => `/blog/${id}`,
+    list: "/blogs",
+    ById: (id: string) => `/blogs/${id}`,
   },
 };

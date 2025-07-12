@@ -10,8 +10,19 @@ interface IBlog {
 interface IBlogResDto {
   total: number;
   totalPages: number;
+  per_page: null | number;
   page: number;
-  data: IBlog[];
+  data: {
+    blogs: IBlog[];
+  };
+  status: string;
+}
+
+interface IBlogByIdRes {
+  status: string;
+  data: {
+    blog: IBlog;
+  };
 }
 
 interface IBlogReqDto {
